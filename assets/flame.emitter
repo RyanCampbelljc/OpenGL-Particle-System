@@ -1,0 +1,2 @@
+<emitter name="flame" num_particles="200" duration="10.0" type="continuous" spawn_rate="20">
+</emitter>

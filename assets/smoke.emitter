@@ -1,0 +1,2 @@
+<emitter name="smoke" num_particles="100" duration="2.0" type="continuous" spawn_rate="20">
+</emitter>

@@ -1,0 +1,64 @@
+Thoughts
+should emitterfile reader just return a emitter obj instead of emitter class having to call emitterfilereader functions to get its info
+
+emitter should use doubley linked list of particles
+allocate array of particles not each on individually
+use accumulator in emitter function
+
+emitter
+random or not burst time, burst or continuous
+velocity,fade,color,size,rotation
+this should increment particle age not the affectors	
+
+slide 39. was the way to make it better by passing it an arry of particles
+
+
+
+
+
+code plan
+Effect class 
+	Members
+	Has a list of emitters
+	Name
+	Transform
+	
+	Functions
+	start()
+	stop()
+	pause()
+	update()
+	render()
+	setTransform()
+
+Emitter
+	Members
+	List of inactive particle* (structs
+	List of active particles.
+	List of affectors it applies to its particles
+	1 material
+	SpawnLocationType (box,point etc)
+	offset(from effect)
+	Name
+	NumParticles
+	Duration
+	Type(continuous,burst)
+	RepeatingEvery->if burst
+	Birthrate
+	
+	SpawnProperties
+	color,size,vel,fade,lifetime members that are either constant or random
+	
+	
+	Functions
+	update()
+	render()
+	SpawnParticle()
+	init()
+	addToPool()
+	getFreeParticle()
+
+
+Class or struct for each affector as well
+probably best to get particles rendering with initial starting values before planning any further
+

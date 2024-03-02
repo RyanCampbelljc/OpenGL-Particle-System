@@ -1,0 +1,4 @@
+<effect name="fire">
+    <emitter file="assets/flame.emitter" x="0" y="0" z="0"/>
+    <emitter file="assets/smoke.emitter" x="0" y="0" z="0"/>
+</effect>
