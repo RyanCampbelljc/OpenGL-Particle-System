@@ -1,7 +1,7 @@
 #include "Effect.hpp"
 #include "parser/EffectFileReader.hpp"
 Effect::Effect(std::string file)
-	: m_playing(false)
+	: m_playing(true)
 {
 	EffectFileReader scan(file);
 	m_name = scan.getName();
@@ -44,7 +44,7 @@ void Effect::setTransform(const glm::mat4& transform)
 void Effect::update(float dt)
 {
 	m_dt = dt;
-	if (m_playing)
+	if (!m_playing)
 		return;
 	for (auto& emitter : m_emitters) {
 		emitter.update(dt);

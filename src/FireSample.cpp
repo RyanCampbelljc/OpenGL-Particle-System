@@ -32,6 +32,7 @@ void FireSample::init()
 void FireSample::update(float dt)
 {
 	m_cam.update(dt);
+	m_fireEffect.update(dt);
 }
 
 void FireSample::render(int width, int height)

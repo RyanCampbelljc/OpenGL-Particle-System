@@ -7,10 +7,12 @@ class ValueNodeReader
 {
 public:
 	ValueNodeReader(const ValueNodeReader&) = delete;
+
 	ValueNodeReader(ValueNodeReader&& other)
 		: m_value(std::exchange(other.m_value, nullptr))
 	{
 	}
+
 	ValueNodeReader(const pugi::xml_node& node, ValueType type)
 	{
 		switch (type) {

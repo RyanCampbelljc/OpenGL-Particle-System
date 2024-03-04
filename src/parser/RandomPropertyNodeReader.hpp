@@ -10,6 +10,7 @@ public:
 		, m_max(node.child("max"), m_type)
 	{
 	}
+	// todo get min get max
 
 private:
 	ValueNodeReader m_min;
