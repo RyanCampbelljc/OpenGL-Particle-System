@@ -1,6 +1,7 @@
 #include "Emitter.hpp"
 #include "parser/ConstPropertyNodeReader.hpp"
 #include "parser/EmitterFileReader.hpp"
+#include "parser/RandomPropertyNodeReader.hpp"
 EmitterType EmitterTypeFromString(const std::string& s)
 {
 	static const std::unordered_map<std::string, EmitterType> emitterTypeTable = {
@@ -11,7 +12,6 @@ EmitterType EmitterTypeFromString(const std::string& s)
 Emitter::Emitter(std::string file, glm::vec3 offset)
 	: m_offset(offset)
 {
-	// todo file is empty
 	EmitterFileReader scan(file);
 	m_name = scan.getName();
 	m_numParticles = scan.getNumParticles();
@@ -33,7 +33,7 @@ void Emitter::update(float dt)
 {
 	// todo as expected the spawn properties from the reader got deleted and now they cannot be accessed here
 	auto y = m_spawnProperties.at("color");
-	auto x = static_cast<ConstPropertyNodeReader*>(y);
+	auto x = std::dynamic_pointer_cast<ConstPropertyNodeReader>(y);
 	auto z = x->getValue<glm::vec4>();
 }
 

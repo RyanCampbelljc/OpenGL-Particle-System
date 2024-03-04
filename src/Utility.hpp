@@ -3,6 +3,7 @@
 #include <cstring>
 #include <exception>
 #include <iostream>
+#include <memory>
 #include <pugixml.hpp>
 #include <string>
 #include <time.h>

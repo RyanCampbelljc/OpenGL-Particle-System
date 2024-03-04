@@ -10,6 +10,21 @@ EmitterType EmitterTypeFromString(const std::string& s);
 class Emitter
 {
 public:
+	// template<typename T>
+	// struct SpawnProperty {
+	// 	std::string name;
+	// 	bool isRandom;
+	// 	T min;
+	// 	T max;
+	// 	T value;
+	// 	T getValue()
+	// 	{
+	// 		if (isRandom) {
+	// 			// return in random range
+	// 		}
+	// 		return value;
+	// 	}
+	// };
 	struct Particle {
 		glm::vec3 pos;
 		glm::vec3 velocity;
@@ -65,7 +80,7 @@ private:
 	// todo array?
 	std::vector<Particle*> m_freeList;
 	std::vector<Particle*> m_activeList;
-	std::unordered_map<std::string, PropertyNodeReader*> m_spawnProperties;
+	std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> m_spawnProperties;
 	// still need affectorList();
 	// list of particles
 	// vbo/ vao/ material for each emitter

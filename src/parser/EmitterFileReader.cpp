@@ -13,11 +13,13 @@ EmitterFileReader::EmitterFileReader(std::string path)
 
 EmitterFileReader::~EmitterFileReader()
 {
-	for (const auto& kvp : m_spawnProperties) {
-		delete kvp.second;
-	}
+	// for (const auto& kvp : m_spawnProperties) {
+	// 	delete kvp.second;
+	// }
 }
 
+// use shared pointer so when the reader goes out of scope(when the emitter constructor finishes)
+// the emitter class can still have a shared pointer member pointing to the data
 void EmitterFileReader::parse()
 {
 	// todo use new reader implementation for this
@@ -29,11 +31,11 @@ void EmitterFileReader::parse()
 	m_type = EmitterTypeFromString(emitter.attribute("type").as_string());
 
 	for (const auto& property : emitter.child("spawn_properties").children()) {
-		PropertyNodeReader* reader;
+		std::shared_ptr<PropertyNodeReader> reader;
 		if (std::strncmp(property.name(), CONST_PROPERTY, sizeof(CONST_PROPERTY) - 1) == 0) {
-			reader = new ConstPropertyNodeReader(property);
+			reader = std::make_shared<ConstPropertyNodeReader>(property);
 		} else if (std::strncmp(property.name(), RAND_PROPERTY, sizeof(RAND_PROPERTY) - 1) == 0) {
-			reader = new RandomPropertyNodeReader(property);
+			reader = std::make_shared<RandomPropertyNodeReader>(property);
 		} else {
 			throw std::exception("not a valid spawn property");
 		}

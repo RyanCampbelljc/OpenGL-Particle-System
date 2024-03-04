@@ -5,6 +5,9 @@
 class PropertyNodeReader
 {
 public:
+	virtual ~PropertyNodeReader()
+	{
+	}
 	std::string getName() const
 	{
 		return m_name;

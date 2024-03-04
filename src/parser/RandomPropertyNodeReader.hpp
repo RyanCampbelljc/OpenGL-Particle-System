@@ -10,7 +10,18 @@ public:
 		, m_max(node.child("max"), m_type)
 	{
 	}
-	// todo get min get max
+
+	template<typename T>
+	T getMin() const
+	{
+		return m_min.getValue<T>();
+	}
+
+	template<typename T>
+	T getMax() const
+	{
+		return m_max.getValue<T>();
+	}
 
 private:
 	ValueNodeReader m_min;
