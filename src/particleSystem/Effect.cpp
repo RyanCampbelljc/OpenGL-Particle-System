@@ -46,15 +46,15 @@ void Effect::update(float dt)
 	m_dt = dt;
 	if (m_playing)
 		return;
-	for (const auto& emitter : m_emitters) {
-		// emitter.update(dt);
+	for (auto& emitter : m_emitters) {
+		emitter.update(dt);
 	}
 }
 
 void Effect::render() const
 {
 	for (const auto& emitter : m_emitters) {
-		// emitter.render(m_dt)
+		emitter.render(m_transform);
 	}
 }
 
@@ -63,7 +63,6 @@ void Effect::toString() const
 	std::cout << "Effect: "
 			  << "name: " << m_name << std::endl;
 	for (const auto& emitter : m_emitters) {
-		std::cout << '	';
-		emitter.toString();
+		std::cout << "	" << emitter << std::endl;
 	}
 }

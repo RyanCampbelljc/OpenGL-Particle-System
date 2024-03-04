@@ -1,2 +1,28 @@
 <emitter name="smoke" num_particles="100" duration="2.0" type="continuous" spawn_rate="20">
+ <spawn_properties>
+        <const_property name="color" type="vec4">
+            <x>0.8</x>
+            <y>0.8</y>
+            <z>0.8</z>
+            <w>1</w>
+        </const_property>
+        
+        <random_property name="velocity" type="vec3">
+            <min>
+                <x>0</x>
+                <y>0</y>
+                <z>0</z>
+            </min>
+            <max>
+                <x>2</x>
+                <y>10</y>
+                <z>1</z>
+            </max>
+        </random_property>
+
+        <random_property name="size" type="float">
+            <min>16</min>
+            <max>24</max>
+        </random_property>
+    </spawn_properties>
 </emitter>

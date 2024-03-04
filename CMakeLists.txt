@@ -103,6 +103,7 @@ add_executable(sample
     ${HEADER_FILES}
     )
 
+
 target_link_libraries(sample assimp glfw glew pugixml-static ${OPENGL_LIBRARIES} ${GLFW_LIBRARIES})
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

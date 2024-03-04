@@ -5,9 +5,14 @@
 #include <iostream>
 #include <pugixml.hpp>
 #include <string>
+#include <time.h>
+#include <unordered_map>
 #include <vector>
 // https://github.com/zeux/pugixml
 namespace Utility
 {
 constexpr const char* const EFFECT_FIRE = "assets/fire.effect";
-};
+float randomFloat(float min, float max);
+int randomInt(int min, int max);
+glm::vec3 randVec3(glm::vec3 min, glm::vec3 max);
+}; // namespace Utility

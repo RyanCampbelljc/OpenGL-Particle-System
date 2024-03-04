@@ -1,26 +1,62 @@
 #include "Emitter.hpp"
 #include "parser/EmitterFileReader.hpp"
 
-std::unordered_map<std::string, Emitter::EmitterType> const Emitter::EmitterTypeTable = {
-	{"continuous", EmitterType::continuous},
-	{"burst", EmitterType::burst}};
+EmitterType EmitterTypeFromString(const std::string& s)
+{
+	static const std::unordered_map<std::string, EmitterType> emitterTypeTable = {
+		{"continuous", EmitterType::continuous}, {"burst", EmitterType::burst}};
+	return emitterTypeTable.at(s);
+}
 
 Emitter::Emitter(std::string file, glm::vec3 offset)
-	: m_file(file)
-	, m_offset(offset)
+	: m_offset(offset)
 {
 	// todo file is empty
-	EmitterFileReader scan(m_file);
+	EmitterFileReader scan(file);
 	m_name = scan.getName();
 	m_numParticles = scan.getNumParticles();
 	m_duration = scan.getDuration();
 	m_type = scan.getType();
 	m_spawnRate = scan.getSpawnRate();
+	m_spawnProperties = scan.getSpawnProperties();
+	auto x = m_spawnProperties.at("size");
 }
 
-void Emitter::toString() const
+void Emitter::init()
 {
-	std::cout << "Emitter: "
-			  << "name: " << m_name << "; num particles: " << m_numParticles << "; duration: " << m_duration
-			  << "; type: " << m_type << "; spawn rate: " << m_spawnRate << std::endl;
+}
+
+void Emitter::render(glm::mat4 transform) const
+{
+}
+
+void Emitter::update(float dt)
+{
+}
+
+void Emitter::addToPool(Particle* p)
+{
+	p->prev = nullptr;
+}
+
+Emitter::Particle* Emitter::getFreeParticle()
+{
+	return new Particle;
+}
+
+void Emitter::spawnParticle()
+{
+}
+
+void Emitter::particleKilled(Particle* p)
+{
+}
+
+std::ostream& operator<<(std::ostream& os, const Emitter& emitter)
+{
+	os << "Emitter: "
+	   << "name: " << emitter.getName() << "; num particles: " << emitter.getNumParticles()
+	   << "; duration: " << emitter.getDuration() << "; type: " << (int)emitter.getType()
+	   << "; spawn rate: " << emitter.getSpawnRate();
+	return os;
 }
