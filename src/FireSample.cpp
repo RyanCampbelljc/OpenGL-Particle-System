@@ -18,13 +18,12 @@ FireSample::~FireSample()
 
 void FireSample::init()
 {
-	glFrontFace(GL_CW);
+	glFrontFace(GL_CCW);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	// glEnable(GL_MULTISAMPLE);
-	glm::mat4 transform;
-	glm::translate(transform, glm::vec3(0, 0, 0));
+	glDisable(GL_CULL_FACE);
+	// glCullFace(GL_BACK);
+	//  glEnable(GL_MULTISAMPLE);
+	glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 	m_fireEffect.setTransform(transform);
 	m_fireEffect.toString();
 }
@@ -39,5 +38,6 @@ void FireSample::render(int width, int height)
 {
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	m_grid.render(m_cam.getView(), m_cam.getProjection());
+	// m_grid.render(m_cam.getView(), m_cam.getProjection());
+	m_fireEffect.render(m_cam.getProjection() * m_cam.getView());
 }

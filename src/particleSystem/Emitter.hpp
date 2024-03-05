@@ -10,22 +10,21 @@ EmitterType EmitterTypeFromString(const std::string& s);
 class Emitter
 {
 public:
-	// template<typename T>
-	// struct SpawnProperty {
-	// 	std::string name;
-	// 	bool isRandom;
-	// 	T min;
-	// 	T max;
-	// 	T value;
-	// 	T getValue()
-	// 	{
-	// 		if (isRandom) {
-	// 			// return in random range
-	// 		}
-	// 		return value;
-	// 	}
-	// };
+	struct Vertex {
+		GLfloat x, y, z;
+	};
 	struct Particle {
+		Particle()
+			: pos(0.0f, 0.0f, 0.0f)
+			, velocity(0.0f, 0.0f, 0.0f)
+			, color(0.0f, 0.0f, 0.0f, 0.0f)
+			, size(1.0f)
+			, fade(-1.0f)
+			, lifeTime(9999)
+			, next(nullptr)
+			, prev(nullptr)
+		{
+		}
 		glm::vec3 pos;
 		glm::vec3 velocity;
 		glm::vec4 color;
@@ -37,9 +36,11 @@ public:
 	};
 
 	Emitter(std::string file, glm::vec3 offset);
+	// Emitter(Emitter&) = delete;
+	~Emitter();
 	void init();
 
-	void render(glm::mat4 transform) const;
+	void render(const glm::mat4& mViewProj, const glm::mat4& transform) const;
 	void update(float dt);
 	std::string getName() const
 	{
@@ -64,10 +65,12 @@ public:
 	}
 
 private:
-	void addToPool(Particle* p);
+	void addToFreePool(Particle* p);
+	void addToActivePool(Particle* p);
 	Particle* getFreeParticle();
 	void spawnParticle();
 	void particleKilled(Particle* p);
+	void removeFromActive(Particle* p);
 
 private:
 	// EMITTER PROPERTIES
@@ -77,13 +80,17 @@ private:
 	float m_duration;
 	EmitterType m_type;
 	int m_spawnRate;
-	// todo array?
-	std::vector<Particle*> m_freeList;
-	std::vector<Particle*> m_activeList;
+	float m_toSpawnAccumulator;
+	Particle* m_pFreeList; // add things to the head of the free list
+	Particle* m_pActiveList;
+	Particle* m_pActiveTail;
+	Particle* m_pFirstParticle;
 	std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> m_spawnProperties;
+	static const Vertex gs_particleVertices[];
+	wolf::VertexBuffer* m_pVertexBuffer;
+	wolf::VertexDeclaration* m_pVAO;
+	wolf::Material* m_pMaterial;
 	// still need affectorList();
-	// list of particles
-	// vbo/ vao/ material for each emitter
 };
 
 std::ostream& operator<<(std::ostream& os, const Emitter&);

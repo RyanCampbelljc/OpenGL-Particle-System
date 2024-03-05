@@ -9,7 +9,7 @@ Effect::Effect(std::string file)
 		// file val is correct here but not in emitter constructor
 		// todo emplace back wouldnt work here -> memory violation
 		Emitter e(emitterTag.file, emitterTag.offset);
-		m_emitters.push_back(e);
+		m_emitters.push_back(std::move(e));
 	}
 }
 
@@ -51,10 +51,10 @@ void Effect::update(float dt)
 	}
 }
 
-void Effect::render() const
+void Effect::render(const glm::mat4& mViewProj) const
 {
 	for (const auto& emitter : m_emitters) {
-		emitter.render(m_transform);
+		emitter.render(mViewProj, m_transform);
 	}
 }
 

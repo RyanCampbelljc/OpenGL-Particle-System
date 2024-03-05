@@ -1,5 +1,5 @@
 
-<emitter name="flame" num_particles="200" duration="10.0" type="continuous" spawn_rate="20">
+<emitter name="flame" num_particles="200" duration="100.0" type="continuous" spawn_rate="20">
     <spawn_properties>
         <const_property name="color" type="vec4">
             <x>1</x>

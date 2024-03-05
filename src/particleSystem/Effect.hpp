@@ -11,7 +11,7 @@ public:
 	void seek(float time);
 	void setTransform(const glm::mat4& transform);
 	void update(float dt);
-	void render() const;
+	void render(const glm::mat4& mViewProj) const;
 	void toString() const;
 
 private:
