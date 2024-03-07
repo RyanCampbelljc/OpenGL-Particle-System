@@ -11,7 +11,7 @@ class Emitter
 {
 public:
 	struct Vertex {
-		GLfloat x, y, z;
+		GLfloat x, y, z, w;
 	};
 	struct Particle {
 		Particle()
@@ -90,6 +90,10 @@ private:
 	wolf::VertexBuffer* m_pVertexBuffer;
 	wolf::VertexDeclaration* m_pVAO;
 	wolf::Material* m_pMaterial;
+
+	// used as a buffer to store vertex data before writing to the actual buffer
+	Vertex* m_pVerts;
+
 	// still need affectorList();
 };
 

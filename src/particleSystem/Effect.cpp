@@ -8,8 +8,9 @@ Effect::Effect(std::string file)
 	for (const auto& emitterTag : scan.getEmitterTags()) {
 		// file val is correct here but not in emitter constructor
 		// todo emplace back wouldnt work here -> memory violation
-		Emitter e(emitterTag.file, emitterTag.offset);
-		m_emitters.push_back(std::move(e));
+		// Emitter& e = Emitter(emitterTag.file, emitterTag.offset);
+		// m_emitters.push_back(e);
+		m_emitters.emplace_back(emitterTag.file, emitterTag.offset);
 	}
 }
 

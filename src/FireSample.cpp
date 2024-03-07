@@ -38,6 +38,6 @@ void FireSample::render(int width, int height)
 {
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	// m_grid.render(m_cam.getView(), m_cam.getProjection());
+	m_grid.render(m_cam.getView(), m_cam.getProjection());
 	m_fireEffect.render(m_cam.getProjection() * m_cam.getView());
 }

@@ -12,13 +12,13 @@ EmitterType EmitterTypeFromString(const std::string& s)
 
 const Emitter::Vertex Emitter::gs_particleVertices[] = {
 	// tri 1
-	{0.5f, -0.5f, 0.5f}, // bottom right
-	{-0.5f, 0.5f, 0.5f}, // top left
-	{-0.5f, -0.5f, 0.5f}, // bottom left
+	{0.5f, -0.5f, 0.5f, 1.0f}, // bottom right
+	{-0.5f, 0.5f, 0.5f, 1.0f}, // top left
+	{-0.5f, -0.5f, 0.5f, 1.0f}, // bottom left
 	// tri 2
-	{0.5f, -0.5f, 0.5f}, // bottom right
-	{0.5f, 0.5f, 0.5f}, // top right
-	{-0.5f, 0.5f, 0.5f}, // top left
+	{0.5f, -0.5f, 0.5f, 1.0f}, // bottom right
+	{0.5f, 0.5f, 0.5f, 1.0f}, // top right
+	{-0.5f, 0.5f, 0.5f, 1.0f}, // top left
 
 };
 
@@ -58,8 +58,11 @@ Emitter::Emitter(std::string file, glm::vec3 offset)
 Emitter::~Emitter()
 {
 	std::cout << "emitter deconstructor called" << std::endl;
+	wolf::MaterialManager::DestroyMaterial(m_pMaterial);
+	wolf::BufferManager::DestroyBuffer(m_pVertexBuffer);
 	delete m_pVAO;
 	delete[] m_pFirstParticle;
+	delete[] m_pVerts;
 }
 
 void Emitter::init()
@@ -69,19 +72,22 @@ void Emitter::init()
 		addToFreePool(&pParticles[i]);
 	}
 	m_pFirstParticle = pParticles;
+
+	m_pVerts = new Vertex[m_numParticles * 6];
 }
 
 // transform is viewProj mat4
 void Emitter::render(const glm::mat4& mViewProj, const glm::mat4& transform) const
 {
 	m_pMaterial->Apply();
-	Vertex* pVerts = (Vertex*)m_pVertexBuffer;
+	Vertex* pVerts = m_pVerts;
 	Particle* pCurrent = m_pActiveList;
+	int numVertices = 0;
 	int count = 0;
 	while (pCurrent != nullptr) {
 		glm::vec3 curPos = pCurrent->pos;
 		// note the currPos is the offset of this emitter
-		glm::mat4 worldMat = transform * glm::translate(glm::mat4(1.0f), curPos);
+		glm::mat4 worldMat = glm::translate(glm::mat4(1.0f), curPos);
 		glm::mat4 WVP = mViewProj * worldMat;
 		for (int i = 0; i < 6; ++i) {
 			glm::vec4 v1 =
@@ -93,10 +99,14 @@ void Emitter::render(const glm::mat4& mViewProj, const glm::mat4& transform) con
 
 		pCurrent = pCurrent->next;
 		pVerts += 6;
+		numVertices += 6;
 		++count;
 	}
-
-	glDrawArrays(GL_TRIANGLES, 0, count);
+	std::cout << count << std::endl;
+	m_pVAO->Bind();
+	m_pVertexBuffer->Write(m_pVerts, sizeof(Vertex) * numVertices);
+	// m_pVAO->Bind();
+	glDrawArrays(GL_TRIANGLES, 0, numVertices);
 }
 
 void Emitter::update(float dt)
@@ -171,6 +181,7 @@ void Emitter::spawnParticle()
 void Emitter::particleKilled(Particle* p)
 {
 	removeFromActive(p);
+	addToFreePool(p);
 }
 
 void Emitter::removeFromActive(Particle* p)
@@ -192,7 +203,6 @@ void Emitter::removeFromActive(Particle* p)
 	} else {
 		throw std::exception("list messed");
 	}
-	addToFreePool(p);
 }
 
 std::ostream& operator<<(std::ostream& os, const Emitter& emitter)
