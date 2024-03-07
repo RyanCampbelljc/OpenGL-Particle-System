@@ -1,8 +1,11 @@
 #pragma once
-// #include "ParticleProperties.hpp"
+#include "Camera.hpp"
 #include "Utility.hpp"
+#include "affectors/VelocityAffector.hpp"
 #include "parser/PropertyNodeReader.hpp"
+#include "particleSystem/Particle.hpp"
 #include "unordered_map"
+// class VelocityAffector;
 
 enum class EmitterType { continuous, burst };
 EmitterType EmitterTypeFromString(const std::string& s);
@@ -14,34 +17,13 @@ public:
 		GLfloat x, y, z, w;
 		glm::vec4 color;
 	};
-	struct Particle {
-		Particle()
-			: pos(0.0f, 0.0f, 0.0f)
-			, velocity(0.0f, 0.0f, 0.0f)
-			, color(0.0f, 0.0f, 0.0f, 0.0f)
-			, size(1.0f)
-			, fade(-1.0f)
-			, lifeTime(9999)
-			, next(nullptr)
-			, prev(nullptr)
-		{
-		}
-		glm::vec3 pos;
-		glm::vec3 velocity;
-		glm::vec4 color;
-		float size;
-		float fade;
-		float lifeTime;
-		Particle* next;
-		Particle* prev;
-	};
 
 	Emitter(std::string file, glm::vec3 offset);
 	// Emitter(Emitter&) = delete;
 	~Emitter();
 	void init();
 
-	void render(const glm::mat4& mViewProj, const glm::mat4& transform) const;
+	void render(const Camera::CamParams& params, const glm::mat4& transform) const;
 	void update(float dt);
 	std::string getName() const
 	{
@@ -91,7 +73,7 @@ private:
 	wolf::VertexBuffer* m_pVertexBuffer;
 	wolf::VertexDeclaration* m_pVAO;
 	wolf::Material* m_pMaterial;
-
+	std::vector<std::shared_ptr<BaseAffector>> m_affectors;
 	// used as a buffer to store vertex data before writing to the actual buffer
 	Vertex* m_pVerts;
 

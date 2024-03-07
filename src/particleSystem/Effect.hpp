@@ -1,4 +1,5 @@
 #pragma once
+#include "Camera.hpp"
 #include "Emitter.hpp"
 #include "Utility.hpp"
 class Effect
@@ -11,7 +12,7 @@ public:
 	void seek(float time);
 	void setTransform(const glm::mat4& transform);
 	void update(float dt);
-	void render(const glm::mat4& mViewProj) const;
+	void render(const Camera::CamParams& params) const;
 	void toString() const;
 
 private:

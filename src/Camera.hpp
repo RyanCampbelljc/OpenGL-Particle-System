@@ -17,6 +17,18 @@ public:
 	//------------------------------------
 	// PUBLIC INTERFACE
 	//------------------------------------
+	struct CamParams {
+		CamParams(const glm::mat4& proj, const glm::mat4& view, const glm::vec3& pos)
+			: proj(proj)
+			, view(view)
+			, position(pos)
+		{
+		}
+		// if these are references it breaks
+		const glm::mat4 proj;
+		const glm::mat4 view;
+		const glm::vec3 position;
+	};
 	Camera(int width, int height, wolf::App* pApp);
 	~Camera();
 
@@ -35,6 +47,10 @@ public:
 	glm::mat4 getView() const
 	{
 		return m_mView;
+	}
+	CamParams getCamParams() const
+	{
+		return CamParams(getProjection(), getView(), getCamPos());
 	}
 	//-------------------------------------
 private:

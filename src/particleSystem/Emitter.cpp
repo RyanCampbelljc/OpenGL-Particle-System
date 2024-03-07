@@ -69,27 +69,35 @@ Emitter::~Emitter()
 // todo add default spawn properties to map if none were in the xml file
 void Emitter::init()
 {
+	// create particles and add to free pool
 	Particle* pParticles = new Particle[m_numParticles];
 	for (int i = 0; i < m_numParticles; ++i) {
 		addToFreePool(&pParticles[i]);
 	}
+	// a pointer to the first particle in memory that will never change that can be used later to free memory
 	m_pFirstParticle = pParticles;
 
+	// creating a buffer that can hold vertex data that can be passed to vertexBuffer.write();
 	m_pVerts = new Vertex[m_numParticles * sizeof(gs_particleVertices)];
+
+	// creating affectors//todo make sure that a velocity affector was read in before making this
+	m_affectors.emplace_back(std::make_shared<VelocityAffector>());
 }
 
 // transform is viewProj mat4
-void Emitter::render(const glm::mat4& mViewProj, const glm::mat4& transform) const
+void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform) const
 {
 	m_pMaterial->Apply();
 	Vertex* pVerts = m_pVerts;
 	Particle* pCurrent = m_pActiveList;
 	int numVertices = 0;
 	while (pCurrent != nullptr) {
-		glm::vec3 curPos = pCurrent->pos;
-		// note the currPos is the offset of this emitter
-		glm::mat4 worldMat = glm::translate(glm::mat4(1.0f), curPos);
-		glm::mat4 WVP = mViewProj * worldMat;
+		glm::mat4 worldMat = glm::translate(glm::mat4(1.0f), pCurrent->pos);
+		glm::mat3 view = params.view;
+		glm::mat4 bboard = glm::transpose(view);
+		worldMat = worldMat * bboard;
+		// worldMat = bboard * worldMat; this one feels weird
+		glm::mat4 WVP = params.proj * params.view * worldMat;
 		int vertsPerParticle = sizeof(gs_particleVertices) / sizeof(gs_particleVertices[0]);
 		for (int i = 0; i < vertsPerParticle; ++i) {
 			glm::vec4 v1 =
@@ -133,10 +141,8 @@ void Emitter::update(float dt)
 		;
 	}
 	// todo update particles in scene
-	auto pCurrent = m_pActiveList;
-	while (pCurrent != nullptr) {
-		pCurrent->pos += (pCurrent->velocity * dt);
-		pCurrent = pCurrent->next;
+	for (const auto& affector : m_affectors) {
+		affector->apply(m_pActiveList, dt);
 	}
 }
 
@@ -162,7 +168,7 @@ void Emitter::addToActivePool(Particle* p)
 	m_pActiveList = p;
 }
 
-Emitter::Particle* Emitter::getFreeParticle()
+Particle* Emitter::getFreeParticle()
 {
 	Particle* pReturn;
 	if (m_pFreeList != nullptr) { // make sure free list isnt empty

@@ -52,10 +52,10 @@ void Effect::update(float dt)
 	}
 }
 
-void Effect::render(const glm::mat4& mViewProj) const
+void Effect::render(const Camera::CamParams& params) const
 {
 	for (const auto& emitter : m_emitters) {
-		emitter.render(mViewProj, m_transform);
+		emitter.render(params, m_transform);
 	}
 }
 
