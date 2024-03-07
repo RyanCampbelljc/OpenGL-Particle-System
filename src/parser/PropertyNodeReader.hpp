@@ -17,6 +17,10 @@ public:
 		return m_type;
 	}
 
+	// todo this necessary
+	// template<typename T>
+	// virtual T getValue() = 0;
+
 protected:
 	PropertyNodeReader(const pugi::xml_node& node)
 		: m_name(node.attribute("name").as_string())

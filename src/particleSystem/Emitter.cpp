@@ -10,15 +10,16 @@ EmitterType EmitterTypeFromString(const std::string& s)
 	return emitterTypeTable.at(s);
 }
 
+// todo may not actually need to store the 1.0f value here
 const Emitter::Vertex Emitter::gs_particleVertices[] = {
 	// tri 1
-	{0.5f, -0.5f, 0.5f, 1.0f}, // bottom right
-	{-0.5f, 0.5f, 0.5f, 1.0f}, // top left
-	{-0.5f, -0.5f, 0.5f, 1.0f}, // bottom left
+	{0.5f, -0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)}, // bottom right
+	{-0.5f, 0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)}, // top left
+	{-0.5f, -0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)}, // bottom left
 	// tri 2
-	{0.5f, -0.5f, 0.5f, 1.0f}, // bottom right
-	{0.5f, 0.5f, 0.5f, 1.0f}, // top right
-	{-0.5f, 0.5f, 0.5f, 1.0f}, // top left
+	{0.5f, -0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)}, // bottom right
+	{0.5f, 0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)}, // top right
+	{-0.5f, 0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)}, // top left
 
 };
 
@@ -43,10 +44,10 @@ Emitter::Emitter(std::string file, glm::vec3 offset)
 	m_pVertexBuffer = wolf::BufferManager::CreateVertexBuffer(
 		gs_particleVertices,
 		sizeof(Vertex) * (sizeof(gs_particleVertices) / sizeof(gs_particleVertices[0])) * m_numParticles);
-
 	m_pVAO = new wolf::VertexDeclaration();
 	m_pVAO->Begin();
-	m_pVAO->AppendAttribute(wolf::AT_Position, 3, wolf::CT_Float);
+	m_pVAO->AppendAttribute(wolf::AT_Position, 4, wolf::CT_Float);
+	m_pVAO->AppendAttribute(wolf::AT_Color, 4, wolf::CT_Float);
 	m_pVAO->SetVertexBuffer(m_pVertexBuffer);
 	m_pVAO->End();
 
@@ -65,6 +66,7 @@ Emitter::~Emitter()
 	delete[] m_pVerts;
 }
 
+// todo add default spawn properties to map if none were in the xml file
 void Emitter::init()
 {
 	Particle* pParticles = new Particle[m_numParticles];
@@ -73,7 +75,7 @@ void Emitter::init()
 	}
 	m_pFirstParticle = pParticles;
 
-	m_pVerts = new Vertex[m_numParticles * 6];
+	m_pVerts = new Vertex[m_numParticles * sizeof(gs_particleVertices)];
 }
 
 // transform is viewProj mat4
@@ -83,28 +85,31 @@ void Emitter::render(const glm::mat4& mViewProj, const glm::mat4& transform) con
 	Vertex* pVerts = m_pVerts;
 	Particle* pCurrent = m_pActiveList;
 	int numVertices = 0;
-	int count = 0;
 	while (pCurrent != nullptr) {
 		glm::vec3 curPos = pCurrent->pos;
 		// note the currPos is the offset of this emitter
 		glm::mat4 worldMat = glm::translate(glm::mat4(1.0f), curPos);
 		glm::mat4 WVP = mViewProj * worldMat;
-		for (int i = 0; i < 6; ++i) {
+		int vertsPerParticle = sizeof(gs_particleVertices) / sizeof(gs_particleVertices[0]);
+		for (int i = 0; i < vertsPerParticle; ++i) {
 			glm::vec4 v1 =
 				WVP * glm::vec4(gs_particleVertices[i].x, gs_particleVertices[i].y, gs_particleVertices[i].z, 1.0f);
+			auto color = pCurrent->color;
 			pVerts[i].x = v1.x;
 			pVerts[i].y = v1.y;
 			pVerts[i].z = v1.z;
+			pVerts[i].w = v1.w;
+			pVerts[i].color.r = color.r;
+			pVerts[i].color.g = color.g;
+			pVerts[i].color.b = color.b;
+			pVerts[i].color.a = color.a;
 		}
-
 		pCurrent = pCurrent->next;
-		pVerts += 6;
-		numVertices += 6;
-		++count;
+		pVerts += vertsPerParticle;
+		numVertices += vertsPerParticle;
 	}
-	std::cout << count << std::endl;
-	m_pVAO->Bind();
 	m_pVertexBuffer->Write(m_pVerts, sizeof(Vertex) * numVertices);
+	m_pVAO->Bind();
 	// m_pVAO->Bind();
 	glDrawArrays(GL_TRIANGLES, 0, numVertices);
 }
@@ -113,6 +118,7 @@ void Emitter::update(float dt)
 {
 	// todo unless == some constant that means infinite life
 	if (m_duration < 0.0f) {
+		return;
 		// todo delete particles;
 	}
 	m_duration -= dt;
@@ -127,6 +133,11 @@ void Emitter::update(float dt)
 		;
 	}
 	// todo update particles in scene
+	auto pCurrent = m_pActiveList;
+	while (pCurrent != nullptr) {
+		pCurrent->pos += (pCurrent->velocity * dt);
+		pCurrent = pCurrent->next;
+	}
 }
 
 // pushes to front of free pool
@@ -171,10 +182,35 @@ Emitter::Particle* Emitter::getFreeParticle()
 	return pReturn;
 }
 
+// todo make a local cash of each type so I dont need to use dynamic pointer cast all the time.
 void Emitter::spawnParticle()
 {
 	Particle* p = getFreeParticle();
 	p->pos = m_offset;
+	auto color = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("color"));
+	if (color) {
+		p->color = color->getValue<glm::vec4>();
+	} else {
+		auto color = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("color"));
+		p->color = Utility::randVec4(color->getMin<glm::vec4>(), color->getMax<glm::vec4>());
+	}
+
+	auto velocity = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("velocity"));
+	if (velocity) {
+		p->velocity = velocity->getValue<glm::vec3>();
+	} else {
+		auto velocity = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("velocity"));
+		p->velocity = Utility::randVec3(velocity->getMin<glm::vec3>(), velocity->getMax<glm::vec3>());
+	}
+
+	auto size = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("size"));
+	if (size) {
+		p->size = size->getValue<float>();
+	} else {
+		auto size = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("size"));
+		p->size = Utility::randomFloat(size->getMin<float>(), size->getMax<float>());
+	}
+	// std::cout << p->velocity.x << " " << p->velocity.y << ' ' << p->velocity.z << std::endl;
 	addToActivePool(p);
 }
 

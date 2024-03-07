@@ -62,4 +62,43 @@ glm::vec3 randVec3(glm::vec3 first, glm::vec3 second)
 	}
 	return glm::vec3(randomFloat(minX, maxX), randomFloat(minY, maxY), randomFloat(minZ, maxZ));
 }
+
+glm::vec4 randVec4(glm::vec4 first, glm::vec4 second)
+{
+	initSeed();
+	float maxX, maxY, maxZ, maxW, minW, minX, minY, minZ;
+	if (first.x > second.x) {
+		maxX = first.x;
+		minX = second.x;
+	} else {
+		maxX = second.x;
+		minX = first.x;
+	}
+
+	if (first.y > second.y) {
+		maxY = first.y;
+		minY = second.y;
+	} else {
+		maxY = second.y;
+		minY = first.y;
+	}
+
+	if (first.z > second.z) {
+		maxZ = first.z;
+		minZ = second.z;
+	} else {
+		maxZ = second.z;
+		minZ = first.z;
+	}
+
+	if (first.w > second.w) {
+		maxW = first.w;
+		minW = second.w;
+	} else {
+		maxW = second.w;
+		minW = first.w;
+	}
+	return glm::vec4(
+		randomFloat(minX, maxX), randomFloat(minY, maxY), randomFloat(minZ, maxZ), randomFloat(minW, maxW));
+}
 } // namespace Utility

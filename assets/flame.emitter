@@ -22,8 +22,8 @@
         </random_property>
 
         <random_property name="size" type="float">
-            <min>16</min>
-            <max>24</max>
+            <min>0.1</min>
+            <max>0.5</max>
         </random_property>
     </spawn_properties>
 </emitter>

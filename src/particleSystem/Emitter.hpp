@@ -12,6 +12,7 @@ class Emitter
 public:
 	struct Vertex {
 		GLfloat x, y, z, w;
+		glm::vec4 color;
 	};
 	struct Particle {
 		Particle()

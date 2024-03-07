@@ -22,7 +22,7 @@ VertexBuffer* BufferManager::CreateVertexBuffer(unsigned int length)
 //----------------------------------------------------------
 VertexBuffer* BufferManager::CreateVertexBuffer(const void* pData, unsigned int length)
 {
-	return new VertexBuffer(pData,length);
+	return new VertexBuffer(pData, length);
 }
 
 //----------------------------------------------------------
@@ -44,17 +44,13 @@ IndexBuffer* BufferManager::CreateIndexBuffer(const unsigned short* pData, unsig
 }
 
 //----------------------------------------------------------
-// Destroys a buffer. 
+// Destroys a buffer.
 //----------------------------------------------------------
 void BufferManager::DestroyBuffer(Buffer* pBuf)
 {
-	if(!pBuf)
+	if (!pBuf)
 		return;
 	delete pBuf;
 }
 
-}
-
-
-
-
+} // namespace wolf
