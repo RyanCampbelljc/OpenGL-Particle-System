@@ -36,7 +36,7 @@ int randomInt(int min, int max)
 glm::vec3 randVec3(glm::vec3 first, glm::vec3 second)
 {
 	initSeed();
-	float maxX, maxY, maxZ, minX, minY, minZ, x, y, z;
+	float maxX, maxY, maxZ, minX, minY, minZ;
 	if (first.x > second.x) {
 		maxX = first.x;
 		minX = second.x;

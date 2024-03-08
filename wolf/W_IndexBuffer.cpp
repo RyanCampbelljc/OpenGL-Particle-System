@@ -11,9 +11,11 @@ namespace wolf
 //----------------------------------------------------------
 // Constructor
 //----------------------------------------------------------
-IndexBuffer::IndexBuffer(unsigned int numIndices) : m_lengthInBytes(numIndices*2)
+IndexBuffer::IndexBuffer(unsigned int numIndices, GLenum usage)
+	: m_lengthInBytes(numIndices * 2)
 {
 	glGenBuffers(1, &m_bufferId);
+	Write(nullptr, -1, usage);
 }
 
 //----------------------------------------------------------
@@ -21,16 +23,16 @@ IndexBuffer::IndexBuffer(unsigned int numIndices) : m_lengthInBytes(numIndices*2
 //----------------------------------------------------------
 IndexBuffer::~IndexBuffer()
 {
-	glDeleteBuffers(1,&m_bufferId);
+	glDeleteBuffers(1, &m_bufferId);
 }
 
 //----------------------------------------------------------
 // Fills this Index buffer with the given data
 //----------------------------------------------------------
-void IndexBuffer::Write(const void* pData, int lengthInBytes)
+void IndexBuffer::Write(const void* pData, int lengthInBytes, GLenum usage)
 {
 	Bind();
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, lengthInBytes == -1 ? m_lengthInBytes : lengthInBytes, pData, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, lengthInBytes == -1 ? m_lengthInBytes : lengthInBytes, pData, usage);
 }
 
 //----------------------------------------------------------
@@ -41,5 +43,4 @@ void IndexBuffer::Bind()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_bufferId);
 }
 
-}
-
+} // namespace wolf

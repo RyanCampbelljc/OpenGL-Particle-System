@@ -39,11 +39,10 @@ Emitter::Emitter(std::string file, glm::vec3 offset)
 	m_spawnProperties = scan.getSpawnProperties();
 
 	m_pMaterial = wolf::MaterialManager::CreateMaterial("emitter");
-	m_pMaterial->SetProgram("shaders/vs.vsh", "shaders/ps.fsh");
+	m_pMaterial->SetProgram("assets/shaders/vs.vsh", "assets/shaders/ps.fsh");
 
-	m_pVertexBuffer = wolf::BufferManager::CreateVertexBuffer(
-		gs_particleVertices,
-		sizeof(Vertex) * (sizeof(gs_particleVertices) / sizeof(gs_particleVertices[0])) * m_numParticles);
+	m_pVertexBuffer =
+		wolf::BufferManager::CreateVertexBuffer(sizeof(Emitter::Vertex) * 6 * m_numParticles, GL_DYNAMIC_DRAW);
 	m_pVAO = new wolf::VertexDeclaration();
 	m_pVAO->Begin();
 	m_pVAO->AppendAttribute(wolf::AT_Position, 4, wolf::CT_Float);
@@ -96,6 +95,8 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 		glm::mat3 view = params.view;
 		glm::mat4 bboard = glm::transpose(view);
 		worldMat = worldMat * bboard;
+		auto scale = pCurrent->size;
+		worldMat = glm::scale(worldMat, glm::vec3(scale, scale, scale));
 		// worldMat = bboard * worldMat; this one feels weird
 		glm::mat4 WVP = params.proj * params.view * worldMat;
 		int vertsPerParticle = sizeof(gs_particleVertices) / sizeof(gs_particleVertices[0]);

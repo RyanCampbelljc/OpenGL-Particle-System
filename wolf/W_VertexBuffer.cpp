@@ -11,18 +11,19 @@ namespace wolf
 //----------------------------------------------------------
 // Constructor
 //----------------------------------------------------------
-VertexBuffer::VertexBuffer(unsigned int p_uiLength) : m_uiLength(p_uiLength)
+VertexBuffer::VertexBuffer(unsigned int p_uiLength, GLenum usage)
+	: VertexBuffer(nullptr, p_uiLength, usage)
 {
-	glGenBuffers(1, &m_uiBuffer);
 }
 
 //----------------------------------------------------------
 // Constructor
 //----------------------------------------------------------
-VertexBuffer::VertexBuffer(const void* p_pData, unsigned int p_uiLength) : m_uiLength(p_uiLength)
+VertexBuffer::VertexBuffer(const void* p_pData, unsigned int p_uiLength, GLenum usage)
+	: m_uiLength(p_uiLength)
 {
 	glGenBuffers(1, &m_uiBuffer);
-	Write(p_pData);
+	Write(p_pData, -1, usage);
 }
 
 //----------------------------------------------------------
@@ -30,16 +31,16 @@ VertexBuffer::VertexBuffer(const void* p_pData, unsigned int p_uiLength) : m_uiL
 //----------------------------------------------------------
 VertexBuffer::~VertexBuffer()
 {
-	glDeleteBuffers(1,&m_uiBuffer);
+	glDeleteBuffers(1, &m_uiBuffer);
 }
 
 //----------------------------------------------------------
 // Fills this vertex buffer with the given data
 //----------------------------------------------------------
-void VertexBuffer::Write(const void* p_pData, int p_iLength)
+void VertexBuffer::Write(const void* p_pData, int p_iLength, GLenum usage)
 {
 	Bind();
-	glBufferData(GL_ARRAY_BUFFER, p_iLength == -1 ? m_uiLength : p_iLength, p_pData, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, p_iLength == -1 ? m_uiLength : p_iLength, p_pData, usage);
 }
 
 //----------------------------------------------------------
@@ -50,4 +51,4 @@ void VertexBuffer::Bind()
 	glBindBuffer(GL_ARRAY_BUFFER, m_uiBuffer);
 }
 
-}
+} // namespace wolf

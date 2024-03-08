@@ -8,40 +8,41 @@
 #ifndef W_VERTEXBUFFER_H
 #define W_VERTEXBUFFER_H
 
-#include "W_Types.h"
 #include "W_Buffer.h"
+#include "W_Types.h"
 
 namespace wolf
 {
 class VertexBuffer : public Buffer
 {
 	friend class BufferManager;
-	public:
-		//-------------------------------------------------------------------------
-		// PUBLIC INTERFACE
-		//-------------------------------------------------------------------------
-		virtual void Bind();
-		virtual void Write(const void* p_pData, int p_iLength = -1);
-		//-------------------------------------------------------------------------
 
-	private:
-		//-------------------------------------------------------------------------
-		// PRIVATE METHODS
-		//-------------------------------------------------------------------------
-		// Made private to enforce creation and deletion via BufferManager
-		VertexBuffer(unsigned int p_uiLength);
-		VertexBuffer(const void* p_pData, unsigned int p_uiLength);
-		virtual ~VertexBuffer();
-		//-------------------------------------------------------------------------
+public:
+	//-------------------------------------------------------------------------
+	// PUBLIC INTERFACE
+	//-------------------------------------------------------------------------
+	virtual void Bind();
+	virtual void Write(const void* p_pData, int p_iLength = -1, GLenum usage = GL_STATIC_DRAW);
+	//-------------------------------------------------------------------------
 
-		//-------------------------------------------------------------------------
-		// PRIVATE MEMBERS
-		//-------------------------------------------------------------------------
-		unsigned int		m_uiLength;	
-		GLuint				m_uiBuffer;
-		//-------------------------------------------------------------------------
+private:
+	//-------------------------------------------------------------------------
+	// PRIVATE METHODS
+	//-------------------------------------------------------------------------
+	// Made private to enforce creation and deletion via BufferManager
+	VertexBuffer(unsigned int p_uiLength, GLenum usage = GL_STATIC_DRAW);
+	VertexBuffer(const void* p_pData, unsigned int p_uiLength, GLenum usage = GL_STATIC_DRAW);
+	virtual ~VertexBuffer();
+	//-------------------------------------------------------------------------
+
+	//-------------------------------------------------------------------------
+	// PRIVATE MEMBERS
+	//-------------------------------------------------------------------------
+	unsigned int m_uiLength;
+	GLuint m_uiBuffer;
+	//-------------------------------------------------------------------------
 };
 
-}
+} // namespace wolf
 
 #endif

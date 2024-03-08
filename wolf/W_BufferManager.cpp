@@ -12,17 +12,17 @@ namespace wolf
 //----------------------------------------------------------
 // Creates a new Vertex Buffer
 //----------------------------------------------------------
-VertexBuffer* BufferManager::CreateVertexBuffer(unsigned int length)
+VertexBuffer* BufferManager::CreateVertexBuffer(unsigned int length, GLenum usage)
 {
-	return new VertexBuffer(length);
+	return new VertexBuffer(length, usage);
 }
 
 //----------------------------------------------------------
 // Creates a new Vertex Buffer
 //----------------------------------------------------------
-VertexBuffer* BufferManager::CreateVertexBuffer(const void* pData, unsigned int length)
+VertexBuffer* BufferManager::CreateVertexBuffer(const void* pData, unsigned int length, GLenum usage)
 {
-	return new VertexBuffer(pData, length);
+	return new VertexBuffer(pData, length, usage);
 }
 
 //----------------------------------------------------------
