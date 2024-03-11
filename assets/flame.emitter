@@ -1,5 +1,5 @@
 
-<emitter name="flame" num_particles="20000" duration="100.0" type="continuous" spawn_rate="2000">
+<emitter name="flame" num_particles="2000" duration="100.0" type="continuous" spawn_rate="200">
     <spawn_properties>
         <random_property name="color" type="vec4">
             <min>
@@ -33,5 +33,17 @@
             <min>0.1</min>
             <max>1</max>
         </random_property>
+
+        <random_property name="lifetime" type="float">
+            <min>1</min>
+            <max>10</max>
+        </random_property>
+        
+        <!--number between 0,1 -->
+        <const_property name="fade" type="float">
+            0.9
+        </const_property>
     </spawn_properties>
+
+
 </emitter>

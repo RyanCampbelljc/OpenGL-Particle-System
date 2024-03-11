@@ -17,6 +17,7 @@ void EffectFileReader::parse()
 			continue;
 		}
 		std::string file = tag.attribute("file").as_string();
+		// offset
 		auto x = tag.attribute("x").as_float();
 		auto y = tag.attribute("y").as_float();
 		auto z = tag.attribute("z").as_float();

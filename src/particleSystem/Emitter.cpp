@@ -1,8 +1,8 @@
 #include "Emitter.hpp"
+#include "affectors/FadeAffector.hpp"
 #include "parser/ConstPropertyNodeReader.hpp"
 #include "parser/EmitterFileReader.hpp"
 #include "parser/RandomPropertyNodeReader.hpp"
-
 EmitterType EmitterTypeFromString(const std::string& s)
 {
 	static const std::unordered_map<std::string, EmitterType> emitterTypeTable = {
@@ -40,6 +40,11 @@ Emitter::Emitter(std::string file, glm::vec3 offset)
 
 	m_pMaterial = wolf::MaterialManager::CreateMaterial("emitter");
 	m_pMaterial->SetProgram("assets/shaders/vs.vsh", "assets/shaders/ps.fsh");
+
+	// todo make this settable via xml
+	m_pMaterial->SetBlend(true);
+	m_pMaterial->SetBlendEquation(wolf::BlendEquation::BE_Add);
+	m_pMaterial->SetBlendMode(wolf::BM_SrcAlpha, wolf::BM_OneMinusSrcAlpha);
 
 	m_pVertexBuffer =
 		wolf::BufferManager::CreateVertexBuffer(sizeof(Emitter::Vertex) * 6 * m_numParticles, GL_DYNAMIC_DRAW);
@@ -81,6 +86,7 @@ void Emitter::init()
 
 	// creating affectors//todo make sure that a velocity affector was read in before making this
 	m_affectors.emplace_back(std::make_shared<VelocityAffector>());
+	m_affectors.emplace_back(std::make_shared<FadeAffector>());
 }
 
 // transform is viewProj mat4
@@ -111,7 +117,7 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 			pVerts[i].color.r = color.r;
 			pVerts[i].color.g = color.g;
 			pVerts[i].color.b = color.b;
-			pVerts[i].color.a = color.a;
+			pVerts[i].color.a = color.a * pCurrent->fade;
 		}
 		pCurrent = pCurrent->next;
 		pVerts += vertsPerParticle;
@@ -126,9 +132,9 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 void Emitter::update(float dt)
 {
 	// todo unless == some constant that means infinite life
-	if (m_duration < 0.0f) {
+	// probably better way to do this for no edge case
+	if (m_duration < 0.0f && m_duration != -1) {
 		return;
-		// todo delete particles;
 	}
 	m_duration -= dt;
 	if (m_type == EmitterType::continuous) {
@@ -141,7 +147,20 @@ void Emitter::update(float dt)
 	} else { // random
 		;
 	}
-	// todo update particles in scene
+
+	// update particle life time
+	Particle* pCurrent = m_pActiveList;
+	while (pCurrent != nullptr) {
+		pCurrent->updateLifetime(dt);
+		// put this here and not at end to account for particle possibly being killed
+		auto next = pCurrent->next;
+		if (pCurrent->scaledLifeTime >= 1) {
+			particleKilled(pCurrent);
+		}
+		pCurrent = next;
+	}
+
+	// apply affectors to active list
 	for (const auto& affector : m_affectors) {
 		affector->apply(m_pActiveList, dt);
 	}
@@ -217,7 +236,23 @@ void Emitter::spawnParticle()
 		auto size = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("size"));
 		p->size = Utility::randomFloat(size->getMin<float>(), size->getMax<float>());
 	}
-	// std::cout << p->velocity.x << " " << p->velocity.y << ' ' << p->velocity.z << std::endl;
+
+	auto lifetime = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("lifetime"));
+	if (lifetime) {
+		p->lifeTime = lifetime->getValue<float>();
+	} else {
+		auto lifetime = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("lifetime"));
+		p->lifeTime = Utility::randomFloat(lifetime->getMin<float>(), lifetime->getMax<float>());
+	}
+
+	auto fade = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("fade"));
+	if (fade) {
+		p->setFade(fade->getValue<float>());
+	} else {
+		auto fade = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("fade"));
+		p->setFade(Utility::randomFloat(fade->getMin<float>(), fade->getMax<float>()));
+	}
+	p->scaledLifeTime = 0.0f;
 	addToActivePool(p);
 }
 
@@ -243,6 +278,7 @@ void Emitter::removeFromActive(Particle* p)
 		m_pActiveTail->next = nullptr;
 	} else if (p->next != nullptr) { // middle of list
 		p->next->prev = p->prev;
+		p->prev->next = p->next;
 	} else {
 		throw std::exception("list messed");
 	}

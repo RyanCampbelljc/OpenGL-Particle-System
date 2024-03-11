@@ -5,8 +5,6 @@
 #include "parser/PropertyNodeReader.hpp"
 #include "particleSystem/Particle.hpp"
 #include "unordered_map"
-// class VelocityAffector;
-
 enum class EmitterType { continuous, burst };
 EmitterType EmitterTypeFromString(const std::string& s);
 
