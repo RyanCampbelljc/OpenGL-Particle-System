@@ -4,6 +4,8 @@
     "*.lis": "commonlisp",
     "*.fsh": "glsl",
     "*.vsh": "glsl",
+    "*.effect": "xml",
+    "*.emitter": "xml",
     "chrono": "cpp",
     "xlocale": "cpp",
     "xstring": "cpp",
@@ -84,6 +86,7 @@
     "xstddef": "cpp",
     "xtr1common": "cpp",
     "xtree": "cpp",
-    "xutility": "cpp"
+    "xutility": "cpp",
+    "variant": "cpp"
   }
 }

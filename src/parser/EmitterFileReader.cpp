@@ -67,3 +67,8 @@ int EmitterFileReader::getSpawnRate() const
 {
 	return m_spawnRate;
 }
+
+std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> EmitterFileReader::getSpawnProperties() const
+{
+	return m_spawnProperties;
+}

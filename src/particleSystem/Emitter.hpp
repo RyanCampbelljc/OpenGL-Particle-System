@@ -67,6 +67,10 @@ private:
 	Particle* m_pActiveTail;
 	Particle* m_pFirstParticle;
 	std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> m_spawnProperties;
+	// std::unordered_map<
+	// 	std::string,
+	// 	std::variant<std::shared_ptr<ConstPropertyNodeReader>, std::shared_ptr<RandomPropertyNodeReader>>>
+	// 	m_test;
 	static const Vertex gs_particleVertices[];
 	wolf::VertexBuffer* m_pVertexBuffer;
 	wolf::VertexDeclaration* m_pVAO;
