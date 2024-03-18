@@ -5,13 +5,15 @@ there is never a need to have a fade spawn property when having a
 fade affector since the start val will be overwritten etc. 
 
 also for this reason is a fade spawn property redundant since it can just be specified in the color if its constant.
+could just have an end fade val in fade affector.
 -->
 
 <!--
 goal
 https://www.youtube.com/watch?v=Oo6ktMZzzhg
 -->
-<emitter name="flame" num_particles="20000" duration="10000.0" type="continuous" spawn_rate="500">
+<!--//todo add a property to denote the spawn location(point, area, volume etc)-->
+<emitter name="flame" num_particles="2000" duration="10000.0" type="continuous" spawn_rate="60">
     <spawn_properties>
         <random_property name="color" type="vec4">
             <min>
@@ -47,8 +49,8 @@ https://www.youtube.com/watch?v=Oo6ktMZzzhg
         </random_property>
 
         <random_property name="lifetime" type="float">
-            <min>5</min>
-            <max>5</max>
+            <min>3</min>
+            <max>3</max>
         </random_property>
         
         <!--number between 0,1 -->

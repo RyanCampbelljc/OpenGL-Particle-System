@@ -1,5 +1,6 @@
 #include "Emitter.hpp"
 #include "affectors/FadeAffector.hpp"
+#include "affectors/ScaleAffector.hpp"
 #include "parser/ConstPropertyNodeReader.hpp"
 #include "parser/EmitterFileReader.hpp"
 #include "parser/RandomPropertyNodeReader.hpp"
@@ -39,7 +40,7 @@ Emitter::Emitter(std::string file, glm::vec3 offset)
 	m_spawnRate = scan.getSpawnRate();
 	m_spawnProperties = scan.getSpawnProperties();
 
-	m_pMaterial = wolf::MaterialManager::CreateMaterial("emitter");
+	m_pMaterial = wolf::MaterialManager::CreateMaterial(m_name);
 	m_pMaterial->SetProgram("assets/shaders/vs.vsh", "assets/shaders/ps.fsh");
 
 	// todo make this settable via xml
@@ -88,6 +89,7 @@ void Emitter::init()
 	// creating affectors//todo make sure that a velocity affector was read in before making this
 	m_affectors.emplace_back(std::make_shared<VelocityAffector>());
 	m_affectors.emplace_back(std::make_shared<FadeAffector>());
+	m_affectors.emplace_back(std::make_shared<ScaleAffector>());
 }
 
 // transform is viewProj mat4
@@ -219,11 +221,11 @@ void Emitter::spawnParticle()
 	// todo make spawn pos point or rand within a radius
 	// todo is making these variables static a decent improvement
 	p->pos = (m_offset + Utility::randVec3(glm::vec3(-0.1f, 0, -0.1f), glm::vec3(0.1f, 0, 0.1f)));
-	static auto color = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("color"));
+	auto color = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("color"));
 	if (color) {
 		p->color = color->getValue<glm::vec4>();
 	} else {
-		static auto color = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("color"));
+		auto color = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("color"));
 		p->color = Utility::randVec4(color->getMin<glm::vec4>(), color->getMax<glm::vec4>());
 	}
 
@@ -259,6 +261,8 @@ void Emitter::spawnParticle()
 		p->setFade(Utility::randomFloat(fade->getMin<float>(), fade->getMax<float>()));
 	}
 	p->scaledLifeTime = 0.0f;
+	p->scaleStart = 0.0f;
+	p->scaleEnd = 1.0f;
 	addToActivePool(p);
 }
 

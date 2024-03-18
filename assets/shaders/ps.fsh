@@ -8,8 +8,6 @@ in vec2 v_uv1;
 
 #define multiplier 1
 void main(){
-    vec4 sample = texture(u_texture1, v_uv1);
-    sample.a *= v_color.a;
-    sample.rgb *= v_color.rgb;
-    PixelColor = sample;
+
+    PixelColor = texture(u_texture1, v_uv1) * v_color;
 }

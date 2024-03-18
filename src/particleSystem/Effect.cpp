@@ -6,11 +6,8 @@ Effect::Effect(std::string file)
 	EffectFileReader scan(file);
 	m_name = scan.getName();
 	for (const auto& emitterTag : scan.getEmitterTags()) {
-		// file val is correct here but not in emitter constructor
-		// todo emplace back wouldnt work here -> memory violation
-		// Emitter& e = Emitter(emitterTag.file, emitterTag.offset);
-		// m_emitters.push_back(e);
-		m_emitters.emplace_back(emitterTag.file, emitterTag.offset);
+		// use new cause cpp likes to move and deconstruct stuff leading to bugs and not tell me.
+		m_emitters.push_back(new Emitter(emitterTag.file, emitterTag.offset));
 	}
 }
 
@@ -48,14 +45,14 @@ void Effect::update(float dt)
 	if (!m_playing)
 		return;
 	for (auto& emitter : m_emitters) {
-		emitter.update(dt);
+		emitter->update(dt);
 	}
 }
 
 void Effect::render(const Camera::CamParams& params) const
 {
 	for (const auto& emitter : m_emitters) {
-		emitter.render(params, m_transform);
+		emitter->render(params, m_transform);
 	}
 }
 

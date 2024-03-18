@@ -1,28 +1,49 @@
-<emitter name="smoke" num_particles="100" duration="2.0" type="continuous" spawn_rate="20">
- <spawn_properties>
+<emitter name="smoke" num_particles="2000" duration="10000.0" type="continuous" spawn_rate="20">
+    <spawn_properties>
         <const_property name="color" type="vec4">
-            <x>0.8</x>
-            <y>0.8</y>
-            <z>0.8</z>
+            <x>0.768</x>
+            <y>0.768</y>
+            <z>0.768</z>
             <w>1</w>
         </const_property>
         
         <random_property name="velocity" type="vec3">
             <min>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
+                <x>-0.1</x>
+                <y>0.3</y>
+                <z>-0.1</z>
             </min>
             <max>
-                <x>2</x>
-                <y>10</y>
-                <z>1</z>
+                <x>0.1</x>
+                <y>0.3</y>
+                <z>0.1</z>
             </max>
         </random_property>
 
         <random_property name="size" type="float">
-            <min>16</min>
-            <max>24</max>
+            <min>0.05</min>
+            <max>0.1</max>
         </random_property>
+
+        <random_property name="lifetime" type="float">
+            <min>5</min>
+            <max>5</max>
+        </random_property>
+        
+        <!--number between 0,1 -->
+        <const_property name="fade" type="float" mode="out">
+            0.9
+        </const_property>
     </spawn_properties>
+
+    <affectors>
+        <affector type="velocity"/>
+        <affector type="fade"/>
+
+        <affector type="scale">
+
+        </affector>
+    </affectors>
+
+
 </emitter>

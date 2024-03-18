@@ -18,6 +18,7 @@ public:
 	};
 
 	Emitter(std::string file, glm::vec3 offset);
+
 	// Emitter(Emitter&) = delete;
 	~Emitter();
 	void init();

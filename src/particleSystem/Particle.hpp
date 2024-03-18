@@ -30,6 +30,8 @@ struct Particle {
 	glm::vec3 velocity;
 	glm::vec4 color;
 	float size;
+	float scaleStart;
+	float scaleEnd;
 	float fade;
 	float startFade;
 	float lifeTime;
