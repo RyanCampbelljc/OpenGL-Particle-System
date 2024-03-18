@@ -1,7 +1,9 @@
 #include "EmitterFileReader.hpp"
 #include "ConstPropertyNodeReader.hpp"
 #include "RandomPropertyNodeReader.hpp"
-
+#include "affectors/FadeAffector.hpp"
+#include "affectors/ScaleAffector.hpp"
+#include "affectors/VelocityAffector.hpp"
 static const char* const CONST_PROPERTY = "const_property";
 static const char* const RAND_PROPERTY = "random_property";
 
@@ -41,6 +43,21 @@ void EmitterFileReader::parse()
 		}
 		m_spawnProperties[reader->getName()] = reader;
 	}
+
+	for (const auto& affectorNode : emitter.child("affectors").children()) {
+		auto affectorName = affectorNode.attribute("name").as_string();
+		if (std::strncmp(affectorName, "velocity", 8) == 0)
+			m_affectors.push_back(std::make_shared<VelocityAffector>());
+		else if (std::strncmp(affectorName, "fade", 4) == 0)
+			m_affectors.push_back(std::make_shared<FadeAffector>());
+		else if (std::strncmp(affectorName, "scale", 5) == 0) {
+			auto start = affectorNode.child("start").text().as_float();
+			auto end = affectorNode.child("end").text().as_float();
+			m_affectors.push_back(std::make_shared<ScaleAffector>(start, end));
+		} else {
+			throw std::exception("not a valid affector");
+		}
+	}
 }
 
 const std::string& EmitterFileReader::getName() const
@@ -71,4 +88,9 @@ int EmitterFileReader::getSpawnRate() const
 std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> EmitterFileReader::getSpawnProperties() const
 {
 	return m_spawnProperties;
+}
+
+std::vector<std::shared_ptr<BaseAffector>> EmitterFileReader::getAffectors() const
+{
+	return m_affectors;
 }

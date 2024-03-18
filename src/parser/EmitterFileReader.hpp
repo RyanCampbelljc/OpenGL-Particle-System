@@ -1,6 +1,7 @@
 #pragma once
 #include "PropertyNodeReader.hpp"
 #include "XmlFileReader.hpp"
+#include "affectors/BaseAffector.hpp"
 #include "particleSystem/Emitter.hpp"
 class EmitterFileReader final : public XmlFileReader
 {
@@ -17,6 +18,7 @@ public:
 	EmitterType getType() const;
 	int getSpawnRate() const;
 	std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> getSpawnProperties() const;
+	std::vector<std::shared_ptr<BaseAffector>> getAffectors() const;
 
 private:
 	std::string m_name;
@@ -25,4 +27,5 @@ private:
 	EmitterType m_type;
 	int m_spawnRate;
 	std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> m_spawnProperties;
+	std::vector<std::shared_ptr<BaseAffector>> m_affectors;
 };

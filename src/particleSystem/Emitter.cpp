@@ -39,6 +39,7 @@ Emitter::Emitter(std::string file, glm::vec3 offset)
 	m_type = scan.getType();
 	m_spawnRate = scan.getSpawnRate();
 	m_spawnProperties = scan.getSpawnProperties();
+	m_affectors = scan.getAffectors();
 
 	m_pMaterial = wolf::MaterialManager::CreateMaterial(m_name);
 	m_pMaterial->SetProgram("assets/shaders/vs.vsh", "assets/shaders/ps.fsh");
@@ -87,9 +88,6 @@ void Emitter::init()
 	m_pVerts = new Vertex[m_numParticles * sizeof(gs_particleVertices)];
 
 	// creating affectors//todo make sure that a velocity affector was read in before making this
-	m_affectors.emplace_back(std::make_shared<VelocityAffector>());
-	m_affectors.emplace_back(std::make_shared<FadeAffector>());
-	m_affectors.emplace_back(std::make_shared<ScaleAffector>());
 }
 
 // transform is viewProj mat4
@@ -261,8 +259,6 @@ void Emitter::spawnParticle()
 		p->setFade(Utility::randomFloat(fade->getMin<float>(), fade->getMax<float>()));
 	}
 	p->scaledLifeTime = 0.0f;
-	p->scaleStart = 0.0f;
-	p->scaleEnd = 1.0f;
 	addToActivePool(p);
 }
 

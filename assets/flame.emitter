@@ -60,11 +60,13 @@ https://www.youtube.com/watch?v=Oo6ktMZzzhg
     </spawn_properties>
 
     <affectors>
-        <affector type="velocity"/>
-        <affector type="fade"/>
+        <affector name="velocity"/>
+        
+        <affector name="fade"/>
 
-        <affector type="scale">
-
+        <affector name="scale">
+            <start>0.0</start>
+            <end>1.0</end>
         </affector>
     </affectors>
 

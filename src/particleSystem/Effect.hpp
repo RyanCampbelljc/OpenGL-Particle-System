@@ -18,7 +18,7 @@ public:
 private:
 	glm::mat4 m_transform;
 	std::string m_name;
-	std::vector<Emitter*> m_emitters;
+	std::vector<std::shared_ptr<Emitter>> m_emitters;
 	bool m_playing;
 	float m_dt;
 };

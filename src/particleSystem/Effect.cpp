@@ -7,7 +7,7 @@ Effect::Effect(std::string file)
 	m_name = scan.getName();
 	for (const auto& emitterTag : scan.getEmitterTags()) {
 		// use new cause cpp likes to move and deconstruct stuff leading to bugs and not tell me.
-		m_emitters.push_back(new Emitter(emitterTag.file, emitterTag.offset));
+		m_emitters.push_back(std::make_shared<Emitter>(emitterTag.file, emitterTag.offset));
 	}
 }
 
