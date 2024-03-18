@@ -1,49 +1,70 @@
 
-<emitter name="flame" num_particles="2000" duration="100.0" type="continuous" spawn_rate="200">
+<!--Note to self
+since affectors like fade, scale will have a start and end value
+there is never a need to have a fade spawn property when having a  
+fade affector since the start val will be overwritten etc. 
+
+also for this reason is a fade spawn property redundant since it can just be specified in the color if its constant.
+-->
+
+<!--
+goal
+https://www.youtube.com/watch?v=Oo6ktMZzzhg
+-->
+<emitter name="flame" num_particles="20000" duration="10000.0" type="continuous" spawn_rate="500">
     <spawn_properties>
         <random_property name="color" type="vec4">
             <min>
                 <x>1</x>
-                <y>0</y>
+                <y>0.15</y>
                 <z>0</z>
                 <w>1</w>
             </min>
             <max>
                 <x>1</x>
-                <y>1</y>
-                <z>0</z>
+                <y>0.90980</y>
+                <z>0.03137</z>
                 <w>1</w>
             </max>
         </random_property>
         
         <random_property name="velocity" type="vec3">
             <min>
-                <x>-5</x>
-                <y>-5</y>
-                <z>-5</z>
+                <x>0</x>
+                <y>.5</y>
+                <z>0</z>
             </min>
             <max>
-                <x>5</x>
-                <y>5</y>
-                <z>5</z>
+                <x>0</x>
+                <y>.5</y>
+                <z>0</z>
             </max>
         </random_property>
 
         <random_property name="size" type="float">
-            <min>0.1</min>
-            <max>1</max>
+            <min>0.05</min>
+            <max>0.1</max>
         </random_property>
 
         <random_property name="lifetime" type="float">
-            <min>1</min>
-            <max>10</max>
+            <min>5</min>
+            <max>5</max>
         </random_property>
         
         <!--number between 0,1 -->
-        <const_property name="fade" type="float">
+        <const_property name="fade" type="float" mode="out">
             0.9
         </const_property>
     </spawn_properties>
+
+    <affectors>
+        <affector type="velocity"/>
+        <affector type="fade"/>
+
+        <affector type="scale">
+
+        </affector>
+    </affectors>
 
 
 </emitter>

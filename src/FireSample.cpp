@@ -20,9 +20,7 @@ void FireSample::init()
 {
 	glFrontFace(GL_CCW);
 	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
-	// glCullFace(GL_BACK);
-	//  glEnable(GL_MULTISAMPLE);
+	glEnable(GL_CULL_FACE);
 	glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 	m_fireEffect.setTransform(transform);
 	m_fireEffect.toString();

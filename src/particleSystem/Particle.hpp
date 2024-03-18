@@ -9,7 +9,7 @@ struct Particle {
 		, color(0.0f, 0.0f, 0.0f, 0.0f)
 		, size(1.0f)
 		, fade(1.0f)
-		, lifeTime(9999.0f)
+		, lifeTime(0.0f)
 		, scaledLifeTime(0.0f)
 		, next(nullptr)
 		, prev(nullptr)

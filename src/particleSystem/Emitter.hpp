@@ -14,6 +14,7 @@ public:
 	struct Vertex {
 		GLfloat x, y, z, w;
 		glm::vec4 color;
+		glm::vec2 texCoords;
 	};
 
 	Emitter(std::string file, glm::vec3 offset);
@@ -67,10 +68,7 @@ private:
 	Particle* m_pActiveTail;
 	Particle* m_pFirstParticle;
 	std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> m_spawnProperties;
-	// std::unordered_map<
-	// 	std::string,
-	// 	std::variant<std::shared_ptr<ConstPropertyNodeReader>, std::shared_ptr<RandomPropertyNodeReader>>>
-	// 	m_test;
+	// todo add a diff map for const props and rand props
 	static const Vertex gs_particleVertices[];
 	wolf::VertexBuffer* m_pVertexBuffer;
 	wolf::VertexDeclaration* m_pVAO;
@@ -78,6 +76,7 @@ private:
 	std::vector<std::shared_ptr<BaseAffector>> m_affectors;
 	// used as a buffer to store vertex data before writing to the actual buffer
 	Vertex* m_pVerts;
+	wolf::Texture* m_pTexture;
 
 	// still need affectorList();
 };

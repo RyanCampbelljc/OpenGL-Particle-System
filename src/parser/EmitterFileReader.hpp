@@ -16,10 +16,7 @@ public:
 	float getDuration() const;
 	EmitterType getType() const;
 	int getSpawnRate() const;
-	std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> getSpawnProperties() const
-	{
-		return m_spawnProperties;
-	}
+	std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> getSpawnProperties() const;
 
 private:
 	std::string m_name;
@@ -27,6 +24,5 @@ private:
 	float m_duration;
 	EmitterType m_type;
 	int m_spawnRate;
-	// todo make a map of emitter properties.
 	std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> m_spawnProperties;
 };

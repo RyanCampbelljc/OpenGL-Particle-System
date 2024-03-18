@@ -10,16 +10,17 @@ EmitterType EmitterTypeFromString(const std::string& s)
 	return emitterTypeTable.at(s);
 }
 
-// todo may not actually need to store the 1.0f value here
+// todo move to particle.hpp
 const Emitter::Vertex Emitter::gs_particleVertices[] = {
 	// tri 1
-	{0.5f, -0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)}, // bottom right
-	{-0.5f, 0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)}, // top left
-	{-0.5f, -0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)}, // bottom left
+	{0.5f, -0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(1, 0)}, // bottom right
+	{-0.5f, 0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(0, 1)}, // top left
+	{-0.5f, -0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(0, 0)}, // bottom left
+
 	// tri 2
-	{0.5f, -0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)}, // bottom right
-	{0.5f, 0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)}, // top right
-	{-0.5f, 0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)}, // top left
+	{0.5f, -0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(1, 0)}, // bottom right
+	{0.5f, 0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(1, 1)}, // top right
+	{-0.5f, 0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(0, 1)}, // top left
 
 };
 
@@ -43,23 +44,24 @@ Emitter::Emitter(std::string file, glm::vec3 offset)
 
 	// todo make this settable via xml
 	m_pMaterial->SetBlend(true);
-	m_pMaterial->SetBlendEquation(wolf::BlendEquation::BE_Add);
-	m_pMaterial->SetBlendMode(wolf::BM_SrcAlpha, wolf::BM_OneMinusSrcAlpha);
+	m_pMaterial->SetBlendMode(wolf::BM_SrcAlpha, wolf::BM_DstAlpha, wolf::BM_One, wolf::BM_One);
 
+	// todo make this settable via xml
+	m_pTexture = wolf::TextureManager::CreateTexture("assets/textures/fire_main.dds");
+	m_pMaterial->SetTexture("flame", m_pTexture);
 	m_pVertexBuffer =
 		wolf::BufferManager::CreateVertexBuffer(sizeof(Emitter::Vertex) * 6 * m_numParticles, GL_DYNAMIC_DRAW);
 	m_pVAO = new wolf::VertexDeclaration();
 	m_pVAO->Begin();
 	m_pVAO->AppendAttribute(wolf::AT_Position, 4, wolf::CT_Float);
 	m_pVAO->AppendAttribute(wolf::AT_Color, 4, wolf::CT_Float);
+	m_pVAO->AppendAttribute(wolf::AT_TexCoord1, 2, wolf::CT_Float);
 	m_pVAO->SetVertexBuffer(m_pVertexBuffer);
 	m_pVAO->End();
 
 	init();
 }
 
-// todo pointers unreadable when this code isnt commented
-// i guess something is calling it(copy constructor?)
 Emitter::~Emitter()
 {
 	std::cout << "emitter deconstructor called" << std::endl;
@@ -70,7 +72,6 @@ Emitter::~Emitter()
 	delete[] m_pVerts;
 }
 
-// todo add default spawn properties to map if none were in the xml file
 void Emitter::init()
 {
 	// create particles and add to free pool
@@ -107,8 +108,10 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 		glm::mat4 WVP = params.proj * params.view * worldMat;
 		int vertsPerParticle = sizeof(gs_particleVertices) / sizeof(gs_particleVertices[0]);
 		for (int i = 0; i < vertsPerParticle; ++i) {
-			glm::vec4 v1 =
-				WVP * glm::vec4(gs_particleVertices[i].x, gs_particleVertices[i].y, gs_particleVertices[i].z, 1.0f);
+			glm::vec4 v1 = WVP
+						   * glm::vec4(
+							   gs_particleVertices[i].x, gs_particleVertices[i].y, gs_particleVertices[i].z,
+							   gs_particleVertices[i].w);
 			auto color = pCurrent->color;
 			pVerts[i].x = v1.x;
 			pVerts[i].y = v1.y;
@@ -118,6 +121,8 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 			pVerts[i].color.g = color.g;
 			pVerts[i].color.b = color.b;
 			pVerts[i].color.a = color.a * pCurrent->fade;
+			pVerts[i].texCoords.x = gs_particleVertices[i].texCoords.x;
+			pVerts[i].texCoords.y = gs_particleVertices[i].texCoords.y;
 		}
 		pCurrent = pCurrent->next;
 		pVerts += vertsPerParticle;
@@ -125,27 +130,27 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 	}
 	m_pVertexBuffer->Write(m_pVerts, sizeof(Vertex) * numVertices);
 	m_pVAO->Bind();
-	// m_pVAO->Bind();
+	// todo just sort items instead
+	glDisable(GL_DEPTH_TEST);
 	glDrawArrays(GL_TRIANGLES, 0, numVertices);
 }
 
 void Emitter::update(float dt)
 {
-	// todo unless == some constant that means infinite life
-	// probably better way to do this for no edge case
-	if (m_duration < 0.0f && m_duration != -1) {
-		return;
-	}
 	m_duration -= dt;
-	if (m_type == EmitterType::continuous) {
-		m_toSpawnAccumulator += m_spawnRate * dt;
-		int numSpawns = (int)(m_toSpawnAccumulator);
-		m_toSpawnAccumulator -= numSpawns;
-		while (numSpawns--) {
-			spawnParticle();
+	// probably better way to do this for no edge case
+	// only spawn if duration is positive or infinite
+	if (m_duration > 0.0f || m_duration == -1) {
+		if (m_type == EmitterType::continuous) {
+			m_toSpawnAccumulator += m_spawnRate * dt;
+			int numSpawns = (int)(m_toSpawnAccumulator);
+			m_toSpawnAccumulator -= numSpawns;
+			while (numSpawns--) {
+				spawnParticle();
+			}
+		} else { // random
+			;
 		}
-	} else { // random
-		;
 	}
 
 	// update particle life time
@@ -208,16 +213,17 @@ Particle* Emitter::getFreeParticle()
 	return pReturn;
 }
 
-// todo make a local cash of each type so I dont need to use dynamic pointer cast all the time.
 void Emitter::spawnParticle()
 {
 	Particle* p = getFreeParticle();
-	p->pos = m_offset;
-	auto color = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("color"));
+	// todo make spawn pos point or rand within a radius
+	// todo is making these variables static a decent improvement
+	p->pos = (m_offset + Utility::randVec3(glm::vec3(-0.1f, 0, -0.1f), glm::vec3(0.1f, 0, 0.1f)));
+	static auto color = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("color"));
 	if (color) {
 		p->color = color->getValue<glm::vec4>();
 	} else {
-		auto color = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("color"));
+		static auto color = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("color"));
 		p->color = Utility::randVec4(color->getMin<glm::vec4>(), color->getMax<glm::vec4>());
 	}
 

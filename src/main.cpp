@@ -9,7 +9,7 @@ class Week2 : public wolf::App
 {
 public:
 	Week2()
-		: wolf::App("City")
+		: wolf::App("Fire System")
 	{
 		// INIT ALL SAMPLES
 		m_sampleRunner.addSample(new FireSample(this));

@@ -8,7 +8,6 @@
 #include <string>
 #include <time.h>
 #include <unordered_map>
-#include <variant>
 #include <vector>
 // https://github.com/zeux/pugixml
 namespace Utility

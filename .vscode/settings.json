@@ -88,5 +88,6 @@
     "xtree": "cpp",
     "xutility": "cpp",
     "variant": "cpp"
-  }
+  },
+  "dotnet.defaultSolution": "disable"
 }
