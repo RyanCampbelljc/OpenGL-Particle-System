@@ -56,6 +56,7 @@ void Effect::render(const Camera::CamParams& params) const
 	}
 }
 
+// todo why is this printing garbage for emitters now
 void Effect::toString() const
 {
 	std::cout << "Effect: "

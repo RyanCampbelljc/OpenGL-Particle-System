@@ -11,13 +11,7 @@ EmitterType EmitterTypeFromString(const std::string& s);
 class Emitter
 {
 public:
-	struct Vertex {
-		GLfloat x, y, z, w;
-		glm::vec4 color;
-		glm::vec2 texCoords;
-	};
-
-	Emitter(std::string file, glm::vec3 offset);
+		Emitter(std::string file, glm::vec3 offset);
 
 	// Emitter(Emitter&) = delete;
 	~Emitter();
@@ -70,7 +64,6 @@ private:
 	Particle* m_pFirstParticle;
 	std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> m_spawnProperties;
 	// todo add a diff map for const props and rand props
-	static const Vertex gs_particleVertices[];
 	wolf::VertexBuffer* m_pVertexBuffer;
 	wolf::VertexDeclaration* m_pVAO;
 	wolf::Material* m_pMaterial;

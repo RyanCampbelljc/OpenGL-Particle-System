@@ -1,4 +1,8 @@
-<emitter name="smoke" num_particles="2000" duration="10000.0" type="continuous" spawn_rate="20">
+<emitter name="smoke" num_particles="200" duration="10000.0" type="continuous" spawn_rate="20">
+    <material>
+        <texture>assets/textures/smoke_main.dds</texture>
+    </material>
+
     <spawn_properties>
         <const_property name="color" type="vec4">
             <x>0.768</x>
@@ -32,7 +36,7 @@
         
         <!--number between 0,1 -->
         <const_property name="fade" type="float" mode="out">
-            0.9
+            0.7
         </const_property>
     </spawn_properties>
 

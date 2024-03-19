@@ -109,3 +109,9 @@ target_link_libraries(sample assimp glfw glew pugixml-static ${OPENGL_LIBRARIES}
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
+
+add_custom_target(
+    copy_assets ALL
+        COMMAND ${CMAKE_COMMAND} -E copy_directory 
+                ${CMAKE_SOURCE_DIR}/assets/
+                $<TARGET_FILE_DIR:sample>/assets)

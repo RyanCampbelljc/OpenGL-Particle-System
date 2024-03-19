@@ -11,9 +11,14 @@ could just have an end fade val in fade affector.
 <!--
 goal
 https://www.youtube.com/watch?v=Oo6ktMZzzhg
+https://www.youtube.com/watch?v=5Mw6NpSEb2o
+
 -->
 <!--//todo add a property to denote the spawn location(point, area, volume etc)-->
-<emitter name="flame" num_particles="2000" duration="10000.0" type="continuous" spawn_rate="60">
+<emitter name="flame" num_particles="200" duration="10000.0" type="continuous" spawn_rate="60">
+    <material>
+        <texture>assets/textures/fire_main.dds</texture>
+    </material>
     <spawn_properties>
         <random_property name="color" type="vec4">
             <min>
@@ -32,19 +37,19 @@ https://www.youtube.com/watch?v=Oo6ktMZzzhg
         
         <random_property name="velocity" type="vec3">
             <min>
-                <x>0</x>
+                <x>-0.1</x>
                 <y>.5</y>
-                <z>0</z>
+                <z>-0.1</z>
             </min>
             <max>
-                <x>0</x>
+                <x>0.1</x>
                 <y>.5</y>
-                <z>0</z>
+                <z>0.1</z>
             </max>
         </random_property>
 
         <random_property name="size" type="float">
-            <min>0.05</min>
+            <min>0.1</min>
             <max>0.1</max>
         </random_property>
 
@@ -53,19 +58,18 @@ https://www.youtube.com/watch?v=Oo6ktMZzzhg
             <max>3</max>
         </random_property>
         
-        <!--number between 0,1 -->
-        <const_property name="fade" type="float" mode="out">
+        <!--number between 0,1 //todo make fade end -->
+        <!-- <const_property name="fade" type="float" mode="out">
             0.9
-        </const_property>
+        </const_property> -->
     </spawn_properties>
 
+    <!--affectors only support over entire life span-->
     <affectors>
         <affector name="velocity"/>
-        
-        <affector name="fade"/>
 
         <affector name="scale">
-            <start>0.0</start>
+            <start>0.1</start>
             <end>1.0</end>
         </affector>
     </affectors>

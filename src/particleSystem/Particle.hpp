@@ -1,6 +1,25 @@
 #pragma once
 #include "Utility.hpp"
 
+struct Vertex {
+	GLfloat x, y, z, w;
+	glm::vec4 color;
+	glm::vec2 texCoords;
+};
+
+static const Vertex particleVertices[] = {
+	// tri 1
+	{0.5f, -0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(1, 0)}, // bottom right
+	{-0.5f, 0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(0, 1)}, // top left
+	{-0.5f, -0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(0, 0)}, // bottom left
+
+	// tri 2
+	{0.5f, -0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(1, 0)}, // bottom right
+	{0.5f, 0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(1, 1)}, // top right
+	{-0.5f, 0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(0, 1)}, // top left
+
+};
+
 // scaledLifeTime 0 when spawn and 1 when over
 struct Particle {
 	Particle()

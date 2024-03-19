@@ -11,20 +11,6 @@ EmitterType EmitterTypeFromString(const std::string& s)
 	return emitterTypeTable.at(s);
 }
 
-// todo move to particle.hpp
-const Emitter::Vertex Emitter::gs_particleVertices[] = {
-	// tri 1
-	{0.5f, -0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(1, 0)}, // bottom right
-	{-0.5f, 0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(0, 1)}, // top left
-	{-0.5f, -0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(0, 0)}, // bottom left
-
-	// tri 2
-	{0.5f, -0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(1, 0)}, // bottom right
-	{0.5f, 0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(1, 1)}, // top right
-	{-0.5f, 0.5f, 0.0f, 1.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec2(0, 1)}, // top left
-
-};
-
 Emitter::Emitter(std::string file, glm::vec3 offset)
 	: m_offset(offset)
 	, m_toSpawnAccumulator(0.0f)
@@ -48,11 +34,9 @@ Emitter::Emitter(std::string file, glm::vec3 offset)
 	m_pMaterial->SetBlend(true);
 	m_pMaterial->SetBlendMode(wolf::BM_SrcAlpha, wolf::BM_DstAlpha, wolf::BM_One, wolf::BM_One);
 
-	// todo make this settable via xml
-	m_pTexture = wolf::TextureManager::CreateTexture("assets/textures/fire_main.dds");
-	m_pMaterial->SetTexture("flame", m_pTexture);
-	m_pVertexBuffer =
-		wolf::BufferManager::CreateVertexBuffer(sizeof(Emitter::Vertex) * 6 * m_numParticles, GL_DYNAMIC_DRAW);
+	m_pTexture = wolf::TextureManager::CreateTexture(scan.getTexturePath().c_str());
+	m_pMaterial->SetTexture("u_texture1", m_pTexture);
+	m_pVertexBuffer = wolf::BufferManager::CreateVertexBuffer(sizeof(Vertex) * 6 * m_numParticles, GL_DYNAMIC_DRAW);
 	m_pVAO = new wolf::VertexDeclaration();
 	m_pVAO->Begin();
 	m_pVAO->AppendAttribute(wolf::AT_Position, 4, wolf::CT_Float);
@@ -85,15 +69,12 @@ void Emitter::init()
 	m_pFirstParticle = pParticles;
 
 	// creating a buffer that can hold vertex data that can be passed to vertexBuffer.write();
-	m_pVerts = new Vertex[m_numParticles * sizeof(gs_particleVertices)];
-
-	// creating affectors//todo make sure that a velocity affector was read in before making this
+	m_pVerts = new Vertex[m_numParticles * sizeof(particleVertices)];
 }
 
 // transform is viewProj mat4
 void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform) const
 {
-	m_pMaterial->Apply();
 	Vertex* pVerts = m_pVerts;
 	Particle* pCurrent = m_pActiveList;
 	int numVertices = 0;
@@ -106,12 +87,11 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 		worldMat = glm::scale(worldMat, glm::vec3(scale, scale, scale));
 		// worldMat = bboard * worldMat; this one feels weird
 		glm::mat4 WVP = params.proj * params.view * worldMat;
-		int vertsPerParticle = sizeof(gs_particleVertices) / sizeof(gs_particleVertices[0]);
+		int vertsPerParticle = sizeof(particleVertices) / sizeof(particleVertices[0]);
 		for (int i = 0; i < vertsPerParticle; ++i) {
-			glm::vec4 v1 = WVP
-						   * glm::vec4(
-							   gs_particleVertices[i].x, gs_particleVertices[i].y, gs_particleVertices[i].z,
-							   gs_particleVertices[i].w);
+			glm::vec4 v1 =
+				WVP
+				* glm::vec4(particleVertices[i].x, particleVertices[i].y, particleVertices[i].z, particleVertices[i].w);
 			auto color = pCurrent->color;
 			pVerts[i].x = v1.x;
 			pVerts[i].y = v1.y;
@@ -120,15 +100,16 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 			pVerts[i].color.r = color.r;
 			pVerts[i].color.g = color.g;
 			pVerts[i].color.b = color.b;
-			pVerts[i].color.a = color.a * pCurrent->fade;
-			pVerts[i].texCoords.x = gs_particleVertices[i].texCoords.x;
-			pVerts[i].texCoords.y = gs_particleVertices[i].texCoords.y;
+			pVerts[i].color.a = pCurrent->fade;
+			pVerts[i].texCoords.x = particleVertices[i].texCoords.x;
+			pVerts[i].texCoords.y = particleVertices[i].texCoords.y;
 		}
 		pCurrent = pCurrent->next;
 		pVerts += vertsPerParticle;
 		numVertices += vertsPerParticle;
 	}
 	m_pVertexBuffer->Write(m_pVerts, sizeof(Vertex) * numVertices);
+	m_pMaterial->Apply();
 	m_pVAO->Bind();
 	// todo just sort items instead
 	glDisable(GL_DEPTH_TEST);
@@ -217,7 +198,6 @@ void Emitter::spawnParticle()
 {
 	Particle* p = getFreeParticle();
 	// todo make spawn pos point or rand within a radius
-	// todo is making these variables static a decent improvement
 	p->pos = (m_offset + Utility::randVec3(glm::vec3(-0.1f, 0, -0.1f), glm::vec3(0.1f, 0, 0.1f)));
 	auto color = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("color"));
 	if (color) {
@@ -251,13 +231,16 @@ void Emitter::spawnParticle()
 		p->lifeTime = Utility::randomFloat(lifetime->getMin<float>(), lifetime->getMax<float>());
 	}
 
-	auto fade = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("fade"));
-	if (fade) {
-		p->setFade(fade->getValue<float>());
-	} else {
-		auto fade = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("fade"));
-		p->setFade(Utility::randomFloat(fade->getMin<float>(), fade->getMax<float>()));
+	if (m_spawnProperties.count("fade") > 0) {
+		auto fade = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("fade"));
+		if (fade) {
+			p->setFade(fade->getValue<float>());
+		} else {
+			auto fade = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("fade"));
+			p->setFade(Utility::randomFloat(fade->getMin<float>(), fade->getMax<float>()));
+		}
 	}
+
 	p->scaledLifeTime = 0.0f;
 	addToActivePool(p);
 }
