@@ -19,6 +19,7 @@ public:
 	int getSpawnRate() const;
 	std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> getSpawnProperties() const;
 	std::vector<std::shared_ptr<BaseAffector>> getAffectors() const;
+	const std::string& getTexturePath() const;
 
 private:
 	std::string m_name;
@@ -26,6 +27,7 @@ private:
 	float m_duration;
 	EmitterType m_type;
 	int m_spawnRate;
+	std::string m_textureFilePath;
 	std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> m_spawnProperties;
 	std::vector<std::shared_ptr<BaseAffector>> m_affectors;
 };

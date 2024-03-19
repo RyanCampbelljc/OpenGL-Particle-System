@@ -2,7 +2,6 @@
 #include "PropertyValue.hpp"
 #include "Utility.hpp"
 /// @brief //todo
-// min,max,const_proeprty
 class ValueNodeReader
 {
 public:

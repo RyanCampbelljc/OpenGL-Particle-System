@@ -22,6 +22,7 @@ EmitterFileReader::~EmitterFileReader()
 
 // use shared pointer so when the reader goes out of scope(when the emitter constructor finishes)
 // the emitter class can still have a shared pointer member pointing to the data
+// todo have these string comaprisions in const char * 's
 void EmitterFileReader::parse()
 {
 	// todo use new reader implementation for this
@@ -58,6 +59,12 @@ void EmitterFileReader::parse()
 			throw std::exception("not a valid affector");
 		}
 	}
+
+	for (const auto& materialProperty : emitter.child("material").children()) {
+		auto propName = materialProperty.name();
+		if (std::strncmp(propName, "texture", 7) == 0)
+			m_textureFilePath = materialProperty.text().as_string();
+	}
 }
 
 const std::string& EmitterFileReader::getName() const
@@ -93,4 +100,9 @@ std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> EmitterFile
 std::vector<std::shared_ptr<BaseAffector>> EmitterFileReader::getAffectors() const
 {
 	return m_affectors;
+}
+
+const std::string& EmitterFileReader::getTexturePath() const
+{
+	return m_textureFilePath;
 }
