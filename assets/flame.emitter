@@ -69,8 +69,8 @@ https://www.youtube.com/watch?v=5Mw6NpSEb2o
         <affector name="velocity"/>
 
         <affector name="scale">
-            <start>0.1</start>
-            <end>1.0</end>
+            <start>1</start>
+            <end>0.1</end>
         </affector>
     </affectors>
 

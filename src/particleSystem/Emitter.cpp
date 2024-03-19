@@ -198,7 +198,7 @@ void Emitter::spawnParticle()
 {
 	Particle* p = getFreeParticle();
 	// todo make spawn pos point or rand within a radius
-	p->pos = (m_offset + Utility::randVec3(glm::vec3(-0.1f, 0, -0.1f), glm::vec3(0.1f, 0, 0.1f)));
+	p->pos = m_offset; //(m_offset + Utility::randVec3(glm::vec3(-0.1f, 0, -0.1f), glm::vec3(0.1f, 0, 0.1f)));
 	auto color = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("color"));
 	if (color) {
 		p->color = color->getValue<glm::vec4>();
