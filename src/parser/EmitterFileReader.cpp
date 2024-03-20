@@ -1,6 +1,7 @@
 #include "EmitterFileReader.hpp"
 #include "ConstPropertyNodeReader.hpp"
 #include "RandomPropertyNodeReader.hpp"
+#include "affectors/ColorLerpAffector.hpp"
 #include "affectors/FadeAffector.hpp"
 #include "affectors/ScaleAffector.hpp"
 #include "affectors/VelocityAffector.hpp"
@@ -49,12 +50,16 @@ void EmitterFileReader::parse()
 		auto affectorName = affectorNode.attribute("name").as_string();
 		if (std::strncmp(affectorName, "velocity", 8) == 0)
 			m_affectors.push_back(std::make_shared<VelocityAffector>());
-		else if (std::strncmp(affectorName, "fade", 4) == 0)
-			m_affectors.push_back(std::make_shared<FadeAffector>());
-		else if (std::strncmp(affectorName, "scale", 5) == 0) {
-			auto start = affectorNode.child("start").text().as_float();
+		else if (std::strncmp(affectorName, "fade", 4) == 0) {
 			auto end = affectorNode.child("end").text().as_float();
-			m_affectors.push_back(std::make_shared<ScaleAffector>(start, end));
+			m_affectors.push_back(std::make_shared<FadeAffector>(end));
+		} else if (std::strncmp(affectorName, "scale", 5) == 0) {
+			auto end = affectorNode.child("end").text().as_float();
+			m_affectors.push_back(std::make_shared<ScaleAffector>(end));
+		} else if (std::strncmp(affectorName, "color", 5) == 0) {
+			auto endTag = affectorNode.child("end");
+			auto val = ValueNodeReader(endTag, ValueType::Vec3).getValue<glm::vec3>();
+			m_affectors.push_back(std::make_shared<ColorLerpAffector>(val));
 		} else {
 			throw std::exception("not a valid affector");
 		}

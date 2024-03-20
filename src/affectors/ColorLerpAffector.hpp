@@ -2,12 +2,12 @@
 #include "BaseAffector.hpp"
 
 // only supports fade out for now
-class FadeAffector : public BaseAffector
+class ColorLerpAffector : public BaseAffector
 {
 public:
-	FadeAffector(float end);
+	ColorLerpAffector(const glm::vec3& end);
 	void apply(Particle* p, float dt) const override;
 
 private:
-	float m_end;
+	glm::vec3 m_end;
 };

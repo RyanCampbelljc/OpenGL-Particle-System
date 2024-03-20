@@ -20,10 +20,16 @@ static const Vertex particleVertices[] = {
 
 };
 
+/**
+ * a better way to organize particle properties that
+ * will possibly be interpolated across the particles
+ * life time. The affectors hold the end value of the interpolation.
+ * Could easily add end values here so they are particle dependant and
+ * not affector dependent.
+ **/
 template<typename T>
 struct ParticleProperty {
 	T start;
-	T end;
 	T value;
 };
 
@@ -32,14 +38,14 @@ struct Particle {
 	Particle()
 		: pos(0.0f, 0.0f, 0.0f)
 		, velocity(0.0f, 0.0f, 0.0f)
-		, color(0.0f, 0.0f, 0.0f, 0.0f)
-		, size(1.0f)
-		, fade(1.0f)
 		, lifeTime(0.0f)
 		, scaledLifeTime(0.0f)
 		, next(nullptr)
 		, prev(nullptr)
 	{
+		setStartColor(glm::vec3(0.0f, 0.0f, 0.0f));
+		setStartFade(1.0f);
+		setStartScale(1.0f);
 	}
 
 	void updateLifetime(float dt)
@@ -47,17 +53,26 @@ struct Particle {
 		scaledLifeTime += dt / lifeTime;
 	}
 
-	void setFade(float f)
+	void setStartFade(float f)
 	{
-		fade = f;
-		startFade = fade;
+		fade.start = f;
+		fade.value = f;
+	}
+	void setStartColor(const glm::vec3& c)
+	{
+		color.start = c;
+		color.value = c;
+	}
+	void setStartScale(float s)
+	{
+		scale.start = s;
+		scale.value = s;
 	}
 	glm::vec3 pos;
 	glm::vec3 velocity;
-	glm::vec4 color;
-	float size;
-	float fade;
-	float startFade;
+	ParticleProperty<glm::vec3> color;
+	ParticleProperty<float> scale;
+	ParticleProperty<float> fade;
 	float lifeTime;
 	float scaledLifeTime;
 	Particle* next;
