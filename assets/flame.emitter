@@ -15,7 +15,7 @@ https://www.youtube.com/watch?v=5Mw6NpSEb2o
 
 -->
 <!--//todo add a property to denote the spawn location(point, area, volume etc)-->
-<emitter name="flame" num_particles="200" duration="10000.0" type="continuous" spawn_rate="60">
+<emitter name="flame" num_particles="200" duration="10000.0" type="continuous" spawn_rate="30">
     <material>
         <texture>assets/textures/fire_main.dds</texture>
     </material>
@@ -30,7 +30,7 @@ https://www.youtube.com/watch?v=5Mw6NpSEb2o
             <max>
                 <x>1</x>
                 <y>0.90980</y>
-                <z>0.03137</z>
+                <z>0.103137</z>
                 <w>1</w>
             </max>
         </random_property>
@@ -54,12 +54,12 @@ https://www.youtube.com/watch?v=5Mw6NpSEb2o
         </random_property>
 
         <random_property name="lifetime" type="float">
-            <min>3</min>
-            <max>3</max>
+            <min>2</min>
+            <max>2</max>
         </random_property>
         
         <!--number between 0,1 //todo make fade end -->
-        <!-- <const_property name="fade" type="float" mode="out">
+        <!-- <const_property name="fade" type="float">
             0.9
         </const_property> -->
     </spawn_properties>
@@ -76,3 +76,4 @@ https://www.youtube.com/watch?v=5Mw6NpSEb2o
 
 
 </emitter>
+

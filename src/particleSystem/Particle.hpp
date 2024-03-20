@@ -20,6 +20,13 @@ static const Vertex particleVertices[] = {
 
 };
 
+template<typename T>
+struct ParticleProperty {
+	T start;
+	T end;
+	T value;
+};
+
 // scaledLifeTime 0 when spawn and 1 when over
 struct Particle {
 	Particle()

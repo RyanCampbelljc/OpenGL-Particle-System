@@ -1,0 +1,12 @@
+Rules for spawn properties / affectors
+1 Going to have no color.a but will have fade
+2 Spawn property size is useless if you have scale affector
+3 spawn property fade is useless if you have fade affector
+4 Fade and color take all their values between 0,1
+
+
+Note on points 2 and 3
+Since size and fade need start and end values it seems to me
+that keeping track of both their start value and current value 
+for both properties in the particles struct would be too messy,
+especially if more properties with a similar issue was added.

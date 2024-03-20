@@ -68,6 +68,8 @@ include_directories(
     thirdparty/glew/include 
     thirdparty/assimp/include 
     src
+    thirdparty/imgui
+    thirdparty/imgui/backends
     ${OPENGL_INCLUDE_DIRS})
 
 file(GLOB_RECURSE SAMPLEFW_SOURCE_FILES 
@@ -94,6 +96,16 @@ file(GLOB_RECURSE HEADER_FILES
 	${CMAKE_SOURCE_DIR}/src/*.h
     ${CMAKE_SOURCE_DIR}/src/*.hpp)
 
+file(GLOB_RECURSE GUI_FILES 
+	${CMAKE_SOURCE_DIR}/src/thirdparty/imgui*.h
+    ${CMAKE_SOURCE_DIR}/src/thirdparty/imgui*.cpp
+    ${CMAKE_SOURCE_DIR}/src/thirdparty/imgui/backends/imgui_impl_glfw.h
+    ${CMAKE_SOURCE_DIR}/src/thirdparty/imgui/backends/imgui_impl_glfw.cpp
+    ${CMAKE_SOURCE_DIR}/src/thirdparty/imgui/backends/imgui_impl_opengl3.h
+    ${CMAKE_SOURCE_DIR}/src/thirdparty/imgui/misc/debugger/imgui.natvis
+    ${CMAKE_SOURCE_DIR}/src/thirdparty/imgui/misc/debugger/imgui.natstepfilter
+    ${CMAKE_SOURCE_DIR}/src/thirdparty/imgui/misc/cpp/imgui_stdlib.*)
+
 add_executable(sample 
     ${SAMPLEFW_SOURCE_FILES}
     ${SAMPLEFW_HEADER_FILES}
@@ -101,6 +113,7 @@ add_executable(sample
     ${WOLF_HEADER_FILES}
     ${SOURCE_FILES}
     ${HEADER_FILES}
+    ${GUI_FILES}
     )
 
 
