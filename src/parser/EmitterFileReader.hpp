@@ -20,6 +20,7 @@ public:
 	std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> getSpawnProperties() const;
 	std::vector<std::shared_ptr<BaseAffector>> getAffectors() const;
 	const std::string& getTexturePath() const;
+	std::vector<std::string> getBlendModes() const;
 
 private:
 	std::string m_name;
@@ -30,4 +31,5 @@ private:
 	std::string m_textureFilePath;
 	std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> m_spawnProperties;
 	std::vector<std::shared_ptr<BaseAffector>> m_affectors;
+	std::vector<std::string> m_blendModes;
 };

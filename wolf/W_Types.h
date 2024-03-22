@@ -4,6 +4,7 @@
 //
 // Common types throughout wolf (and some defines too)
 //-----------------------------------------------------------------------------
+#pragma once
 #ifndef W_TYPES_H
 #define W_TYPES_H
 
@@ -19,6 +20,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
+#include <string>
+#include <unordered_map>
 
 using uint = unsigned int;
 namespace wolf
@@ -109,6 +112,11 @@ enum BlendMode {
 	BM_Zero,
 	BM_NUM_BLEND_MODES
 };
+
+static const std::unordered_map<std::string, int> stringToBlendMode = {
+	{"SrcAlpha", 0},         {"One", 1},      {"SrcColor", 2},         {"OneMinusSrcColor", 3},
+	{"OneMinusSrcAlpha", 4}, {"DstAlpha", 5}, {"OneMinusDstAlpha", 6}, {"DstColor", 7},
+	{"OneMinusDstColor", 8}, {"Zero", 9}};
 
 enum BlendEquation { BE_Add, BE_Subtract, BE_ReverseSubtract, BE_NUM_BLEND_EQUATIONS };
 

@@ -14,14 +14,9 @@ https://www.youtube.com/watch?v=Oo6ktMZzzhg
 https://www.youtube.com/watch?v=5Mw6NpSEb2o
 
 -->
-<!--//todo add a property to denote the spawn location(point, area, volume etc)-->
-<emitter name="flame" num_particles="200" duration="10000.0" type="continuous" spawn_rate="30">
-    <material>
-        <texture>assets/textures/fire_main.dds</texture>
-    </material>
-    <spawn_properties>
-        <random_property name="color" type="vec3">
-            <min>
+<!-- 
+    OLD COLOR VALUES
+    <min>
                 <x>1</x>
                 <y>0.15</y>
                 <z>0</z>
@@ -30,6 +25,36 @@ https://www.youtube.com/watch?v=5Mw6NpSEb2o
                 <x>1</x>
                 <y>0.90980</y>
                 <z>0.103137</z>
+            </max> -->
+<!--//todo add a property to denote the spawn location(point, area, volume etc)-->
+<emitter name="flame" num_particles="200" duration="10000.0" type="continuous" spawn_rate="40">
+    <material>
+        <texture>assets/textures/fire_main.dds</texture>
+        <!--only suports seperate for now; i.e provide 4 blend modes for glBlendFuncSeperate-->
+        <!--Values that can be placed for blend modes:
+            "SrcAlpha" "One" "SrcColor" "OneMinusSrcColor" 
+            "OneMinusSrcAlpha" "DstAlpha" "OneMinusDstAlpha" 
+            "DstColor" "OneMinusDstColor" "Zero"
+        must be specified in this order. i.e srcRGB then dstRGB and so on
+        -->
+        <blend_mode type="seperate">
+            <srcRGB>SrcAlpha</srcRGB>
+            <dstRGB>DstAlpha</dstRGB>
+            <srcAlpha>One</srcAlpha>
+            <srcAlpha>One</srcAlpha>
+        </blend_mode>
+    </material>
+    <spawn_properties>
+        <random_property name="color" type="vec3">
+            <min>
+                <x>1</x>
+                <y>0.33</y>
+                <z>0</z>
+            </min>
+            <max>
+                <x>1</x>
+                <y>0.33</y>
+                <z>0</z>
             </max>
         </random_property>
         

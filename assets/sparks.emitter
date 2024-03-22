@@ -1,67 +1,55 @@
-<emitter name="smoke" num_particles="2000" duration="10000.0" type="continuous" spawn_rate="100">
+<emitter name="sparks" num_particles="40" duration="10000.0" type="continuous" spawn_rate="1">
     <material>
-        <texture>assets/textures/smoke_main.dds</texture>
+        <texture>assets/textures/fire_sparks_main.dds</texture>
+    </material>
 
-        <blend_mode type="seperate">
+    <blend_mode type="seperate">
             <srcRGB>SrcAlpha</srcRGB>
             <dstRGB>OneMinusSrcAlpha</dstRGB>
             <srcAlpha>One</srcAlpha>
             <srcAlpha>One</srcAlpha>
-        </blend_mode>
-    </material>
+    </blend_mode>
 
     <spawn_properties>
         <const_property name="color" type="vec3">
-            <x>0.0</x><!--0.768-->
-            <y>0.0</y>
-            <z>0.0</z>
+            <x>1</x>
+            <y>0.0</y><!--74-->
+            <z>0.0</z><!--37-->
         </const_property>
         
         <random_property name="velocity" type="vec3">
             <min>
-                <x>-0.1</x>
+                <x>-0.3</x>
                 <y>0.3</y>
-                <z>-0.1</z>
+                <z>-0.3</z>
             </min>
             <max>
-                <x>0.1</x>
+                <x>0.3</x>
                 <y>0.3</y>
-                <z>0.1</z>
+                <z>0.3</z>
             </max>
         </random_property>
 
         <const_property name="size" type="float">
-            0.0
+            1
         </const_property>
 
         <const_property name="lifetime" type="float">
-            15.0
+            8.0
         </const_property>
         
         <!--number between 0,1 -->
         <const_property name="fade" type="float">
-            0.7
+            1
         </const_property>
     </spawn_properties>
 
     <affectors>
         <affector name="velocity"/>
 
-        <affector name="fade">
+        <!-- <affector name="fade">
             <end>0.0</end>
-        </affector>
-
-        <affector name="scale">
-            <end>1.0</end>
-        </affector>
-        
-        <affector name ="color">
-            <end>
-                <x>1</x>
-                <y>1</y>
-                <z>1</z>
-            </end>
-        </affector>
+        </affector> -->
 
     </affectors>
 

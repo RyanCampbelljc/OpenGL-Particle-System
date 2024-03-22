@@ -69,6 +69,12 @@ void EmitterFileReader::parse()
 		auto propName = materialProperty.name();
 		if (std::strncmp(propName, "texture", 7) == 0)
 			m_textureFilePath = materialProperty.text().as_string();
+		else if (std::strncmp(propName, "blend_mode", 10) == 0) {
+			for (const auto& blendProp : materialProperty.children()) { // looping through 4 blend modes
+				auto blendValue = blendProp.text().as_string();
+				m_blendModes.push_back(blendValue);
+			}
+		}
 	}
 }
 
@@ -110,4 +116,9 @@ std::vector<std::shared_ptr<BaseAffector>> EmitterFileReader::getAffectors() con
 const std::string& EmitterFileReader::getTexturePath() const
 {
 	return m_textureFilePath;
+}
+
+std::vector<std::string> EmitterFileReader::getBlendModes() const
+{
+	return m_blendModes;
 }

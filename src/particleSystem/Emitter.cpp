@@ -33,12 +33,26 @@ Emitter::Emitter(std::string file, glm::vec3 offset)
 	// todo make this settable via xml
 	m_pMaterial->SetBlend(true);
 	m_pMaterial->SetBlendEquation(wolf::BE_Add);
+
+	// converts string specifying blend mode to an int that corresponds to
+	//  the proper value in the wolf::blendMode enum
+	// todo unhard code the order of these
+	// todo make it work if only 2 are specified
+	auto blendModes = scan.getBlendModes();
+	auto srcRGB = wolf::stringToBlendMode.at(blendModes[0]);
+	auto dstRGB = wolf::stringToBlendMode.at(blendModes[1]);
+	auto srcAlpha = wolf::stringToBlendMode.at(blendModes[2]);
+	auto dstAlpha = wolf::stringToBlendMode.at(blendModes[3]);
+	m_pMaterial->SetBlendMode(
+		wolf::BlendMode(srcRGB), wolf::BlendMode(dstRGB), wolf::BlendMode(srcAlpha), wolf::BlendMode(dstAlpha));
 	// use this equation for smoke
-	if (m_name == "smoke") {
-		m_pMaterial->SetBlendMode(wolf::BM_SrcAlpha, wolf::BM_OneMinusSrcAlpha, wolf::BM_One, wolf::BM_One);
-	} else {
-		m_pMaterial->SetBlendMode(wolf::BM_SrcAlpha, wolf::BM_DstAlpha, wolf::BM_One, wolf::BM_One);
-	}
+	// if (m_name == "smoke") {
+	// 	m_pMaterial->SetBlendMode(wolf::BM_SrcAlpha, wolf::BM_OneMinusSrcAlpha, wolf::BM_One, wolf::BM_One);
+	// } else if (m_name == "flame") {
+	// 	m_pMaterial->SetBlendMode(wolf::BM_SrcAlpha, wolf::BM_DstAlpha, wolf::BM_One, wolf::BM_One);
+	// } else if (m_name == "sparks") {
+	// 	m_pMaterial->SetBlendMode(wolf::BM_SrcAlpha, wolf::BM_OneMinusSrcAlpha);
+	// }
 
 	m_pTexture = wolf::TextureManager::CreateTexture(scan.getTexturePath().c_str());
 	m_pMaterial->SetTexture("u_texture1", m_pTexture);
@@ -98,14 +112,14 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 			glm::vec4 v1 =
 				WVP
 				* glm::vec4(particleVertices[i].x, particleVertices[i].y, particleVertices[i].z, particleVertices[i].w);
-			auto color = pCurrent->color;
+			auto color = pCurrent->color.value;
 			pVerts[i].x = v1.x;
 			pVerts[i].y = v1.y;
 			pVerts[i].z = v1.z;
 			pVerts[i].w = v1.w;
-			pVerts[i].color.r = color.value.r;
-			pVerts[i].color.g = color.value.g;
-			pVerts[i].color.b = color.value.b;
+			pVerts[i].color.r = color.r;
+			pVerts[i].color.g = color.g;
+			pVerts[i].color.b = color.b;
 			pVerts[i].color.a = pCurrent->fade.value;
 			pVerts[i].texCoords.x = particleVertices[i].texCoords.x;
 			pVerts[i].texCoords.y = particleVertices[i].texCoords.y;

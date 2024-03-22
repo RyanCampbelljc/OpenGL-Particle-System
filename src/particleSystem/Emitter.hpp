@@ -4,14 +4,14 @@
 #include "affectors/VelocityAffector.hpp"
 #include "parser/PropertyNodeReader.hpp"
 #include "particleSystem/Particle.hpp"
-#include "unordered_map"
+#include <unordered_map>
 enum class EmitterType { continuous, burst };
 EmitterType EmitterTypeFromString(const std::string& s);
 
 class Emitter
 {
 public:
-		Emitter(std::string file, glm::vec3 offset);
+	Emitter(std::string file, glm::vec3 offset);
 
 	// Emitter(Emitter&) = delete;
 	~Emitter();
