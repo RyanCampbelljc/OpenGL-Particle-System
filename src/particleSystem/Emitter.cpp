@@ -224,56 +224,31 @@ void Emitter::spawnParticle()
 {
 	Particle* p = getFreeParticle();
 	// todo make spawn pos point or rand within a radius
-	p->pos = (m_offset + Utility::randVec3(glm::vec3(-0.1f, 0, -0.1f), glm::vec3(0.1f, 0, 0.1f)));
+	p->pos = (m_offset + Utility::randomInRange(glm::vec3(-0.1f, 0, -0.1f), glm::vec3(0.1f, 0, 0.1f)));
 
 	if (m_spawnProperties.count("color") > 0) {
-		auto color = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("color"));
-		if (color) {
-			p->setStartColor(color->getValue<glm::vec3>());
-		} else {
-			auto color = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("color"));
-			p->setStartColor(Utility::randVec3(color->getMin<glm::vec3>(), color->getMax<glm::vec3>()));
-		}
+		auto color = m_spawnProperties.at("color");
+		p->setStartColor(color->getValue<glm::vec3>());
 	}
 
 	if (m_spawnProperties.count("velocity") > 0) {
-		auto velocity = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("velocity"));
-		if (velocity) {
-			p->velocity = velocity->getValue<glm::vec3>();
-		} else {
-			auto velocity = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("velocity"));
-			p->velocity = Utility::randVec3(velocity->getMin<glm::vec3>(), velocity->getMax<glm::vec3>());
-		}
+		auto velocity = m_spawnProperties.at("velocity");
+		p->velocity = velocity->getValue<glm::vec3>();
 	}
 
 	if (m_spawnProperties.count("size") > 0) {
-		auto size = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("size"));
-		if (size) {
-			p->setStartScale(size->getValue<float>());
-		} else {
-			auto size = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("size"));
-			p->setStartScale(Utility::randomFloat(size->getMin<float>(), size->getMax<float>()));
-		}
+		auto size = m_spawnProperties.at("size");
+		p->setStartScale(size->getValue<float>());
 	}
 
 	if (m_spawnProperties.count("lifetime") > 0) {
-		auto lifetime = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("lifetime"));
-		if (lifetime) {
-			p->lifeTime = lifetime->getValue<float>();
-		} else {
-			auto lifetime = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("lifetime"));
-			p->lifeTime = Utility::randomFloat(lifetime->getMin<float>(), lifetime->getMax<float>());
-		}
+		auto lifetime = m_spawnProperties.at("lifetime");
+		p->lifeTime = lifetime->getValue<float>();
 	}
 
 	if (m_spawnProperties.count("fade") > 0) {
-		auto fade = std::dynamic_pointer_cast<ConstPropertyNodeReader>(m_spawnProperties.at("fade"));
-		if (fade) {
-			p->setStartFade(fade->getValue<float>());
-		} else {
-			auto fade = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("fade"));
-			p->setStartFade(Utility::randomFloat(fade->getMin<float>(), fade->getMax<float>()));
-		}
+		auto fade = m_spawnProperties.at("fade");
+		p->setStartFade(fade->getValue<float>());
 	}
 
 	p->scaledLifeTime = 0.0f;

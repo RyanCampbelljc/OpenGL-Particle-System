@@ -11,18 +11,6 @@ static void initSeed()
 	}
 }
 
-// returns random float inclusive
-float randomFloat(float min, float max)
-{
-	initSeed();
-	if (max < min) {
-		return min;
-		puts("max was less than min in utility::randomFloat()");
-	}
-	float somePercentage = (float)rand() / (float)RAND_MAX;
-	return min + (somePercentage * (max - min));
-}
-
 // returns random in inclusive
 int randomInt(int min, int max)
 {
@@ -33,72 +21,30 @@ int randomInt(int min, int max)
 	return (rand() % (max - min + 1)) + min;
 }
 
-glm::vec3 randVec3(glm::vec3 first, glm::vec3 second)
+// returns random float inclusive
+float randomInRange(float min, float max)
 {
 	initSeed();
-	float maxX, maxY, maxZ, minX, minY, minZ;
-	if (first.x > second.x) {
-		maxX = first.x;
-		minX = second.x;
-	} else {
-		maxX = second.x;
-		minX = first.x;
+	if (max < min) {
+		auto temp = max;
+		max = min;
+		min = temp;
 	}
-
-	if (first.y > second.y) {
-		maxY = first.y;
-		minY = second.y;
-	} else {
-		maxY = second.y;
-		minY = first.y;
-	}
-
-	if (first.z > second.z) {
-		maxZ = first.z;
-		minZ = second.z;
-	} else {
-		maxZ = second.z;
-		minZ = first.z;
-	}
-	return glm::vec3(randomFloat(minX, maxX), randomFloat(minY, maxY), randomFloat(minZ, maxZ));
+	float somePercentage = (float)rand() / (float)RAND_MAX;
+	return min + (somePercentage * (max - min));
 }
 
-glm::vec4 randVec4(glm::vec4 first, glm::vec4 second)
+glm::vec3 randomInRange(glm::vec3 min, glm::vec3 max)
 {
 	initSeed();
-	float maxX, maxY, maxZ, maxW, minW, minX, minY, minZ;
-	if (first.x > second.x) {
-		maxX = first.x;
-		minX = second.x;
-	} else {
-		maxX = second.x;
-		minX = first.x;
-	}
+	return glm::vec3(randomInRange(min.x, max.x), randomInRange(min.y, max.y), randomInRange(min.z, max.z));
+}
 
-	if (first.y > second.y) {
-		maxY = first.y;
-		minY = second.y;
-	} else {
-		maxY = second.y;
-		minY = first.y;
-	}
-
-	if (first.z > second.z) {
-		maxZ = first.z;
-		minZ = second.z;
-	} else {
-		maxZ = second.z;
-		minZ = first.z;
-	}
-
-	if (first.w > second.w) {
-		maxW = first.w;
-		minW = second.w;
-	} else {
-		maxW = second.w;
-		minW = first.w;
-	}
+glm::vec4 randomInRange(glm::vec4 min, glm::vec4 max)
+{
+	initSeed();
 	return glm::vec4(
-		randomFloat(minX, maxX), randomFloat(minY, maxY), randomFloat(minZ, maxZ), randomFloat(minW, maxW));
+		randomInRange(min.x, max.x), randomInRange(min.y, max.y), randomInRange(min.z, max.z),
+		randomInRange(min.w, max.w));
 }
 } // namespace Utility

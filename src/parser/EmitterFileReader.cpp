@@ -36,15 +36,15 @@ void EmitterFileReader::parse()
 
 	// spawn properties
 	for (const auto& property : emitter.child("spawn_properties").children()) {
-		std::shared_ptr<PropertyNodeReader> reader;
+		PropertyNodeReader* reader;
 		if (std::strncmp(property.name(), CONST_PROPERTY, sizeof(CONST_PROPERTY) - 1) == 0) {
-			reader = std::make_shared<ConstPropertyNodeReader>(property);
+			reader = new ConstPropertyNodeReader(property);
 		} else if (std::strncmp(property.name(), RAND_PROPERTY, sizeof(RAND_PROPERTY) - 1) == 0) {
-			reader = std::make_shared<RandomPropertyNodeReader>(property);
+			reader = new RandomPropertyNodeReader(property);
 		} else {
 			throw std::exception("not a valid spawn property");
 		}
-		m_spawnProperties[reader->getName()] = reader;
+		m_spawnProperties[reader->getName()] = std::make_shared<PropertyNodeWrapper>(reader);
 	}
 
 	// affectors
@@ -106,7 +106,7 @@ int EmitterFileReader::getSpawnRate() const
 	return m_spawnRate;
 }
 
-std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> EmitterFileReader::getSpawnProperties() const
+std::unordered_map<std::string, std::shared_ptr<PropertyNodeWrapper>> EmitterFileReader::getSpawnProperties() const
 {
 	return m_spawnProperties;
 }

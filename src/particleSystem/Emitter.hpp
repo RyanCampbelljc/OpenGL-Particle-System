@@ -2,7 +2,7 @@
 #include "Camera.hpp"
 #include "Utility.hpp"
 #include "affectors/VelocityAffector.hpp"
-#include "parser/PropertyNodeReader.hpp"
+#include "parser/PropertyNodeWrapper.hpp"
 #include "particleSystem/Particle.hpp"
 #include <unordered_map>
 enum class EmitterType { continuous, burst };
@@ -62,8 +62,9 @@ private:
 	Particle* m_pActiveList;
 	Particle* m_pActiveTail;
 	Particle* m_pFirstParticle;
-	std::unordered_map<std::string, std::shared_ptr<PropertyNodeReader>> m_spawnProperties;
-	// todo add a diff map for const props and rand props
+	// Sorry.. cant have generic template function getValue() in
+	// baseclass ropertyNodeReader so this is the best I came up with.
+	std::unordered_map<std::string, std::shared_ptr<PropertyNodeWrapper>> m_spawnProperties;
 	wolf::VertexBuffer* m_pVertexBuffer;
 	wolf::VertexDeclaration* m_pVAO;
 	wolf::Material* m_pMaterial;

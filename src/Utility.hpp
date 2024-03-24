@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <pugixml.hpp>
+#include <random>
 #include <string>
 #include <time.h>
 #include <unordered_map>
@@ -13,8 +14,17 @@
 namespace Utility
 {
 constexpr const char* const EFFECT_FIRE = "assets/fire.effect";
-float randomFloat(float min, float max);
 int randomInt(int min, int max);
-glm::vec3 randVec3(glm::vec3 min, glm::vec3 max);
-glm::vec4 randVec4(glm::vec4 min, glm::vec4 max);
+// todo how does this work
+template<typename T>
+T randomInRange(T min, T max)
+{
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	std::uniform_real_distribution<T> dis(min, max);
+	return dis(gen);
+}
+float randomInRange(float min, float max);
+glm::vec3 randomInRange(glm::vec3 min, glm::vec3 max);
+glm::vec4 randomInRange(glm::vec4 min, glm::vec4 max);
 }; // namespace Utility
