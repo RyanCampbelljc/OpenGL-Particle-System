@@ -138,10 +138,10 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 
 void Emitter::update(float dt)
 {
-	m_duration -= dt;
-	// probably better way to do this for no edge case
-	// only spawn if duration is positive or infinite
-	if (m_duration > 0.0f || m_duration == -1) {
+	static float lifeTime = 0.0f;
+	lifeTime += dt;
+
+	if (lifeTime <= m_duration || m_duration == -1) {
 		if (m_type == EmitterType::continuous) {
 			m_toSpawnAccumulator += m_spawnRate * dt;
 			int numSpawns = (int)(m_toSpawnAccumulator);
@@ -149,9 +149,15 @@ void Emitter::update(float dt)
 			while (numSpawns--) {
 				spawnParticle();
 			}
-		} else { // random
-			;
 		}
+	} else { // lifetime over emmit burst
+		static bool runOnce = true;
+		if (m_type == EmitterType::burst && runOnce) {
+			while (m_numParticles--) {
+				spawnParticle();
+			}
+		}
+		runOnce = false;
 	}
 
 	// update particle life time
@@ -226,7 +232,7 @@ void Emitter::spawnParticle()
 			p->setStartColor(color->getValue<glm::vec3>());
 		} else {
 			auto color = std::dynamic_pointer_cast<RandomPropertyNodeReader>(m_spawnProperties.at("color"));
-			p->setStartColor(Utility::randVec4(color->getMin<glm::vec4>(), color->getMax<glm::vec4>()));
+			p->setStartColor(Utility::randVec3(color->getMin<glm::vec3>(), color->getMax<glm::vec3>()));
 		}
 	}
 

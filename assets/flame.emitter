@@ -27,6 +27,8 @@ https://www.youtube.com/watch?v=5Mw6NpSEb2o
                 <z>0.103137</z>
             </max> -->
 <!--//todo add a property to denote the spawn location(point, area, volume etc)-->
+<!--num_particles will be used as the amount of burst particles if type==burst. have spawn rate set to 0 in that case
+also spawn them all at the end of the emitters lifetime-->
 <emitter name="flame" num_particles="200" duration="10000.0" type="continuous" spawn_rate="40">
     <material>
         <texture>assets/textures/fire_main.dds</texture>

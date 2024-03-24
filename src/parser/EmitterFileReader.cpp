@@ -34,6 +34,7 @@ void EmitterFileReader::parse()
 	m_spawnRate = emitter.attribute("spawn_rate").as_int();
 	m_type = EmitterTypeFromString(emitter.attribute("type").as_string());
 
+	// spawn properties
 	for (const auto& property : emitter.child("spawn_properties").children()) {
 		std::shared_ptr<PropertyNodeReader> reader;
 		if (std::strncmp(property.name(), CONST_PROPERTY, sizeof(CONST_PROPERTY) - 1) == 0) {
@@ -46,6 +47,7 @@ void EmitterFileReader::parse()
 		m_spawnProperties[reader->getName()] = reader;
 	}
 
+	// affectors
 	for (const auto& affectorNode : emitter.child("affectors").children()) {
 		auto affectorName = affectorNode.attribute("name").as_string();
 		if (std::strncmp(affectorName, "velocity", 8) == 0)
@@ -65,6 +67,7 @@ void EmitterFileReader::parse()
 		}
 	}
 
+	// material
 	for (const auto& materialProperty : emitter.child("material").children()) {
 		auto propName = materialProperty.name();
 		if (std::strncmp(propName, "texture", 7) == 0)
