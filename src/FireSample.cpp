@@ -13,7 +13,7 @@ FireSample::FireSample(wolf::App* pApp)
 	, m_cam(1280, 720, pApp)
 	, m_fireEffect(Utility::EFFECT_FIRE)
 {
-	// todo get this boy working
+	// todo get this  working
 	//  	// Setup Dear ImGui context
 	//  	IMGUI_CHECKVERSION();
 	//  	ImGui::CreateContext();
@@ -43,9 +43,11 @@ void FireSample::init()
 	glFrontFace(GL_CCW);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
-	glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-	m_fireEffect.setTransform(transform);
-	m_fireEffect.toString();
+	m_fireEffect.setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	m_fireEffect.setscale(glm::vec3(3.0f, 3.0f, 3.0f));
+	// rotation looks a little weird but works
+	// m_fireEffect.setrotation(glm::vec3(0.0f, 0.0f, 0.0f));
+	std::cout << m_fireEffect;
 }
 
 void FireSample::update(float dt)

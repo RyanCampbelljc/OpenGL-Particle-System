@@ -1,7 +1,5 @@
 #pragma once
 #include "Utility.hpp"
-// todo needed?
-#include <type_traits>
 /// @brief Specific implementations of the possible property value classes.
 //
 
