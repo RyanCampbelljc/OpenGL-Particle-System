@@ -1,7 +1,8 @@
 #pragma once
 #include "Utility.hpp"
 #include "ValueNodeReader.hpp"
-/// @brief //todo
+/// @brief Base class to encapsulate the similarities between
+// const spawn properties and random spawn properties.
 class PropertyNodeReader
 {
 public:

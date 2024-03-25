@@ -2,6 +2,9 @@
 #include "parser/EffectFileReader.hpp"
 Effect::Effect(std::string file)
 	: m_playing(true)
+	, m_position(glm::vec3(0.0f, 0.0f, 0.0f))
+	, m_scale(glm::vec3(1.0f, 1.0f, 1.0f))
+	, m_rotation(glm::vec3(0.0f, 0.0f, 0.0f))
 {
 	EffectFileReader scan(file);
 	m_name = scan.getName();
@@ -34,9 +37,22 @@ void Effect::seek(float time)
 	}
 }
 
-void Effect::setTransform(const glm::mat4& transform)
+void Effect::setPosition(const glm::vec3& pos)
 {
-	m_transform = transform;
+	m_position = pos;
+	updateTransfrom();
+}
+
+void Effect::setscale(const glm::vec3& scale)
+{
+	m_scale = scale;
+	updateTransfrom();
+}
+
+void Effect::setrotation(const glm::vec3& rot)
+{
+	m_rotation = rot;
+	updateTransfrom();
 }
 
 void Effect::update(float dt)
@@ -56,12 +72,21 @@ void Effect::render(const Camera::CamParams& params) const
 	}
 }
 
-// todo why is this printing garbage for emitters now
-void Effect::toString() const
+void Effect::updateTransfrom()
 {
-	std::cout << "Effect: "
-			  << "name: " << m_name << std::endl;
-	for (const auto& emitter : m_emitters) {
-		std::cout << "	" << emitter << std::endl;
+	m_transform = glm::translate(glm::mat4(1.0f), m_position);
+	m_transform = glm::rotate(m_transform, m_rotation.x, glm::vec3(1, 0, 0));
+	m_transform = glm::rotate(m_transform, m_rotation.y, glm::vec3(0, 1, 0));
+	m_transform = glm::rotate(m_transform, m_rotation.z, glm::vec3(0, 0, 1));
+	m_transform = glm::scale(m_transform, m_scale);
+}
+
+std::ostream& operator<<(std::ostream& os, const Effect& effect)
+{
+	os << "Effect: "
+	   << "name: " << effect.m_name << std::endl;
+	for (const auto& emitter : effect.m_emitters) {
+		os << "	" << *emitter << std::endl;
 	}
+	return os;
 }

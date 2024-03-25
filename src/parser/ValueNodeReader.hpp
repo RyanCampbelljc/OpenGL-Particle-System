@@ -1,7 +1,8 @@
 #pragma once
 #include "PropertyValue.hpp"
 #include "Utility.hpp"
-/// @brief //todo
+/// @brief Creates the proper object to read inside an xml node depending
+// on its specified type(float,vec3,vec4)
 class ValueNodeReader
 {
 public:

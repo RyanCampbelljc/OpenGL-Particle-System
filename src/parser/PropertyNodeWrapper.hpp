@@ -2,8 +2,9 @@
 #include "ConstPropertyNodeReader.hpp"
 #include "RandomPropertyNodeReader.hpp"
 #include "Utility.hpp"
-// @brief best workaround I could think of since PropertyNodeReader
-// cannot have virtual template function
+/// @brief wrapper class to hold either a ConstPropertyNodeReader
+// or RandomPropertyNodeReader. So there can be a list of just one type
+// inside the emitter class. (opposed to have a list of const props and list of rand propers)
 class PropertyNodeWrapper
 {
 public:

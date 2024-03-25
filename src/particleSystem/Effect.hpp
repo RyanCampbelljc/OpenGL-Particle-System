@@ -10,13 +10,19 @@ public:
 	void stop();
 	void pause();
 	void seek(float time);
-	void setTransform(const glm::mat4& transform);
+	void setPosition(const glm::vec3& pos);
+	void setscale(const glm::vec3& scale);
+	void setrotation(const glm::vec3& rot);
 	void update(float dt);
 	void render(const Camera::CamParams& params) const;
-	void toString() const;
+	friend std::ostream& operator<<(std::ostream& os, const Effect&);
 
 private:
+	void updateTransfrom();
 	glm::mat4 m_transform;
+	glm::vec3 m_position;
+	glm::vec3 m_scale;
+	glm::vec3 m_rotation;
 	std::string m_name;
 	std::vector<std::shared_ptr<Emitter>> m_emitters;
 	bool m_playing;

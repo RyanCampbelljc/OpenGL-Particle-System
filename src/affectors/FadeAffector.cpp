@@ -5,7 +5,6 @@ FadeAffector::FadeAffector(float end)
 {
 }
 
-// todo fix edge case of divide by 0 here
 void FadeAffector::apply(Particle* p, float dt) const
 {
 	// This formula just allows the fade to be faded over life time

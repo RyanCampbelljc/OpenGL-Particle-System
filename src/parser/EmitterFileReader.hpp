@@ -3,6 +3,7 @@
 #include "XmlFileReader.hpp"
 #include "affectors/BaseAffector.hpp"
 #include "particleSystem/Emitter.hpp"
+/// @brief Class to read Emitter xml files
 class EmitterFileReader final : public XmlFileReader
 {
 	using Base = XmlFileReader;

@@ -1,6 +1,6 @@
 #pragma once
 #include "XmlFileReader.hpp"
-
+/// @brief Class to read Effect xml files.
 class EffectFileReader final : public XmlFileReader
 {
 	using Base = XmlFileReader;

@@ -11,7 +11,7 @@ void EffectFileReader::parse()
 {
 	auto effect = m_doc.child("effect");
 	m_name = effect.attribute("name").as_string();
-
+	// creates list of emitters.
 	for (const auto& tag : effect) {
 		if (std::strncmp(tag.name(), EMITTER_TAG_NAME, sizeof(EMITTER_TAG_NAME) - 1) != 0) {
 			continue;

@@ -40,6 +40,9 @@ public:
 	{
 		return m_type;
 	}
+	// todo should this be inside the class?
+	// compile error when removing friend keyword?
+	friend std::ostream& operator<<(std::ostream& os, const Emitter&);
 
 private:
 	void addToFreePool(Particle* p);
@@ -50,7 +53,6 @@ private:
 	void removeFromActive(Particle* p);
 
 private:
-	// EMITTER PROPERTIES
 	glm::vec3 m_offset;
 	std::string m_name;
 	int m_numParticles;
@@ -58,12 +60,11 @@ private:
 	EmitterType m_type;
 	int m_spawnRate;
 	float m_toSpawnAccumulator;
-	Particle* m_pFreeList; // add things to the head of the free list
+	Particle* m_pFreeList;
 	Particle* m_pActiveList;
 	Particle* m_pActiveTail;
+	// ref to first particle in mem. Used to delete later.
 	Particle* m_pFirstParticle;
-	// Sorry.. cant have generic template function getValue() in
-	// baseclass ropertyNodeReader so this is the best I came up with.
 	std::unordered_map<std::string, std::shared_ptr<PropertyNodeWrapper>> m_spawnProperties;
 	wolf::VertexBuffer* m_pVertexBuffer;
 	wolf::VertexDeclaration* m_pVAO;
@@ -72,16 +73,4 @@ private:
 	// used as a buffer to store vertex data before writing to the actual buffer
 	Vertex* m_pVerts;
 	wolf::Texture* m_pTexture;
-
-	// still need affectorList();
 };
-
-std::ostream& operator<<(std::ostream& os, const Emitter&);
-
-/**
- * PLAN
- * be able to add spawn properties to particles and have them spawn
- * make sure all different combos work ie continuous, burst, overlife etc
- *
- * After that working fine then worry about adding list of affectors to the emitter class
- */

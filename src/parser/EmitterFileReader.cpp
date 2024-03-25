@@ -16,9 +16,6 @@ EmitterFileReader::EmitterFileReader(std::string path)
 
 EmitterFileReader::~EmitterFileReader()
 {
-	// for (const auto& kvp : m_spawnProperties) {
-	// 	delete kvp.second;
-	// }
 }
 
 // use shared pointer so when the reader goes out of scope(when the emitter constructor finishes)
@@ -44,10 +41,11 @@ void EmitterFileReader::parse()
 		} else {
 			throw std::exception("not a valid spawn property");
 		}
+		// reader is deleted when the deconstructor of PropertyNodeWrapper.
 		m_spawnProperties[reader->getName()] = std::make_shared<PropertyNodeWrapper>(reader);
 	}
 
-	// affectors
+	// affectors//todo add something more resuable here like for the spawn properties
 	for (const auto& affectorNode : emitter.child("affectors").children()) {
 		auto affectorName = affectorNode.attribute("name").as_string();
 		if (std::strncmp(affectorName, "velocity", 8) == 0)

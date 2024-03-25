@@ -92,14 +92,13 @@ void Emitter::init()
 	m_pVerts = new Vertex[m_numParticles * sizeof(particleVertices)];
 }
 
-// transform is viewProj mat4
 void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform) const
 {
 	Vertex* pVerts = m_pVerts;
 	Particle* pCurrent = m_pActiveList;
 	int numVertices = 0;
 	while (pCurrent != nullptr) {
-		glm::mat4 worldMat = glm::translate(glm::mat4(1.0f), pCurrent->pos);
+		glm::mat4 worldMat = transform * glm::translate(glm::mat4(1.0f), pCurrent->pos);
 		glm::mat3 view = params.view;
 		glm::mat4 bboard = glm::transpose(view);
 		worldMat = worldMat * bboard;
@@ -223,8 +222,13 @@ Particle* Emitter::getFreeParticle()
 void Emitter::spawnParticle()
 {
 	Particle* p = getFreeParticle();
-	// todo make spawn pos point or rand within a radius
-	p->pos = (m_offset + Utility::randomInRange(glm::vec3(-0.1f, 0, -0.1f), glm::vec3(0.1f, 0, 0.1f)));
+	// todo way to do this in a for each loop and
+	// get the strings from const static string array?
+
+	if (m_spawnProperties.count("position") > 0) {
+		auto position = m_spawnProperties.at("position");
+		p->pos = position->getValue<glm::vec3>() + m_offset;
+	}
 
 	if (m_spawnProperties.count("color") > 0) {
 		auto color = m_spawnProperties.at("color");
@@ -283,6 +287,7 @@ void Emitter::removeFromActive(Particle* p)
 	}
 }
 
+// overload std::cout operation
 std::ostream& operator<<(std::ostream& os, const Emitter& emitter)
 {
 	os << "Emitter: "

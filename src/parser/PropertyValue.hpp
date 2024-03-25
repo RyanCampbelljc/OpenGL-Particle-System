@@ -1,7 +1,9 @@
 #pragma once
 #include "Utility.hpp"
+// todo needed?
 #include <type_traits>
-/// @brief //todo
+/// @brief Specific implementations of the possible property value classes.
+//
 
 enum class ValueType { Invalid, Float, Vec3, Vec4 };
 
@@ -15,10 +17,13 @@ static ValueType ValueTypeFromString(const std::string& s)
 template<typename T>
 class PropertyValue;
 
-// need this class cause cant store list of generic types
+// Interface for property values that holds the enum of the type.
+// This interface is also needed so ValueNodeReader can have a IPropertyValue*
+// (Cannot have PropertyValue* cause you would need to specift what kind. e.g PropertyValue<float>*)
 class IPropertyValue
 {
 public:
+	// casts this generic type to the proper specific type.
 	template<typename T>
 	T getValue() const
 	{
@@ -35,6 +40,8 @@ private:
 	const ValueType m_type;
 };
 
+// Base class to represent the property values.
+// stores the value as generic type T
 template<typename T>
 class PropertyValue : public IPropertyValue
 {
@@ -53,6 +60,7 @@ protected:
 	const T m_value;
 };
 
+// specific implementation of PropertyValue that is a float
 class FloatProperty final : public PropertyValue<float>
 {
 public:
@@ -62,6 +70,7 @@ public:
 	}
 };
 
+// specific implementation of PropertyValue that is a vec3
 class Vec3Property final : public PropertyValue<glm::vec3>
 {
 public:
@@ -76,6 +85,7 @@ public:
 	}
 };
 
+// specific implementation of PropertyValue that is a vec4
 class Vec4Property final : public PropertyValue<glm::vec4>
 {
 public:
