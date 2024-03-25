@@ -26,6 +26,7 @@ Emitter::Emitter(std::string file, glm::vec3 offset)
 	m_spawnRate = scan.getSpawnRate();
 	m_spawnProperties = scan.getSpawnProperties();
 	m_affectors = scan.getAffectors();
+	resetEmitter();
 
 	m_pMaterial = wolf::MaterialManager::CreateMaterial(m_name);
 	m_pMaterial->SetProgram("assets/shaders/vs.vsh", "assets/shaders/ps.fsh");
@@ -98,6 +99,7 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 	Vertex* pVerts = m_pVerts;
 	Particle* pCurrent = m_pActiveList;
 	int numVertices = 0;
+	int particleCount = 0;
 	while (pCurrent != nullptr) {
 		glm::mat4 worldMat = transform * glm::translate(glm::mat4(1.0f), pCurrent->pos);
 		glm::mat3 view = params.view;
@@ -127,7 +129,9 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 		pCurrent = pCurrent->next;
 		pVerts += vertsPerParticle;
 		numVertices += vertsPerParticle;
+		++particleCount;
 	}
+	std::cout << "num particles " << particleCount << std::endl;
 	m_pVertexBuffer->Write(m_pVerts, sizeof(Vertex) * numVertices);
 	m_pMaterial->Apply();
 	m_pVAO->Bind();
@@ -138,10 +142,9 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 
 void Emitter::update(float dt)
 {
-	static float lifeTime = 0.0f;
-	lifeTime += dt;
+	m_lifetime += dt;
 
-	if (lifeTime <= m_duration || m_duration == -1) {
+	if (m_lifetime <= m_duration || m_duration == -1) {
 		if (m_type == EmitterType::continuous) {
 			m_toSpawnAccumulator += m_spawnRate * dt;
 			int numSpawns = (int)(m_toSpawnAccumulator);
@@ -150,15 +153,14 @@ void Emitter::update(float dt)
 				spawnParticle();
 			}
 		}
-	} else { // lifetime over emmit burst
-		static bool runOnce = true;
-		if (m_type == EmitterType::burst && runOnce) {
+	} else { // lifetime more than duration
+		if (m_type == EmitterType::burst && m_runBurstOnce) {
 			int numSpawns = m_numParticles;
 			while (numSpawns--) {
 				spawnParticle();
 			}
+			m_runBurstOnce = false;
 		}
-		runOnce = false;
 	}
 
 	// update particle life time
@@ -177,6 +179,21 @@ void Emitter::update(float dt)
 	for (const auto& affector : m_affectors) {
 		affector->apply(m_pActiveList, dt);
 	}
+}
+
+void Emitter::resetEmitter()
+{
+	m_runBurstOnce = true;
+	m_lifetime = 0.0f;
+	auto current = m_pActiveList;
+	// send all particles to inactive list
+	while (current != nullptr) {
+		auto temp = current;
+		current = current->next;
+		particleKilled(temp);
+	}
+	m_pActiveList = nullptr;
+	m_pActiveTail = nullptr;
 }
 
 // pushes to front of free pool
@@ -209,8 +226,6 @@ Particle* Emitter::getFreeParticle()
 		m_pFreeList = m_pFreeList->next;
 		if (m_pFreeList != nullptr) // make sure its not empty again(could have just been 1 elem in list)
 			m_pFreeList->prev = nullptr;
-		else {
-		}
 		pReturn->prev = nullptr;
 		pReturn->next = nullptr;
 		return pReturn;
@@ -256,7 +271,6 @@ void Emitter::spawnParticle()
 		auto fade = m_spawnProperties.at("fade");
 		p->setStartFade(fade->getValue<float>());
 	}
-
 	p->scaledLifeTime = 0.0f;
 	addToActivePool(p);
 }
@@ -272,7 +286,7 @@ void Emitter::removeFromActive(Particle* p)
 	// currently could be anywhere in active list
 	if (p == m_pActiveList) {
 		// removing from front of list
-		if (p->next == nullptr) {
+		if (p->next == nullptr) { // only particle in list
 			m_pActiveList = nullptr;
 			m_pActiveTail = nullptr;
 		} else {

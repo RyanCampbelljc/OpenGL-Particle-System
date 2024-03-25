@@ -72,6 +72,13 @@ void Effect::render(const Camera::CamParams& params) const
 	}
 }
 
+void Effect::resetEffect()
+{
+	for (const auto& emitter : m_emitters) {
+		emitter->resetEmitter();
+	}
+}
+
 void Effect::updateTransfrom()
 {
 	m_transform = glm::translate(glm::mat4(1.0f), m_position);

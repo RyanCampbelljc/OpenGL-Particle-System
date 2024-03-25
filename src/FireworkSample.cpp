@@ -26,6 +26,9 @@ void FireworkSample::init()
 
 void FireworkSample::update(float dt)
 {
+	if (m_pApp->isKeyJustDown('r')) {
+		m_fireworkEffect.resetEffect();
+	}
 	m_cam.update(dt);
 	m_fireworkEffect.update(dt);
 }

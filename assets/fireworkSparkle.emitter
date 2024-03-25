@@ -1,4 +1,4 @@
-<emitter name="fireworkSparkle" num_particles="2000" duration="3.0" type="burst" spawn_rate="50">
+<emitter name="fireworkSparkle" num_particles="200" duration="3.0" type="burst" spawn_rate="50">
     <material>
         <texture>assets/textures/fireworks_main.dds</texture>
 
@@ -46,14 +46,16 @@
         </const_property>
         
         <!--number between 0,1 -->
-        <!-- <const_property name="fade" type="float">
-            0.7
-        </const_property> -->
+        <const_property name="fade" type="float">
+            1
+        </const_property>
 
         
-        <!-- <const_property name="position" type="vec3">
-        
-        </const_property> -->
+        <const_property name="position" type="vec3">
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+        </const_property>
     </spawn_properties>
 
     <affectors>

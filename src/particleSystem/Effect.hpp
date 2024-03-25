@@ -16,6 +16,7 @@ public:
 	void update(float dt);
 	void render(const Camera::CamParams& params) const;
 	friend std::ostream& operator<<(std::ostream& os, const Effect&);
+	void resetEffect();
 
 private:
 	void updateTransfrom();

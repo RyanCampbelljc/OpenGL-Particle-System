@@ -78,26 +78,3 @@ struct Particle {
 	Particle* next;
 	Particle* prev;
 };
-
-// thinking
-// template<typename T>
-// struct BasespawnProperty {
-// 	T value;
-
-// 	T getValue()
-// 	{
-// 		return value;
-// 	}
-// };
-
-// template<typename T>
-// struct RandProp : public BasespawnProperty {
-// 	RandProp(T minimum, T maximum)
-// 		: min(minimum)
-// 		, max(maximum)
-// 	{
-// 	}
-
-// 	T min;
-// 	T max;
-// };

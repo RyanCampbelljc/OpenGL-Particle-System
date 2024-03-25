@@ -40,6 +40,7 @@ public:
 	{
 		return m_type;
 	}
+	void resetEmitter();
 	// todo should this be inside the class?
 	// compile error when removing friend keyword?
 	friend std::ostream& operator<<(std::ostream& os, const Emitter&);
@@ -73,4 +74,8 @@ private:
 	// used as a buffer to store vertex data before writing to the actual buffer
 	Vertex* m_pVerts;
 	wolf::Texture* m_pTexture;
+
+	// vars to reset when reset signal occurs
+	float m_lifetime;
+	bool m_runBurstOnce;
 };
