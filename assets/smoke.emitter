@@ -6,7 +6,7 @@
             <srcRGB>SrcAlpha</srcRGB>
             <dstRGB>OneMinusSrcAlpha</dstRGB>
             <srcAlpha>One</srcAlpha>
-            <srcAlpha>One</srcAlpha>
+            <dstAlpha>One</dstAlpha>
         </blend_mode>
     </material>
 

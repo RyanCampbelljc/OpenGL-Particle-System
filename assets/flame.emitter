@@ -33,17 +33,11 @@ also spawn them all at the end of the emitters lifetime-->
     <material>
         <texture>assets/textures/fire_main.dds</texture>
         <!--only suports seperate for now; i.e provide 4 blend modes for glBlendFuncSeperate-->
-        <!--Values that can be placed for blend modes:
-            "SrcAlpha" "One" "SrcColor" "OneMinusSrcColor" 
-            "OneMinusSrcAlpha" "DstAlpha" "OneMinusDstAlpha" 
-            "DstColor" "OneMinusDstColor" "Zero"
-        must be specified in this order. i.e srcRGB then dstRGB and so on
-        -->
         <blend_mode type="seperate">
             <srcRGB>SrcAlpha</srcRGB>
             <dstRGB>DstAlpha</dstRGB>
             <srcAlpha>One</srcAlpha>
-            <srcAlpha>One</srcAlpha>
+            <dstAlpha>One</dstAlpha>
         </blend_mode>
     </material>
     <spawn_properties>

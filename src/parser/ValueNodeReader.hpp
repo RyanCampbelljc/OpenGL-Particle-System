@@ -3,15 +3,11 @@
 #include "Utility.hpp"
 /// @brief Creates the proper object to read inside an xml node depending
 // on its specified type(float,vec3,vec4)
+// essentially a factory pattern that makes an object to store a property value.
 class ValueNodeReader
 {
 public:
 	ValueNodeReader(const ValueNodeReader&) = delete;
-
-	ValueNodeReader(ValueNodeReader&& other)
-		: m_value(std::exchange(other.m_value, nullptr))
-	{
-	}
 
 	ValueNodeReader(const pugi::xml_node& node, ValueType type)
 	{
@@ -30,6 +26,7 @@ public:
 				assert(!"invalid type");
 		}
 	}
+
 	~ValueNodeReader()
 	{
 		delete m_value;

@@ -38,6 +38,7 @@ Emitter::Emitter(std::string file, glm::vec3 offset)
 	//  the proper value in the wolf::blendMode enum
 	// todo unhard code the order of these
 	// todo make it work if only 2 are specified
+	// todo error checking
 	auto blendModes = scan.getBlendModes();
 	auto srcRGB = wolf::stringToBlendMode.at(blendModes[0]);
 	auto dstRGB = wolf::stringToBlendMode.at(blendModes[1]);
@@ -152,7 +153,8 @@ void Emitter::update(float dt)
 	} else { // lifetime over emmit burst
 		static bool runOnce = true;
 		if (m_type == EmitterType::burst && runOnce) {
-			while (m_numParticles--) {
+			int numSpawns = m_numParticles;
+			while (numSpawns--) {
 				spawnParticle();
 			}
 		}

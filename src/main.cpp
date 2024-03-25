@@ -1,6 +1,7 @@
 #include "../samplefw/SampleRunner.h"
 #include "../wolf/wolf.h"
 #include "FireSample.hpp"
+#include "FireworkSample.hpp"
 #include <glm/glm.hpp>
 #include <iostream>
 #include <stdio.h>
@@ -13,6 +14,7 @@ public:
 	{
 		// INIT ALL SAMPLES
 		m_sampleRunner.addSample(new FireSample(this));
+		m_sampleRunner.addSample(new FireworkSample(this));
 	}
 
 	~Week2()
@@ -25,7 +27,7 @@ public:
 			m_lastDown = true;
 		} else if (m_lastDown) {
 			// IF YOU WANT TO SWITCH SAMPLES
-			// m_sampleRunner.nextSample();
+			m_sampleRunner.nextSample();
 			m_lastDown = false;
 		}
 

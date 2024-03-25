@@ -1,0 +1,4 @@
+<effect name="firework">
+    <!--x,y,z are the offset for the emitter-->
+    <emitter file="assets/fireworkSparkle.emitter" x="0" y="0" z="0"/>
+</effect>

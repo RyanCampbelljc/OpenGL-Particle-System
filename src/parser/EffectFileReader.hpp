@@ -16,7 +16,7 @@ public:
 		const std::string file;
 		const glm::vec3 offset;
 	};
-	// todo what this do
+	// cant implicitly convert to another type
 	explicit EffectFileReader(std::string path);
 	EffectFileReader(const EffectFileReader&) = delete;
 

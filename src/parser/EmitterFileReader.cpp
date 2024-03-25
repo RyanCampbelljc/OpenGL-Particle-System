@@ -1,6 +1,7 @@
 #include "EmitterFileReader.hpp"
 #include "ConstPropertyNodeReader.hpp"
 #include "RandomPropertyNodeReader.hpp"
+#include "affectors/AccelerationAffector.hpp"
 #include "affectors/ColorLerpAffector.hpp"
 #include "affectors/FadeAffector.hpp"
 #include "affectors/ScaleAffector.hpp"
@@ -60,6 +61,9 @@ void EmitterFileReader::parse()
 			auto endTag = affectorNode.child("end");
 			auto val = ValueNodeReader(endTag, ValueType::Vec3).getValue<glm::vec3>();
 			m_affectors.push_back(std::make_shared<ColorLerpAffector>(val));
+		} else if (std::strncmp(affectorName, "acceleration", 12) == 0) {
+			auto val = ValueNodeReader(affectorNode, ValueType::Vec3).getValue<glm::vec3>();
+			m_affectors.push_back(std::make_shared<AccelerationAffector>(val));
 		} else {
 			throw std::exception("not a valid affector");
 		}

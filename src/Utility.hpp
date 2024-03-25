@@ -14,6 +14,7 @@
 namespace Utility
 {
 constexpr const char* const EFFECT_FIRE = "assets/fire.effect";
+constexpr const char* const EFFECT_FIREWORK = "assets/firework.effect";
 int randomInt(int min, int max);
 // todo how does this work
 template<typename T>
