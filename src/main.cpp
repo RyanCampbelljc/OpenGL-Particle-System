@@ -2,6 +2,8 @@
 #include "../wolf/wolf.h"
 #include "FireSample.hpp"
 #include "FireworkSample.hpp"
+#include "Reciever.hpp"
+#include "SignalEmitter.hpp"
 #include <glm/glm.hpp>
 #include <iostream>
 #include <stdio.h>
@@ -13,8 +15,15 @@ public:
 		: wolf::App("Fire System")
 	{
 		// INIT ALL SAMPLES
-		m_sampleRunner.addSample(new FireSample(this));
-		m_sampleRunner.addSample(new FireworkSample(this));
+		auto fire = new FireSample(this);
+		auto firework = new FireworkSample(this);
+
+		// todo safely. probably just make Sample inherit from reciever
+		SignalEmitter::Instance().registerReciever((Reciever*)fire);
+		SignalEmitter::Instance().registerReciever((Reciever*)firework);
+
+		m_sampleRunner.addSample(fire);
+		m_sampleRunner.addSample(firework);
 	}
 
 	~Week2()
@@ -29,6 +38,11 @@ public:
 			// IF YOU WANT TO SWITCH SAMPLES
 			m_sampleRunner.nextSample();
 			m_lastDown = false;
+		}
+
+		// todo safley
+		if (isKeyJustDown('r')) {
+			SignalEmitter::Instance().emitSignal(SignalType::ResetEffect, (Reciever*)m_sampleRunner.getCurrentSample());
 		}
 
 		m_sampleRunner.update(dt);

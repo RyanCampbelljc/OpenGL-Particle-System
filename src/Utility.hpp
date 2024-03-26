@@ -1,5 +1,6 @@
 #pragma once
 #include "../wolf/wolf.h"
+#include <algorithm>
 #include <cstring>
 #include <exception>
 #include <iostream>

@@ -26,9 +26,6 @@ void FireworkSample::init()
 
 void FireworkSample::update(float dt)
 {
-	if (m_pApp->isKeyJustDown('r')) {
-		m_fireworkEffect.resetEffect();
-	}
 	m_cam.update(dt);
 	m_fireworkEffect.update(dt);
 }
@@ -39,4 +36,16 @@ void FireworkSample::render(int width, int height)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	m_grid.render(m_cam.getView(), m_cam.getProjection());
 	m_fireworkEffect.render(m_cam.getCamParams());
+}
+
+void FireworkSample::handleSignal(SignalType signal)
+{
+	switch (signal) {
+		case SignalType::ResetEffect:
+			m_fireworkEffect.resetEffect();
+			break;
+
+		default:
+			throw std::exception("invalid signalType");
+	}
 }

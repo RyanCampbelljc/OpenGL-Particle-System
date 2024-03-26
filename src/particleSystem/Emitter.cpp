@@ -99,7 +99,6 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 	Vertex* pVerts = m_pVerts;
 	Particle* pCurrent = m_pActiveList;
 	int numVertices = 0;
-	int particleCount = 0;
 	while (pCurrent != nullptr) {
 		glm::mat4 worldMat = transform * glm::translate(glm::mat4(1.0f), pCurrent->pos);
 		glm::mat3 view = params.view;
@@ -129,9 +128,7 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 		pCurrent = pCurrent->next;
 		pVerts += vertsPerParticle;
 		numVertices += vertsPerParticle;
-		++particleCount;
 	}
-	std::cout << "num particles " << particleCount << std::endl;
 	m_pVertexBuffer->Write(m_pVerts, sizeof(Vertex) * numVertices);
 	m_pMaterial->Apply();
 	m_pVAO->Bind();

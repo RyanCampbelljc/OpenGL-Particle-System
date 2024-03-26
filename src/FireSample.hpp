@@ -5,7 +5,9 @@
 #include "Utility.hpp"
 #include "particleSystem/Effect.hpp"
 
-class FireSample : public Sample
+class FireSample
+	: public Sample
+	, public Reciever
 {
 public:
 	//------------------------------------
@@ -17,6 +19,7 @@ public:
 	void init() override;
 	void update(float dt) override;
 	void render(int width, int height) override;
+	void handleSignal(SignalType signal) override;
 	//------------------------------------
 
 private:

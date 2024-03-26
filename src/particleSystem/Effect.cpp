@@ -1,5 +1,6 @@
 #include "Effect.hpp"
 #include "parser/EffectFileReader.hpp"
+
 Effect::Effect(std::string file)
 	: m_playing(true)
 	, m_position(glm::vec3(0.0f, 0.0f, 0.0f))

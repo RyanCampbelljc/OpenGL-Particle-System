@@ -63,3 +63,15 @@ void FireSample::render(int width, int height)
 	m_grid.render(m_cam.getView(), m_cam.getProjection());
 	m_fireEffect.render(m_cam.getCamParams());
 }
+
+void FireSample::handleSignal(SignalType signal)
+{
+	switch (signal) {
+		case SignalType::ResetEffect:
+			m_fireEffect.resetEffect();
+			break;
+
+		default:
+			throw std::exception("invalid signalType");
+	}
+}
