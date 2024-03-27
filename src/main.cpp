@@ -3,7 +3,6 @@
 #include "FireSample.hpp"
 #include "FireworkSample.hpp"
 #include "Reciever.hpp"
-#include "SignalEmitter.hpp"
 #include <glm/glm.hpp>
 #include <iostream>
 #include <stdio.h>
@@ -15,15 +14,8 @@ public:
 		: wolf::App("Fire System")
 	{
 		// INIT ALL SAMPLES
-		auto fire = new FireSample(this);
-		auto firework = new FireworkSample(this);
-
-		// todo safely. probably just make Sample inherit from reciever
-		SignalEmitter::Instance().registerReciever((Reciever*)fire);
-		SignalEmitter::Instance().registerReciever((Reciever*)firework);
-
-		m_sampleRunner.addSample(fire);
-		m_sampleRunner.addSample(firework);
+		m_sampleRunner.addSample(new FireSample(this));
+		m_sampleRunner.addSample(new FireworkSample(this));
 	}
 
 	~Week2()
@@ -40,9 +32,10 @@ public:
 			m_lastDown = false;
 		}
 
-		// todo safley
 		if (isKeyJustDown('r')) {
-			SignalEmitter::Instance().emitSignal(SignalType::ResetEffect, (Reciever*)m_sampleRunner.getCurrentSample());
+			Reciever::sendSignal(SignalType::ResetEffect, [this](auto reciever) {
+				return reciever == dynamic_cast<Reciever*>(m_sampleRunner.getCurrentSample());
+			});
 		}
 
 		m_sampleRunner.update(dt);

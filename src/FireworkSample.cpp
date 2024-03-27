@@ -2,6 +2,7 @@
 
 FireworkSample::FireworkSample(wolf::App* pApp)
 	: Sample(pApp, "FireworkSample")
+	, Reciever()
 	, m_grid(1)
 	, m_cam(1280, 720, pApp)
 	, m_fireworkEffect(Utility::EFFECT_FIREWORK)

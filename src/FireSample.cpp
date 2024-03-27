@@ -9,6 +9,7 @@
 // todo prob a better spot to put this imgui stuff // prob in things that switched between samples
 FireSample::FireSample(wolf::App* pApp)
 	: Sample(pApp, "FireSample")
+	, Reciever()
 	, m_grid(1)
 	, m_cam(1280, 720, pApp)
 	, m_fireEffect(Utility::EFFECT_FIRE)
