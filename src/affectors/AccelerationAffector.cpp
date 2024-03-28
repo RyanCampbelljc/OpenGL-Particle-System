@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// File:			AccelerationAffector.cpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #include "AccelerationAffector.hpp"
 AccelerationAffector::AccelerationAffector(const glm::vec3& velocityChange)
 	: m_velocityChange(velocityChange)

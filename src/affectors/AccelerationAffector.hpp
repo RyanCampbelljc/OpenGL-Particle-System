@@ -1,7 +1,10 @@
+//-----------------------------------------------------------------------------
+// File:			AccelerationAffector.hpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #pragma once
 #include "BaseAffector.hpp"
 
-// only supports fade out for now
 class AccelerationAffector : public BaseAffector
 {
 public:
@@ -9,5 +12,6 @@ public:
 	void apply(Particle* p, float dt) const override;
 
 private:
+	// amount to change velocity by per second.
 	glm::vec3 m_velocityChange;
 };

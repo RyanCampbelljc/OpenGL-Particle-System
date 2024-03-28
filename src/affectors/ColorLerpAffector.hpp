@@ -1,7 +1,10 @@
+//-----------------------------------------------------------------------------
+// File:			ColorLerpAffector.hpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #pragma once
 #include "BaseAffector.hpp"
 
-// only supports fade out for now
 class ColorLerpAffector : public BaseAffector
 {
 public:
@@ -9,5 +12,6 @@ public:
 	void apply(Particle* p, float dt) const override;
 
 private:
+	// the particles color at the end of its liftime
 	glm::vec3 m_end;
 };

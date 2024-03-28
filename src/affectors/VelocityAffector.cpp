@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// File:			VelocityAffector.cpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #include "affectors/VelocityAffector.hpp"
 void VelocityAffector::apply(Particle* p, float dt) const
 {

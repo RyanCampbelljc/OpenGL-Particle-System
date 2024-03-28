@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// File:			VelocityAffector.hpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #pragma once
 #include "BaseAffector.hpp"
 class VelocityAffector : public BaseAffector

@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// File:			ColorLerpAffector.cpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #include "ColorLerpAffector.hpp"
 ColorLerpAffector::ColorLerpAffector(const glm::vec3& end)
 	: m_end(end)

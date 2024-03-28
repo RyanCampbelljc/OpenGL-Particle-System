@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// File:			ScaleAffector.cpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #include "ScaleAffector.hpp"
 
 ScaleAffector::ScaleAffector(float end)

@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// File:			FadeAffector.cpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #include "affectors/FadeAffector.hpp"
 
 FadeAffector::FadeAffector(float end)
