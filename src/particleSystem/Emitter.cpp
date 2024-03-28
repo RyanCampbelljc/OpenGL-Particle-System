@@ -51,14 +51,6 @@ Emitter::Emitter(std::string file, glm::vec3 offset)
 	auto dstAlpha = wolf::stringToBlendMode.at(blendModes[3]);
 	m_pMaterial->SetBlendMode(
 		wolf::BlendMode(srcRGB), wolf::BlendMode(dstRGB), wolf::BlendMode(srcAlpha), wolf::BlendMode(dstAlpha));
-	// use this equation for smoke
-	// if (m_name == "smoke") {
-	// 	m_pMaterial->SetBlendMode(wolf::BM_SrcAlpha, wolf::BM_OneMinusSrcAlpha, wolf::BM_One, wolf::BM_One);
-	// } else if (m_name == "flame") {
-	// 	m_pMaterial->SetBlendMode(wolf::BM_SrcAlpha, wolf::BM_DstAlpha, wolf::BM_One, wolf::BM_One);
-	// } else if (m_name == "sparks") {
-	// 	m_pMaterial->SetBlendMode(wolf::BM_SrcAlpha, wolf::BM_OneMinusSrcAlpha);
-	// }
 
 	m_pTexture = wolf::TextureManager::CreateTexture(scan.getTexturePath().c_str());
 	m_pMaterial->SetTexture("u_texture1", m_pTexture);
@@ -100,17 +92,18 @@ void Emitter::init()
 
 void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform) const
 {
+	// temp buffer to store particle info before sending to vbo
 	Vertex* pVerts = m_pVerts;
 	Particle* pCurrent = m_pActiveList;
 	int numVertices = 0;
 	while (pCurrent != nullptr) {
 		glm::mat4 worldMat = transform * glm::translate(glm::mat4(1.0f), pCurrent->pos);
 		glm::mat3 view = params.view;
+		// billboard
 		glm::mat4 bboard = glm::transpose(view);
 		worldMat = worldMat * bboard;
 		auto scale = pCurrent->scale.value;
 		worldMat = glm::scale(worldMat, glm::vec3(scale, scale, scale));
-		// worldMat = bboard * worldMat; this one feels weird
 		glm::mat4 WVP = params.proj * params.view * worldMat;
 		int vertsPerParticle = sizeof(particleVertices) / sizeof(particleVertices[0]);
 		for (int i = 0; i < vertsPerParticle; ++i) {
@@ -136,7 +129,7 @@ void Emitter::render(const Camera::CamParams& params, const glm::mat4& transform
 	m_pVertexBuffer->Write(m_pVerts, sizeof(Vertex) * numVertices);
 	m_pMaterial->Apply();
 	m_pVAO->Bind();
-	// todo just sort items instead
+	// todo sort items instead
 	glDisable(GL_DEPTH_TEST);
 	glDrawArrays(GL_TRIANGLES, 0, numVertices);
 }
@@ -145,6 +138,7 @@ void Emitter::update(float dt)
 {
 	m_lifetime += dt;
 
+	// spawning particles
 	if (m_lifetime <= m_duration || m_duration == -1) {
 		if (m_type == EmitterType::continuous) {
 			m_toSpawnAccumulator += m_spawnRate * dt;
@@ -164,7 +158,7 @@ void Emitter::update(float dt)
 		}
 	}
 
-	// update particle life time
+	// update particle life time. Kill if expired
 	Particle* pCurrent = m_pActiveList;
 	while (pCurrent != nullptr) {
 		pCurrent->updateLifetime(dt);

@@ -14,10 +14,12 @@ class Effect
 {
 public:
 	Effect(std::string file);
+	// these arnt actually implemented yes
 	void play();
 	void stop();
 	void pause();
 	void seek(float time);
+	//
 	void setPosition(const glm::vec3& pos);
 	void setscale(const glm::vec3& scale);
 	void setrotation(const glm::vec3& rot);

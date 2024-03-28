@@ -69,7 +69,7 @@ private:
 	Particle* m_pFreeList;
 	Particle* m_pActiveList;
 	Particle* m_pActiveTail;
-	// ref to first particle in mem. Used to delete later.
+	// ref to first particle in mem. Used to free memory later.
 	Particle* m_pFirstParticle;
 	std::unordered_map<std::string, std::shared_ptr<PropertyNodeWrapper>> m_spawnProperties;
 	wolf::VertexBuffer* m_pVertexBuffer;
