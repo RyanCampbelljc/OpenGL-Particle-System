@@ -27,7 +27,6 @@ public:
 		if (isKeyDown(' ')) {
 			m_lastDown = true;
 		} else if (m_lastDown) {
-			// IF YOU WANT TO SWITCH SAMPLES
 			m_sampleRunner.nextSample();
 			m_lastDown = false;
 		}
