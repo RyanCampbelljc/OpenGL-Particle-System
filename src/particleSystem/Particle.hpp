@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------------
+// File:			Particle.hpp
+// Original Author:	Ryan Campbell
+/// @brief Various structs and arrays used to represent particles.
+//-----------------------------------------------------------------------------
 #pragma once
 #include "Utility.hpp"
 
@@ -29,8 +34,8 @@ static const Vertex particleVertices[] = {
  **/
 template<typename T>
 struct ParticleProperty {
-	T start;
-	T value;
+	T start; // start value of some particle property
+	T value; // current value of some particle property.
 };
 
 // scaledLifeTime 0 when spawn and 1 when over

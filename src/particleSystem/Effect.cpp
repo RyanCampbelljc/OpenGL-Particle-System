@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// File:			Effect.cpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #include "Effect.hpp"
 #include "parser/EffectFileReader.hpp"
 

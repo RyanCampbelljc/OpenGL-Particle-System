@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------------
+// File:			Effect.hpp
+// Original Author:	Ryan Campbell
+/// @brief a class that emitters particles.
+//-----------------------------------------------------------------------------
 #pragma once
 #include "Camera.hpp"
 #include "Utility.hpp"

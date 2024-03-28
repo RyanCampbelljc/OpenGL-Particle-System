@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// File:			Emitter.cpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #include "Emitter.hpp"
 #include "affectors/FadeAffector.hpp"
 #include "affectors/ScaleAffector.hpp"

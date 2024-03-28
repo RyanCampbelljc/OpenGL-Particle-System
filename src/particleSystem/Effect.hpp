@@ -1,11 +1,15 @@
+//-----------------------------------------------------------------------------
+// File:			Effect.hpp
+// Original Author:	Ryan Campbell
+/// @brief Emitter container.
+// Inherits from reciver interface so it can recieve signal such as resetEmiiter()
+//-----------------------------------------------------------------------------
 #pragma once
 #include "Camera.hpp"
 #include "Emitter.hpp"
 #include "Reciever.hpp"
 #include "Utility.hpp"
 
-/// @brief Inherits from reciver interface so it can recieve signal
-// such as resetEmiiter()
 class Effect
 {
 public:
