@@ -1,12 +1,13 @@
 
+//-----------------------------------------------------------------------------
+// File:			FireSample.cpp
+// Original Author:	Ryan Campbell
+/// @brief a sample the renders a fire
+//-----------------------------------------------------------------------------
 #include "FireSample.hpp"
 #include "../samplefw/Grid2D.h"
-#include "imgui.h"
-// #include "imgui_impl_glfw.cpp"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
 #include <iostream>
-// todo prob a better spot to put this imgui stuff // prob in things that switched between samples
+
 FireSample::FireSample(wolf::App* pApp)
 	: Sample(pApp, "FireSample")
 	, Reciever()
@@ -14,25 +15,6 @@ FireSample::FireSample(wolf::App* pApp)
 	, m_cam(1280, 720, pApp)
 	, m_fireEffect(Utility::EFFECT_FIRE)
 {
-	// todo get this  working
-	//  	// Setup Dear ImGui context
-	//  	IMGUI_CHECKVERSION();
-	//  	ImGui::CreateContext();
-	//  	ImGuiIO& io = ImGui::GetIO();
-	//  	(void)io;
-	//  	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
-	//  	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; // Enable Gamepad Controls
-
-	// 	// Setup Dear ImGui style
-	// 	ImGui::StyleColorsDark();
-	// 	// ImGui::StyleColorsLight();
-
-	// 	// Setup Platform/Renderer backends
-	// 	ImGui_ImplGlfw_InitForOpenGL(pApp->getWindow(), true);
-	// #ifdef __EMSCRIPTEN__
-	// 	ImGui_ImplGlfw_InstallEmscriptenCanvasResizeCallback("#canvas");
-	// #endif
-	// 	ImGui_ImplOpenGL3_Init("#version 150"); // ? proper version?
 }
 
 FireSample::~FireSample()

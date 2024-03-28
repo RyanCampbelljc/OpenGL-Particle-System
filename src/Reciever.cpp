@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// File:			Reciever.cpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #include "Reciever.hpp"
 
 std::vector<Reciever*> Reciever::s_recievers{};

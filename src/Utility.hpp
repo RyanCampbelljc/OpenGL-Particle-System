@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------------
+// File:			Utility.hpp
+// Original Author:	Ryan Campbell
+/// @brief Common functions and includes.
+//-----------------------------------------------------------------------------
 #pragma once
 #include "../wolf/wolf.h"
 #include <algorithm>

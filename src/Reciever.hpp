@@ -1,7 +1,12 @@
+//-----------------------------------------------------------------------------
+// File:			Reciever.hpp
+// Original Author:	Ryan Campbell
+/// @brief Class that encapsulates functionality to recieve a signal
+//-----------------------------------------------------------------------------
 #pragma once
 #include "Utility.hpp"
 #include <functional>
-/// @brief Class that encapsulates functionality to recieve a singal
+
 enum class SignalType { ResetEffect };
 class Reciever
 {

@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// File:			Explosion.cpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #include "Explosion.hpp"
 
 Explosion::Explosion(wolf::App* pApp)

@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------------
+// File:			FireSample.hpp
+// Original Author:	Ryan Campbell
+/// @brief a sample the renders a fire
+//-----------------------------------------------------------------------------
 #pragma once
 #include "../samplefw/Grid3D.h"
 #include "../samplefw/Sample.h"
