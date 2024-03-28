@@ -1,32 +1,10 @@
 
-<!--Note to self
-since affectors like fade, scale will have a start and end value
-there is never a need to have a fade spawn property when having a  
-fade affector since the start val will be overwritten etc. 
-
-also for this reason is a fade spawn property redundant since it can just be specified in the color if its constant.
-could just have an end fade val in fade affector.
--->
 
 <!--
 goal
 https://www.youtube.com/watch?v=Oo6ktMZzzhg
 https://www.youtube.com/watch?v=5Mw6NpSEb2o
-
 -->
-<!-- 
-    OLD COLOR VALUES
-    <min>
-                <x>1</x>
-                <y>0.15</y>
-                <z>0</z>
-            </min>
-            <max>
-                <x>1</x>
-                <y>0.90980</y>
-                <z>0.103137</z>
-            </max> -->
-<!--//todo add a property to denote the spawn location(point, area, volume etc)-->
 <!--num_particles will be used as the amount of burst particles if type==burst. have spawn rate set to 0 in that case
 also spawn them all at the end of the emitters lifetime-->
 <emitter name="flame" num_particles="200" duration="10000.0" type="continuous" spawn_rate="40">

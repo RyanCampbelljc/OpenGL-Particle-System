@@ -25,7 +25,7 @@ void Explosion::init()
 	m_explosionEffect.setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	m_explosionEffect.setscale(glm::vec3(3.0f, 3.0f, 3.0f));
 	// rotation looks a little weird but works
-	// m_fireEffect.setrotation(glm::vec3(0.0f, 0.0f, 0.0f));
+	// m_explosionEffect.setrotation(glm::vec3(0.0f, 0.0f, 0.0f));
 	std::cout << m_explosionEffect;
 }
 

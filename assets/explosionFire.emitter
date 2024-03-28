@@ -5,7 +5,7 @@
         <!--only suports seperate for now; i.e provide 4 blend modes for glBlendFuncSeperate-->
         <blend_mode type="seperate">
             <srcRGB>SrcAlpha</srcRGB>
-            <dstRGB>DstAlpha</dstRGB>
+            <dstRGB>OneMinusSrcAlpha</dstRGB>
             <srcAlpha>One</srcAlpha>
             <dstAlpha>One</dstAlpha>
         </blend_mode>
@@ -26,14 +26,14 @@
         
         <random_property name="velocity" type="vec3">
             <min>
-                <x>-0.8</x>
-                <y>-0.8</y>
-                <z>-0.8</z>
+                <x>-0.5</x>
+                <y>-0.5</y>
+                <z>-0.5</z>
             </min>
             <max>
-                <x>0.8</x>
-                <y>0.8</y>
-                <z>0.8</z>
+                <x>0.5</x>
+                <y>0.5</y>
+                <z>0.5</z>
             </max>
         </random_property>
 
@@ -42,14 +42,14 @@
         </const_property>
 
         <random_property name="lifetime" type="float">
-            <min>2</min>
-            <max>2</max>
+            <min>0.8</min>
+            <max>1.0</max>
         </random_property>
         
-        <!--number between 0,1 //todo make fade end -->
-        <!-- <const_property name="fade" type="float">
+        <!--number between 0,1 -->
+        <const_property name="fade" type="float">
             0.9
-        </const_property> -->
+        </const_property>
         <const_property name="position" type="vec3">
             <x>0.0</x>
             <y>0.0</y>
@@ -68,19 +68,18 @@
             <end>0.0</end>
         </affector>
       
-        <!-- color doesnt really do much-->
-        <affector name ="color">
+        <affector name="color">
             <end>
-                <x>0</x>
-                <y>0</y>
-                <z>0</z>
+                <x>0.05</x>
+                <y>0.05</y>
+                <z>0.05</z>
             </end>
         </affector>
 
         <affector name="acceleration">
-            <x>0</x>
-            <y>0</y>
-            <z>0</z>
+            <x>0.1</x>
+            <y>0.1</y>
+            <z>0.1</z>
         </affector>
     </affectors>
 

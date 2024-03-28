@@ -22,7 +22,10 @@ namespace Utility
 constexpr const char* const EFFECT_FIRE = "assets/fire.effect";
 constexpr const char* const EFFECT_EXPLOSION = "assets/explosion.effect";
 int randomInt(int min, int max);
-// todo how does this work
+
+// Allows you to call randomInRange on any type.
+// if the type is float,vec3,or vec4 one of the specific implementations below is called.
+// needed in RandomPropertyNodeReader.getValue()
 template<typename T>
 T randomInRange(T min, T max)
 {

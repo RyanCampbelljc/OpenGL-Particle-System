@@ -31,11 +31,11 @@
         </random_property>
 
         <const_property name="size" type="float">
-            0.5
+            0.1
         </const_property>
 
         <const_property name="lifetime" type="float">
-            15.0
+            2.0
         </const_property>
         
         <!--number between 0,1 -->
@@ -62,20 +62,20 @@
         <affector name="velocity"/>
 
         <affector name="fade">
-            <end>0.0</end>
+            <end>0</end>
         </affector>
 
         <affector name="scale">
             <end>1.0</end>
         </affector>
         
-        <affector name="color">
+        <!-- <affector name="color">
             <end>
                 <x>1</x>
                 <y>1</y>
                 <z>1</z>
             </end>
-        </affector>
+        </affector> -->
 
         <affector name="acceleration">
                 <x>0</x>
