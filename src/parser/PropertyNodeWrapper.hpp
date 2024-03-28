@@ -1,10 +1,16 @@
+//-----------------------------------------------------------------------------
+// File:			PropertyNodeWrapper.hpp
+// Original Author:	Ryan Campbell
+/// @brief wrapper class to hold either a ConstPropertyNodeReader
+// or RandomPropertyNodeReader. So there can be a list of just one type
+// inside the emitter class. (opposed to have a list of const props and list of rand propers).
+// Unable to store a list of PropertyNodeReader (which both classes already derive from)
+// as it would need generic pure virtual function T getValue(); which is not allowed.
+//-----------------------------------------------------------------------------
 #pragma once
 #include "ConstPropertyNodeReader.hpp"
 #include "RandomPropertyNodeReader.hpp"
 #include "Utility.hpp"
-/// @brief wrapper class to hold either a ConstPropertyNodeReader
-// or RandomPropertyNodeReader. So there can be a list of just one type
-// inside the emitter class. (opposed to have a list of const props and list of rand propers)
 class PropertyNodeWrapper
 {
 public:

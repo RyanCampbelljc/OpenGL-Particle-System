@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------------
+// File:			RandomPropertyNodeReader.hpp
+// Original Author:	Ryan Campbell
+/// @brief Reads in information of a random spawn property.
+//-----------------------------------------------------------------------------
 #pragma once
 #include "PropertyNodeReader.hpp"
 #include "Utility.hpp"
@@ -26,17 +31,7 @@ public:
 	template<typename T>
 	T getValue() const
 	{
-		// return m_max.getValue<T>();
 		return Utility::randomInRange(getMax<T>(), getMin<T>());
-		// if (m_type == ValueType::Float) {
-		// 	return 1; // Utility::randomFloat(m_min.getValue<float>(), m_max.getValue<float>());
-		// } else if (m_type == ValueType::Vec3) {
-		// 	return Utility::randVec3(m_min.getValue<glm::vec3>(), m_max.getValue<glm::vec3>());
-		// } else if (m_type == ValueType::Vec4) {
-		// 	return Utility::randVec4(m_min.getValue<glm::vec4>(), m_max.getValue<glm::vec4>());
-		// } else {
-		// 	throw std::exception("invalid type on valueNodeReader");
-		// }
 	}
 
 private:

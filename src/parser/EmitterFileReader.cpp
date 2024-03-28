@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// File:			EmitterFileReader.cpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #include "EmitterFileReader.hpp"
 #include "ConstPropertyNodeReader.hpp"
 #include "RandomPropertyNodeReader.hpp"

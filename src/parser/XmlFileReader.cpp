@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// File:			XmlFileReader.cpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #include "XmlFileReader.hpp"
 
 XmlFileReader::XmlFileReader(const std::string& path)

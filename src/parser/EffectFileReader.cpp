@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// File:			EffectFileReader.cpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #include "EffectFileReader.hpp"
 
 static const char* const EMITTER_TAG_NAME = "emitter";

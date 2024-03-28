@@ -1,3 +1,7 @@
+//-----------------------------------------------------------------------------
+// File:			EffectFileReader.hpp
+// Original Author:	Ryan Campbell
+//-----------------------------------------------------------------------------
 #pragma once
 #include "XmlFileReader.hpp"
 /// @brief Class to read Effect xml files.
@@ -17,7 +21,7 @@ public:
 		const glm::vec3 offset;
 	};
 	// cant implicitly convert to another type
-	explicit EffectFileReader(std::string path);
+	EffectFileReader(std::string path);
 	EffectFileReader(const EffectFileReader&) = delete;
 
 	void parse() override;

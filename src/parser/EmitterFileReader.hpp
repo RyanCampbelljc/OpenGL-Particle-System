@@ -1,9 +1,14 @@
+//-----------------------------------------------------------------------------
+// File:			EmitterFileReader.hpp
+// Original Author:	Ryan Campbell
+/// @brief Class to read Emitter xml files
+//-----------------------------------------------------------------------------
 #pragma once
 #include "PropertyNodeWrapper.hpp"
 #include "XmlFileReader.hpp"
 #include "affectors/BaseAffector.hpp"
 #include "particleSystem/Emitter.hpp"
-/// @brief Class to read Emitter xml files
+
 class EmitterFileReader final : public XmlFileReader
 {
 	using Base = XmlFileReader;
@@ -24,6 +29,9 @@ public:
 	std::vector<std::string> getBlendModes() const;
 
 private:
+	//-----------------------------------------------------------------------------
+	// members to hold necessary information to create an emitter
+	//-----------------------------------------------------------------------------
 	std::string m_name;
 	int m_numParticles;
 	float m_duration;

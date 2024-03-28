@@ -1,9 +1,14 @@
-#pragma once
-#include "PropertyValue.hpp"
-#include "Utility.hpp"
+//-----------------------------------------------------------------------------
+// File:			ValueNodeReader.hpp
+// Original Author:	Ryan Campbell
 /// @brief Creates the proper object to read inside an xml node depending
 // on its specified type(float,vec3,vec4)
 // essentially a factory pattern that makes an object to store a property value.
+//-----------------------------------------------------------------------------
+#pragma once
+#include "PropertyValue.hpp"
+#include "Utility.hpp"
+
 class ValueNodeReader
 {
 public:

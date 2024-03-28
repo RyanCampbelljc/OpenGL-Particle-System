@@ -1,7 +1,12 @@
+//-----------------------------------------------------------------------------
+// File:			XmlFileReader.hpp
+// Original Author:	Ryan Campbell
+/// @brief Base class to encapsulate the similarities between
+// emitter and effect files readers.
+//-----------------------------------------------------------------------------
 #pragma once
 #include "Utility.hpp"
-/// @brief Base class to encapsulate similar behavior between
-// effect and emitter xml files.
+
 class XmlFileReader
 {
 public:

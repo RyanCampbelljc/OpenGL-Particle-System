@@ -1,8 +1,13 @@
+//-----------------------------------------------------------------------------
+// File:			PropertyNodeReader.hpp
+// Original Author:	Ryan Campbell
+/// @brief Base class to encapsulate the similarities between
+// const spawn properties and random spawn properties.
+//-----------------------------------------------------------------------------
 #pragma once
 #include "Utility.hpp"
 #include "ValueNodeReader.hpp"
-/// @brief Base class to encapsulate the similarities between
-// const spawn properties and random spawn properties.
+
 class PropertyNodeReader
 {
 public:

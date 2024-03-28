@@ -1,7 +1,11 @@
+//-----------------------------------------------------------------------------
+// File:			PropertyValue.hpp
+// Original Author:	Ryan Campbell
+/// @brief Generic and specific implementations of the possible
+// property value classes.
+//-----------------------------------------------------------------------------
 #pragma once
 #include "Utility.hpp"
-/// @brief Specific implementations of the possible property value classes.
-//
 
 enum class ValueType { Invalid, Float, Vec3, Vec4 };
 
@@ -12,6 +16,7 @@ static ValueType ValueTypeFromString(const std::string& s)
 	return valueTypeTable.at(s);
 }
 
+// forward declaration
 template<typename T>
 class PropertyValue;
 

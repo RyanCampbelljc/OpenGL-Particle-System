@@ -1,7 +1,12 @@
+//-----------------------------------------------------------------------------
+// File:			ConstPropertyNodeReader.hpp
+// Original Author:	Ryan Campbell
+/// @brief Class to read the value of constant spawn properties.
+//-----------------------------------------------------------------------------
 #pragma once
 #include "PropertyNodeReader.hpp"
 #include "Utility.hpp"
-/// @brief Class to read the value of constant spawn properties.
+
 class ConstPropertyNodeReader : public PropertyNodeReader
 {
 public:
