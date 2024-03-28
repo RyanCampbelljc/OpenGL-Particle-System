@@ -251,7 +251,14 @@ void Emitter::spawnParticle()
 
 	if (m_spawnProperties.count("velocity") > 0) {
 		auto velocity = m_spawnProperties.at("velocity");
-		p->velocity = velocity->getValue<glm::vec3>();
+		auto maxLength = glm::length(velocity->getMinValue<glm::vec3>());
+		auto v = velocity->getValue<glm::vec3>();
+		v *= (maxLength / glm::length(v)); // length wanted / length that it is
+		p->velocity = v;
+		// Makes it so the speed of all the particles is the same but still allows direction to be random.
+		// ex: if v = rand from (1,0,0) to (1,1,1) the lengths of those vectors are between (1 and root(3))
+		// This in turn causes things like explosions to be square looking rather than round.
+		// I dont want the speed to be random so I made max speed = to the minimum length of vector possible from xml.
 	}
 
 	if (m_spawnProperties.count("size") > 0) {

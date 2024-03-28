@@ -1,0 +1,5 @@
+<effect name="explosion">
+    <!--x,y,z are the offset for the emitter-->
+    <emitter file="assets/explosionFire.emitter" x="0" y="0" z="0"/>
+     <!-- <emitter file="assets/explosionSmoke.emitter" x="0" y="0" z="0"/> -->
+</effect>

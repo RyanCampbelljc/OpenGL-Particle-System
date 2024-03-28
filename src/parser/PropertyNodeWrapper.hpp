@@ -42,6 +42,18 @@ public:
 		}
 	}
 
+	template<typename T>
+	T getMinValue() const
+	{
+		if (m_randProp != nullptr)
+			return m_randProp->getMin<T>();
+		if (m_constProp != nullptr)
+			return m_constProp->getValue<T>();
+		else {
+			throw std::exception("getValue error");
+		}
+	}
+
 private:
 	RandomPropertyNodeReader* m_randProp;
 	ConstPropertyNodeReader* m_constProp;

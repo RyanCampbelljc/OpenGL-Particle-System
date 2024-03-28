@@ -10,6 +10,7 @@ public:
 	{
 		s_recievers.push_back(this);
 	}
+	// default null if you want to send a singal to all the recivers
 	static void sendSignal(SignalType signal, std::function<bool(Reciever*)> predicate = nullptr);
 
 private:

@@ -5,7 +5,7 @@
 #include "Utility.hpp"
 #include "particleSystem/Effect.hpp"
 
-class FireworkSample
+class Explosion
 	: public Sample
 	, public Reciever
 {
@@ -13,8 +13,8 @@ public:
 	//------------------------------------
 	// PUBLIC INTERFACE
 	//------------------------------------
-	FireworkSample(wolf::App* pApp);
-	~FireworkSample();
+	Explosion(wolf::App* pApp);
+	~Explosion();
 
 	void init() override;
 	void update(float dt) override;
@@ -29,6 +29,6 @@ private:
 	//------------------------------------
 	Grid3D m_grid;
 	Camera m_cam;
-	Effect m_fireworkEffect;
+	Effect m_explosionEffect;
 	//------------------------------------
 };

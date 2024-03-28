@@ -1,7 +1,7 @@
 #include "../samplefw/SampleRunner.h"
 #include "../wolf/wolf.h"
+#include "Explosion.hpp"
 #include "FireSample.hpp"
-#include "FireworkSample.hpp"
 #include "Reciever.hpp"
 #include <glm/glm.hpp>
 #include <iostream>
@@ -15,7 +15,7 @@ public:
 	{
 		// INIT ALL SAMPLES
 		m_sampleRunner.addSample(new FireSample(this));
-		m_sampleRunner.addSample(new FireworkSample(this));
+		m_sampleRunner.addSample(new Explosion(this));
 	}
 
 	~Week2()
