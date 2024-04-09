@@ -9,7 +9,7 @@ Explosion::Explosion(wolf::App* pApp)
 	, Reciever()
 	, m_grid(1)
 	, m_cam(1280, 720, pApp)
-	, m_explosionEffect(Utility::EFFECT_EXPLOSION)
+	, m_explosionEffect(Utility::EFFECT_FIREWORK)
 {
 }
 

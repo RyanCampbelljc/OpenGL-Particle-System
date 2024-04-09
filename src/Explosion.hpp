@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // File:			Explosion.hpp
 // Original Author:	Ryan Campbell
-/// @brief a sample the renders an explosion
+/// @brief a sample the renders a firework effect
 //-----------------------------------------------------------------------------
 #pragma once
 #include "../samplefw/Grid3D.h"

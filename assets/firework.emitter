@@ -1,0 +1,77 @@
+<!--Duration is time from when sample starts to when burst emits-->
+<emitter name="firework" num_particles="200" duration="1.0" type="burst">
+    <material>
+        <texture>assets/textures/sparkles_main.dds</texture>
+        <!--only suports seperate for now; i.e provide 4 blend modes for glBlendFuncSeperate-->
+        <blend_mode type="seperate">
+            <srcRGB>SrcAlpha</srcRGB>
+            <dstRGB>DstAlpha</dstRGB>
+            <srcAlpha>One</srcAlpha>
+            <dstAlpha>One</dstAlpha>
+        </blend_mode>
+    </material>
+    <spawn_properties>
+        <random_property name="color" type="vec3">
+            <min>
+                <x>0</x>
+                <y>0.0</y>
+                <z>0</z>
+            </min>
+            <max>
+                <x>1</x>
+                <y>1</y>
+                <z>1</z>
+            </max>
+        </random_property>
+        
+        <random_property name="velocity" type="vec3">
+            <min>
+                <x>-1</x>
+                <y>-1</y>
+                <z>-1</z>
+            </min>
+            <max>
+                <x>1</x>
+                <y>1</y>
+                <z>1</z>
+            </max>
+        </random_property>
+
+        <const_property name="size" type="float">
+            0.1
+        </const_property>
+
+        <random_property name="lifetime" type="float">
+            <min>2</min>
+            <max>3</max>
+        </random_property>
+        
+        <!--number between 0,1 //todo make fade end -->
+        <!-- <const_property name="fade" type="float">
+            0.9
+        </const_property> -->
+          <const_property name="position" type="vec3">
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+        </const_property>
+    </spawn_properties>
+
+    <!--affectors only support over entire life span-->
+    <affectors>
+        <affector name="velocity"/>
+
+        <!-- <affector name="fade">
+            <end>0.0</end>
+        </affector> -->
+
+        <affector name="acceleration">
+                <x>0</x>
+                <y>-0.8</y>
+                <z>0</z>
+        </affector>
+    </affectors>
+
+
+</emitter>
+
