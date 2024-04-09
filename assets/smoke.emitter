@@ -77,6 +77,12 @@
             </end>
         </affector>
 
+        <affector name="acceleration">
+                <x>-0.01</x>
+                <y>0</y>
+                <z>0</z>
+        </affector>
+
     </affectors>
 
 

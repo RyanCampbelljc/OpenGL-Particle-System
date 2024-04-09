@@ -8,6 +8,7 @@
 #include "affectors/AccelerationAffector.hpp"
 #include "affectors/ColorLerpAffector.hpp"
 #include "affectors/FadeAffector.hpp"
+#include "affectors/FadeInAndOut.hpp"
 #include "affectors/ScaleAffector.hpp"
 #include "affectors/VelocityAffector.hpp"
 static const char* const CONST_PROPERTY = "const_property";
@@ -51,11 +52,16 @@ void EmitterFileReader::parse()
 	}
 
 	// affectors//todo add something more resuable here like for the spawn properties
+	// todo string comparison method isnt good. fadeInAndOut has to be checked before fade due to
+	// substring equality at start of name
 	for (const auto& affectorNode : emitter.child("affectors").children()) {
 		auto affectorName = affectorNode.attribute("name").as_string();
 		if (std::strncmp(affectorName, "velocity", 8) == 0)
 			m_affectors.push_back(std::make_shared<VelocityAffector>());
-		else if (std::strncmp(affectorName, "fade", 4) == 0) {
+		else if (std::strncmp(affectorName, "fadeInAndOut", 12) == 0) {
+			auto end = affectorNode.child("end").text().as_float();
+			m_affectors.push_back(std::make_shared<FadeInAndOut>(end));
+		} else if (std::strncmp(affectorName, "fade", 4) == 0) {
 			auto end = affectorNode.child("end").text().as_float();
 			m_affectors.push_back(std::make_shared<FadeAffector>(end));
 		} else if (std::strncmp(affectorName, "scale", 5) == 0) {

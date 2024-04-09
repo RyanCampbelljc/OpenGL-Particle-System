@@ -1,11 +1,11 @@
 
-<emitter name="explosionFire" num_particles="600" duration="1.0" type="burst" spawn_rate="40">
+<emitter name="explosionFire" num_particles="100" duration="1.0" type="burst" spawn_rate="10">
     <material>
         <texture>assets/textures/explosion.dds</texture>
         <!--only suports seperate for now; i.e provide 4 blend modes for glBlendFuncSeperate-->
         <blend_mode type="seperate">
             <srcRGB>SrcAlpha</srcRGB>
-            <dstRGB>OneMinusSrcAlpha</dstRGB>
+            <dstRGB>DstAlpha</dstRGB>
             <srcAlpha>One</srcAlpha>
             <dstAlpha>One</dstAlpha>
         </blend_mode>
@@ -38,12 +38,12 @@
         </random_property>
 
         <const_property name="size" type="float">
-            0.5
+            0.0
         </const_property>
 
         <random_property name="lifetime" type="float">
-            <min>0.8</min>
-            <max>1.0</max>
+            <min>0.3</min>
+            <max>0.5</max>
         </random_property>
         
         <!--number between 0,1 -->
@@ -62,19 +62,19 @@
         <affector name="velocity"/>
 
         <affector name="scale">
-            <end>1</end>
+            <end>3</end>
         </affector>
         <affector name="fade">
             <end>0.0</end>
         </affector>
       
-        <affector name="color">
+        <!-- <affector name="color">
             <end>
                 <x>0.05</x>
                 <y>0.05</y>
                 <z>0.05</z>
             </end>
-        </affector>
+        </affector> -->
 
         <affector name="acceleration">
             <x>0.1</x>

@@ -1,8 +1,13 @@
-<emitter name="ExplosionSmoke" num_particles="200" duration="1.0" type="burst" spawn_rate="100">
+<emitter name="ExplosionSmoke" num_particles="50" duration="1.0" type="burst" spawn_rate="10">
     <material>
         <texture>assets/textures/explosion_smoke.dds</texture>
 
         <blend_mode type="seperate">
+            <!-- INVISIBLE? 
+                <srcRGB>SrcAlpha</srcRGB>
+            <dstRGB>DstAlpha</dstRGB>
+            <srcAlpha>One</srcAlpha>
+            <dstAlpha>One</dstAlpha> -->
             <srcRGB>SrcAlpha</srcRGB>
             <dstRGB>OneMinusSrcAlpha</dstRGB>
             <srcAlpha>One</srcAlpha>
@@ -19,6 +24,33 @@
         
         <random_property name="velocity" type="vec3">
             <min>
+                <x>-0.1</x>
+                <y>-0.1</y>
+                <z>-0.1</z>
+            </min>
+            <max>
+                <x>0.1</x>
+                <y>0.1</y>
+                <z>0.1</z>
+            </max>
+        </random_property>
+
+        <const_property name="size" type="float">
+            1.0
+        </const_property>
+
+        <const_property name="lifetime" type="float">
+            1.5
+        </const_property>
+        
+        <!--number between 0,1 -->
+        <const_property name="fade" type="float">
+            0.0
+        </const_property>
+
+        
+        <random_property name="position" type="vec3">
+            <min>
                 <x>-0.5</x>
                 <y>-0.5</y>
                 <z>-0.5</z>
@@ -29,45 +61,18 @@
                 <z>0.5</z>
             </max>
         </random_property>
-
-        <const_property name="size" type="float">
-            0.1
-        </const_property>
-
-        <const_property name="lifetime" type="float">
-            2.0
-        </const_property>
-        
-        <!--number between 0,1 -->
-        <const_property name="fade" type="float">
-            0.7
-        </const_property>
-
-        
-        <random_property name="position" type="vec3">
-            <min>
-                <x>-0.1</x>
-                <y>0.0</y>
-                <z>-0.1</z>
-            </min>
-            <max>
-                <x>0.1</x>
-                <y>0.0</y>
-                <z>0.1</z>
-            </max>
-        </random_property>
     </spawn_properties>
 
     <affectors>
         <affector name="velocity"/>
 
-        <affector name="fade">
-            <end>0</end>
+        <affector name="fadeInAndOut">
+            <end>0.7</end>
         </affector>
 
-        <affector name="scale">
+        <!-- <affector name="scale">
             <end>1.0</end>
-        </affector>
+        </affector> -->
         
         <!-- <affector name="color">
             <end>
@@ -77,11 +82,11 @@
             </end>
         </affector> -->
 
-        <affector name="acceleration">
+        <!-- <affector name="acceleration">
                 <x>0</x>
                 <y>0</y>
                 <z>0</z>
-        </affector>
+        </affector> -->
 
     </affectors>
 
