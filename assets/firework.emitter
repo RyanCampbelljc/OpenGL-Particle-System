@@ -1,5 +1,5 @@
 <!--Duration is time from when sample starts to when burst emits-->
-<emitter name="firework" num_particles="200" duration="1.0" type="burst">
+<emitter name="firework" num_particles="500" duration="1.0" type="burst">
     <material>
         <texture>assets/textures/sparkles_main.dds</texture>
         <!--only suports seperate for now; i.e provide 4 blend modes for glBlendFuncSeperate-->
@@ -38,18 +38,15 @@
         </random_property>
 
         <const_property name="size" type="float">
-            0.1
+            0.05
         </const_property>
 
         <random_property name="lifetime" type="float">
-            <min>2</min>
-            <max>3</max>
+            <min>0.9s</min>
+            <max>1.75</max>
         </random_property>
         
-        <!--number between 0,1 //todo make fade end -->
-        <!-- <const_property name="fade" type="float">
-            0.9
-        </const_property> -->
+
           <const_property name="position" type="vec3">
             <x>0</x>
             <y>0</y>
@@ -61,14 +58,14 @@
     <affectors>
         <affector name="velocity"/>
 
-        <!-- <affector name="fade">
-            <end>0.0</end>
-        </affector> -->
-
         <affector name="acceleration">
                 <x>0</x>
                 <y>-0.8</y>
                 <z>0</z>
+        </affector>
+
+        <affector name="scale">
+            <end>0.3</end>
         </affector>
     </affectors>
 

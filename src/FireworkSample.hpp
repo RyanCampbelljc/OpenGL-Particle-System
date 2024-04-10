@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// File:			Explosion.hpp
+// File:			FireworkSample.hpp
 // Original Author:	Ryan Campbell
 /// @brief a sample the renders a firework effect
 //-----------------------------------------------------------------------------
@@ -10,7 +10,7 @@
 #include "Utility.hpp"
 #include "particleSystem/Effect.hpp"
 
-class Explosion
+class Firework
 	: public Sample
 	, public Reciever
 {
@@ -18,8 +18,8 @@ public:
 	//------------------------------------
 	// PUBLIC INTERFACE
 	//------------------------------------
-	Explosion(wolf::App* pApp);
-	~Explosion();
+	Firework(wolf::App* pApp);
+	~Firework();
 
 	void init() override;
 	void update(float dt) override;
@@ -34,6 +34,6 @@ private:
 	//------------------------------------
 	Grid3D m_grid;
 	Camera m_cam;
-	Effect m_explosionEffect;
+	Effect m_fireworkEffect;
 	//------------------------------------
 };

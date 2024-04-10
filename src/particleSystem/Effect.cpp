@@ -18,27 +18,27 @@ Effect::Effect(std::string file)
 		m_emitters.push_back(std::make_shared<Emitter>(emitterTag.file, emitterTag.offset));
 	}
 }
-
+// not implemented
 void Effect::play()
 {
 	m_playing = true;
 }
-
+// not implemented
 void Effect::stop()
 {
 	pause();
 	seek(0);
 }
-
+// not implemented
 void Effect::pause()
 {
 	m_playing = false;
 }
-
+// not implemented
 void Effect::seek(float time)
 {
 	for (const auto& emitter : m_emitters) {
-		// emitter.setTime(0) or soemthing
+		// emitter.setTime(0) or something
 	}
 }
 

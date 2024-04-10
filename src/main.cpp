@@ -1,7 +1,7 @@
 #include "../samplefw/SampleRunner.h"
 #include "../wolf/wolf.h"
-#include "Explosion.hpp"
 #include "FireSample.hpp"
+#include "FireworkSample.hpp"
 #include "Reciever.hpp"
 #include <glm/glm.hpp>
 #include <iostream>
@@ -15,7 +15,7 @@ public:
 	{
 		// INIT ALL SAMPLES
 		m_sampleRunner.addSample(new FireSample(this));
-		m_sampleRunner.addSample(new Explosion(this));
+		m_sampleRunner.addSample(new Firework(this));
 	}
 
 	~Week2()
@@ -31,6 +31,8 @@ public:
 			m_lastDown = false;
 		}
 
+		// Send reset affect to receivers
+		// send the signal to the reciever that is the current sample
 		if (isKeyJustDown('r')) {
 			Reciever::sendSignal(SignalType::ResetEffect, [this](auto reciever) {
 				return reciever == dynamic_cast<Reciever*>(m_sampleRunner.getCurrentSample());

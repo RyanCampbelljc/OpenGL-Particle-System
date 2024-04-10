@@ -14,7 +14,7 @@ class Effect
 {
 public:
 	Effect(std::string file);
-	// these arnt actually implemented yes
+	// these arnt actually implemented
 	void play();
 	void stop();
 	void pause();

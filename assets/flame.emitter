@@ -22,7 +22,7 @@ also spawn them all at the end of the emitters lifetime-->
         <random_property name="color" type="vec3">
             <min>
                 <x>1</x>
-                <y>0.33</y>
+                <y>0.2</y>
                 <z>0</z>
             </min>
             <max>
@@ -54,10 +54,7 @@ also spawn them all at the end of the emitters lifetime-->
             <max>2</max>
         </random_property>
         
-        <!--number between 0,1 //todo make fade end -->
-        <!-- <const_property name="fade" type="float">
-            0.9
-        </const_property> -->
+   
           <random_property name="position" type="vec3">
             <min>
                 <x>-0.1</x>

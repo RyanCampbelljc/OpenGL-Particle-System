@@ -46,8 +46,7 @@ public:
 		return m_type;
 	}
 	void resetEmitter();
-	// todo should this be inside the class?
-	// compile error when removing friend keyword?
+
 	friend std::ostream& operator<<(std::ostream& os, const Emitter&);
 
 private:

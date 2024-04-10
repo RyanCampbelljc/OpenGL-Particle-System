@@ -1,0 +1,43 @@
+<!--Simply a white flash where the explosion takes place-->
+<emitter name="fireworkExplosion" num_particles="1" duration="1.0" type="burst">
+    <material>
+        <texture>assets/textures/sparkles_main.dds</texture>
+        <!--only suports seperate for now; i.e provide 4 blend modes for glBlendFuncSeperate-->
+        <blend_mode type="seperate">
+            <srcRGB>SrcAlpha</srcRGB>
+            <dstRGB>DstAlpha</dstRGB>
+            <srcAlpha>One</srcAlpha>
+            <dstAlpha>One</dstAlpha>
+        </blend_mode>
+    </material>
+    <spawn_properties>
+        <const_property name="color" type="vec3">
+                <x>1</x>
+                <y>1</y>
+                <z>1</z>
+        </const_property>
+        
+
+        <const_property name="size" type="float">
+            0.3
+        </const_property>
+
+        <const_property name="lifetime" type="float">
+            0.08
+        </const_property>
+        
+        <const_property name="position" type="vec3">
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+        </const_property>
+    </spawn_properties>
+
+    <!--affectors only support over entire life span-->
+    <affectors>
+        
+    </affectors>
+
+
+</emitter>
+

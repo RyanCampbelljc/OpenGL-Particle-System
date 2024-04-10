@@ -12,26 +12,26 @@
 
     <spawn_properties>
         <const_property name="color" type="vec3">
-            <x>0.0</x><!--0.768-->
+            <x>0.0</x>
             <y>0.0</y>
             <z>0.0</z>
         </const_property>
         
         <random_property name="velocity" type="vec3">
             <min>
-                <x>-0.1</x>
+                <x>-0.05</x>
                 <y>0.3</y>
-                <z>-0.1</z>
+                <z>-0.05</z>
             </min>
             <max>
-                <x>0.1</x>
+                <x>0.05</x>
                 <y>0.3</y>
-                <z>0.1</z>
+                <z>0.05</z>
             </max>
         </random_property>
 
         <const_property name="size" type="float">
-            0.0
+            0.2
         </const_property>
 
         <const_property name="lifetime" type="float">
@@ -40,20 +40,20 @@
         
         <!--number between 0,1 -->
         <const_property name="fade" type="float">
-            0.7
+            0.0
         </const_property>
 
         
         <random_property name="position" type="vec3">
             <min>
-                <x>-0.1</x>
+                <x>-0.4</x>
                 <y>0.0</y>
-                <z>-0.1</z>
+                <z>-0.4</z>
             </min>
             <max>
-                <x>0.1</x>
+                <x>0.4</x>
                 <y>0.0</y>
-                <z>0.1</z>
+                <z>0.4</z>
             </max>
         </random_property>
     </spawn_properties>
@@ -61,8 +61,8 @@
     <affectors>
         <affector name="velocity"/>
 
-        <affector name="fade">
-            <end>0.0</end>
+        <affector name="fadeInAndOut">
+            <end>0.7</end>
         </affector>
 
         <affector name="scale">
@@ -71,9 +71,9 @@
         
         <affector name ="color">
             <end>
-                <x>1</x>
-                <y>1</y>
-                <z>1</z>
+                <x>0.6</x>
+                <y>0.6</y>
+                <z>0.6</z>
             </end>
         </affector>
 
